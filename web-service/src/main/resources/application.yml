@@ -11,3 +11,10 @@ management:
       exposure:
         include: ["*"]
       base-path: /actuator
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: web-service
