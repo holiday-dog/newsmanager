@@ -12,13 +12,16 @@
     <modules>
         <module>registry-center</module>
         <module>web-service</module>
+        <module>spider-service</module>
+        <module>data-service</module>
+        <module>analyse-service</module>
     </modules>
 
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springboot.version>2.1.0.RELEASE</springboot.version>
-        <springclound.version>Finchley.RELEASE</springclound.version>
+        <springcloud.version>2.1.0.RELEASE</springcloud.version>
     </properties>
 
     <parent>
@@ -40,7 +43,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.RELEASE</version>
+                <version>${springcloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

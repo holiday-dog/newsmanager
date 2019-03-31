@@ -1,5 +1,7 @@
 server:
-  port: 8081  # 服务端口
+  port: 8083  # 服务端口
+
+#系统健康监控
 management:
   health:
     mail:
@@ -11,6 +13,7 @@ management:
       exposure:
         include: ["*"]
       base-path: /actuator
+
 eureka:
   client:
     serviceUrl:

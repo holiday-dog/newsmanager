@@ -1,0 +1,10 @@
+server:
+  port: 8084  # 服务端口
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: analyse-service
