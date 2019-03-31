@@ -16,6 +16,6 @@ spring:
         git:
           uri: https://github.com/holiday-dog/newsmanager.git
           search-paths: config
-          default-label: dev
           username: gaoganghua
           password: ggh09114515
+      label: dev
