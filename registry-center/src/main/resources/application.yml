@@ -8,14 +8,3 @@ eureka:
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-#配置中心配置
-spring:
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/holiday-dog/newsmanager.git
-          search-paths: config
-          username: gaoganghua
-          password: ggh09114515
-      label: dev

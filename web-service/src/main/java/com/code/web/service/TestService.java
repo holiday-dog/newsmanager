@@ -5,6 +5,7 @@ import com.code.web.api.DataServiceApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,9 +24,17 @@ public class TestService {
     @Autowired
     private AnalyseServiceApi analyseServiceApi;
 
+    @Value("${name}")
+    String name;
+
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String testt() {
         return "test";
+    }
+
+    @RequestMapping(value = "/config", method = RequestMethod.GET)
+    public String config() {
+        return name;
     }
 
     @RequestMapping(value = "/data1", method = RequestMethod.GET)
