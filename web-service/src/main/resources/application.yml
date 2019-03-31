@@ -21,3 +21,7 @@ eureka:
 spring:
   application:
     name: web-service
+
+feign:
+  hystrix:
+    enabled: true

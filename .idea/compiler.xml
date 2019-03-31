@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="analyseservice" />
         <module name="dataservice" />
+        <module name="gatewayservice" />
         <module name="registrycenter" />
         <module name="spiderservice" />
         <module name="webservice" />

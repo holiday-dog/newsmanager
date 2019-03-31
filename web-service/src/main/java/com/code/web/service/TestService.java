@@ -23,17 +23,24 @@ public class TestService {
     @Autowired
     private AnalyseServiceApi analyseServiceApi;
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String testt() {
+        return "test";
+    }
+
+    @RequestMapping(value = "/data1", method = RequestMethod.GET)
     public String test() {
         logger.info("请求data-service服务..");
         ResponseEntity<String> json = restTemplate.getForEntity("http://DATA-SERVICE/test/test1", String.class);
         return json.getBody();
     }
-    @RequestMapping(value = "/hello1", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/data2", method = RequestMethod.GET)
     public String test1() {
         logger.info("请求data-service服务..");
         return dataServiceApi.requestTestTest1();
     }
+
     @RequestMapping(value = "/analyse", method = RequestMethod.GET)
     public String test3() {
         logger.info("请求analyse-service服务..");
