@@ -11,3 +11,10 @@ spring:
           username: gaoganghua
           password: ggh09114515
       label: dev
+  application:
+    name: config-service
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
