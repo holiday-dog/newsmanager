@@ -11,6 +11,7 @@ public class RedisConfiguration {
     public RedisTemplate redisTemplate(){
         RedisTemplate redisTemplate = new RedisTemplate();
 
+
         return redisTemplate;
     }
 }

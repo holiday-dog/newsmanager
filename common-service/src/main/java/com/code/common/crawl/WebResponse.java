@@ -3,7 +3,10 @@ package com.code.common.crawl;
 import com.code.common.exception.CodeException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.StatusLine;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.BufferedHttpEntity;
 
 import java.io.IOException;
@@ -14,6 +17,30 @@ public class WebResponse {
     private HttpEntity respEntity;
 
     private String respText;
+
+    private Object handlerObj;
+
+    private StatusLine statusLine;
+
+    private Header[] headers;
+
+    private String cookie;
+
+    public void setHandlerObj(Object handlerObj) {
+        this.handlerObj = handlerObj;
+    }
+
+    public Object getHandlerObj() {
+        return handlerObj;
+    }
+
+    public void setRespEntity(HttpEntity respEntity) {
+        this.respEntity = respEntity;
+    }
+
+    public void setStatusLine(StatusLine statusLine) {
+        this.statusLine = statusLine;
+    }
 
     public InputStream getStream() {
         if (!(respEntity instanceof BufferedHttpEntity)) {

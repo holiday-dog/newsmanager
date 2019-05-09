@@ -67,6 +67,9 @@ public class WebRequest {
     }
 
     public Map<String, String> getRequestHeaders() {
+        if (requestHeaders == null) {
+            requestHeaders = new HashMap<>();
+        }
         return requestHeaders;
     }
 
@@ -104,5 +107,15 @@ public class WebRequest {
 
     public void setRequestBodyString(String requestBodyString) {
         this.requestBodyString = requestBodyString;
+    }
+
+    public WebRequest(String url) {
+        this.url = url;
+    }
+
+    public WebRequest(String url, RequestMethod method, List<NameValuePair> requestBody) {
+        this.url = url;
+        this.method = method;
+        this.requestBody = requestBody;
     }
 }

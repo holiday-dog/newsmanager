@@ -19,12 +19,12 @@ import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
@@ -51,7 +51,7 @@ public class WebClient {
     private static HttpClient client = null;
 
     //httppost,httpget的父类
-    private HttpRequestBase request;
+//    private HttpRequestBase request;
 
     //自定义返回结果处理
     private ResponseHandler handler;
@@ -68,16 +68,18 @@ public class WebClient {
 
     private HttpHost proxy;
 
+    private Boolean needCacheStream = false;
+
     private WebClient() {
     }
 
-    public static WebClient defaultClient() {
+    public static WebClient buildDefaultClient() {
         WebClient webClient = new WebClient();
         webClient.client = HttpClients.createDefault();
         return webClient;
     }
 
-    public static WebClient create() {
+    public static WebClient createCustome() {
         WebClient webClient = new WebClient();
         return webClient.init();
     }
@@ -96,6 +98,16 @@ public class WebClient {
     //自定义实现httpclient
     public void customeClient(HttpClient client) {
         this.client = client;
+    }
+
+    public WebClient buildContext() {
+        context = HttpClientContext.create();
+        return this;
+    }
+
+    public WebClient buildNeedStreamCache() {
+        needCacheStream = true;
+        return this;
     }
 
     public WebClient buildPreInterceptor(PreInterceptor interceptor) {
@@ -164,42 +176,39 @@ public class WebClient {
     }
 
     public WebResponse execute(WebRequest req) throws IOException {
-//        initMethod(req, request);
-//        buildHeaders(req, request);
+        HttpRequestBase request = null;
+        request = initMethod(req);
+        buildHeaders(req, request);
 
-        request = new HttpGet("https://h5.jinjiedao.com/#/user/login_pwd");
+        WebResponse response = new WebResponse();
         if (handler != null) {
             Object result = client.execute(request, handler);
-            return null;
+            response.setHandlerObj(result);
+            return response;
         }
 
-        context = HttpClientContext.create();
-        HttpResponse response = client.execute(request, context);
-        HttpEntity e = response.getEntity();
-//        System.out.println(IOUtils.toString(e.getContent(), Charset.defaultCharset()));
-//        System.out.println(IOUtils.toString(e.getContent(), Charset.defaultCharset()));
-//        System.out.println(e.getContent()==null);
-//        BufferedHttpEntity buf = new BufferedHttpEntity(response.getEntity());
-//        System.out.println(IOUtils.toString(buf.getContent(), Charset.defaultCharset()));
-//        System.out.println(IOUtils.toString(buf.getContent(), Charset.defaultCharset()));
-//        System.out.println(buf.getContent() == null);
-        System.out.println(context.getCookieStore().getCookies());
-        System.out.println(context.getCookieOrigin());
-        System.out.println(context.getCookieSpec().toString());
-        System.out.println("----------------");
-//        request = new HttpGet("https://h5.jinjiedao.com/#/user/login_pwd");
-//        response = client.execute(request, context);
-//        System.out.println(context.getCookieStore().getCookies());
-//        System.out.println(context.getCookieSpec().toString());
-        System.out.println(client.getConnectionManager() instanceof BasicHttpClientConnectionManager);
-        System.out.println(client.getConnectionManager() instanceof PoolingHttpClientConnectionManager);
-//        System.out.println(request.get);
+        HttpResponse resp = null;
+        if (context == null) {
+            resp = client.execute(request);
+        } else {
+            resp = client.execute(request, context);
+        }
 
+        HttpEntity entity = resp.getEntity();
+        if (needCacheStream) {
+            entity = new BufferedHttpEntity(entity);
+        }
 
-        return null;
+        response.setRespEntity(entity);
+        response.setStatusLine(resp.getStatusLine());
+        return response;
     }
 
-    private void initMethod(WebRequest req, HttpRequestBase request) {
+    private HttpRequestBase initMethod(WebRequest req) {
+        if (req.getMethod() == null) {
+            req.setMethod(RequestMethod.GET);
+        }
+        HttpRequestBase request = null;
         switch (req.getMethod().getVal()) {
             case "get":
                 request = new HttpGet(req.getUrl());
@@ -231,6 +240,7 @@ public class WebClient {
             default:
                 request = new HttpGet(req.getUrl());
         }
+        return request;
     }
 
     private void buildHeaders(WebRequest request, HttpRequestBase req) {
@@ -242,7 +252,7 @@ public class WebClient {
             }
         }
 
-        req.addHeader("Cookie", request.getCookie());
+        req.addHeader("Cookie", StringUtils.isNotEmpty(request.getCookie()) ? request.getCookie() : "");
     }
 
     private List<Header> buildDefaultHeaders() {

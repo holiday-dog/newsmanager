@@ -8,13 +8,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="analyseservice" />
         <module name="commonservice" />
-        <module name="configservice" />
         <module name="dataservice" />
-        <module name="gatewayservice" />
         <module name="registrycenter" />
         <module name="spiderservice" />
         <module name="webservice" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="configservice" target="1.8" />
+      <module name="gatewayservice" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

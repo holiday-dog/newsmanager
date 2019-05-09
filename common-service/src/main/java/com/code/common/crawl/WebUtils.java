@@ -11,7 +11,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 public class WebUtils {
     public static WebClient defaultClient() {
-        return WebClient.defaultClient();
+        return WebClient.buildDefaultClient();
     }
 
     public static WebClient multiThreadClient() {
@@ -28,7 +28,7 @@ public class WebUtils {
         }
         PoolingHttpClientConnectionManager connectionManager = createConnectionManager(countPerRoute, maxCount);
 
-        WebClient client = WebClient.create().buildConnectionManager(connectionManager).buildConnectionMonitor(new IdleConnectionMonitor(connectionManager));
+        WebClient client = WebClient.createCustome().buildConnectionManager(connectionManager).buildConnectionMonitor(new IdleConnectionMonitor(connectionManager));
         return client;
     }
 
