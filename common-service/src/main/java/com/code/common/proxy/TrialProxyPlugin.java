@@ -2,6 +2,7 @@ package com.code.common.proxy;
 
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
+import com.code.common.bean.ProxyObj;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.RedisConnectionFailureException;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,10 +22,11 @@ import java.util.List;
 //试用代理插件
 public abstract class TrialProxyPlugin {
     private Logger logger = LoggerFactory.getLogger(TrialProxyPlugin.class);
-    private final static String checkProxyUrl = "https://world.taobao.com/";
+    private final static String checkProxyUrl = "https://www.taobao.com/";
+    private final static Integer proxyRetryCount = 3;
     private final static Integer loginRetryCount = 2;
 
-    public abstract ProxyStr process();
+    public abstract ProxyObj process();
 
     public abstract CheckCookieBean checkCookieBean();
 
@@ -33,32 +36,37 @@ public abstract class TrialProxyPlugin {
 
     public abstract List<LoginParam> loginParamList();
 
-    public Integer getLoginRetryCount() {
+    public Integer getProxyRetryCount() {
+        return proxyRetryCount;
+    }
+
+    public static Integer getLoginRetryCount() {
         return loginRetryCount;
     }
 
-    public ProxyStr getProxy() {
-        ProxyStr str = null;
-        if (checkCookie()) {
-            logger.info("cookie invalidate, need login");
+    public ProxyObj getProxy() {
+        ProxyObj str = null;
+        if (!checkCookie()) {
+            logger.info("{} cookie invalidate, need login", getProxyPluginName());
             login(getRandomLoginParam());
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < getProxyRetryCount(); i++) {
             str = process();
             if (str != null && validateProxy(str)) {
-                logger.info("retry {} times, proxy success, proxy:{}, pluginName:{}", i, str, getProxyPluginName());
+                logger.info("retry {} times, proxyplugin validate success, proxyplugin:{}, pluginName:{}", i, str, getProxyPluginName());
                 break;
             }
         }
         if (str == null) {
-            logger.error("Obtain proxy fail, pluginName:{}", getProxyPluginName());
+            logger.error("Obtain proxyplugin fail, pluginName:{}", getProxyPluginName());
         }
         return str;
     }
 
-    public boolean validateProxy(ProxyStr str) {
-        WebClient client = WebClient.createCustome();
+    public boolean validateProxy(ProxyObj str) {
+        WebClient client = WebClient.buildCustomeClient();
         client.buildProxy(WebClient.ProxyType.PROXY_ADDRESS, str.getProxyHost(), str.getProxyPort());
+        client.build();
 
         WebResponse resp = null;
         try {
@@ -66,7 +74,7 @@ public abstract class TrialProxyPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (resp.getRespText().contains("登录")) {
+        if (resp.getRespText().contains("淘宝网")) {
             return true;
         }
         return false;
@@ -74,6 +82,9 @@ public abstract class TrialProxyPlugin {
 
     public boolean checkCookie() {
         CheckCookieBean checkCookieBean = checkCookieBean();
+        if (checkCookieBean == null) {
+            return true;
+        }
         WebResponse response = null;
         try {
             String cookie = genCookie();
@@ -83,6 +94,7 @@ public abstract class TrialProxyPlugin {
             WebRequest request = new WebRequest(checkCookieBean.getCheckCookieUrl());
             request.setCookie(cookie);
             response = WebUtils.defaultClient().execute(request);
+            logger.info("cookie check page:{}", response.getRespText());
         } catch (IOException e) {
             logger.error("webclient error:{}", e);
         }
@@ -106,6 +118,9 @@ public abstract class TrialProxyPlugin {
     }
 
     private LoginParam getRandomLoginParam() {
+        if (CollectionUtils.isEmpty(loginParamList())) {
+            return null;
+        }
         int randomIndex = RandomUtils.nextInt(loginParamList().size());
         return loginParamList().get(randomIndex);
     }

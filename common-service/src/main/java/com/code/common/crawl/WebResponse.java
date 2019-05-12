@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.BufferedHttpEntity;
 
 import java.io.IOException;
@@ -64,5 +63,30 @@ public class WebResponse {
             e.printStackTrace();
         }
         return respText;
+    }
+
+    public Header[] getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Header[] headers) {
+        this.headers = headers;
+    }
+
+    public String getCookie() {
+        if (StringUtils.isNotEmpty(cookie)) {
+            return cookie;
+        }
+        if (headers == null) {
+            return null;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        for (Header header : headers) {
+            if ("Set-Cookie".equals(header.getName()) || "Set-Cookie2".equals(header.getName())) {
+                stringBuffer.append(header.getValue() + ";");
+            }
+        }
+        cookie = stringBuffer.deleteCharAt(stringBuffer.length() - 1).toString();
+        return cookie;
     }
 }

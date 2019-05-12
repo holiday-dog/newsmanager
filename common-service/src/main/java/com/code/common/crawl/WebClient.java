@@ -28,15 +28,16 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ProxySelector;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WebClient {
     private final static String User_Agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:63.0) Gecko/20100101 Firefox/63.0";
@@ -46,6 +47,7 @@ public class WebClient {
     private final static String Connection = "keep-alive";
     private final static String Pragma = "no-cache";
     private final static String Cache_Control = "no-cache";
+    private static Logger logger = LoggerFactory.getLogger(WebClient.class);
 
     //线程安全
     private static HttpClient client = null;
@@ -79,7 +81,7 @@ public class WebClient {
         return webClient;
     }
 
-    public static WebClient createCustome() {
+    public static WebClient buildCustomeClient() {
         WebClient webClient = new WebClient();
         return webClient.init();
     }
@@ -89,21 +91,23 @@ public class WebClient {
         return this;
     }
 
+    //自定义实现httpclient
+    public void buildCustomeClient(HttpClient client) {
+        this.client = client;
+    }
+
+    //不受自定义client的影响，可以直接跟在build的后面
+    public WebClient buildContext() {
+        context = HttpClientContext.create();
+        return this;
+    }
+
     public WebClient build() {
         clientBuilder.setDefaultHeaders(buildDefaultHeaders());
         client = clientBuilder.build();
         return this;
     }
 
-    //自定义实现httpclient
-    public void customeClient(HttpClient client) {
-        this.client = client;
-    }
-
-    public WebClient buildContext() {
-        context = HttpClientContext.create();
-        return this;
-    }
 
     public WebClient buildNeedStreamCache() {
         needCacheStream = true;
@@ -199,8 +203,8 @@ public class WebClient {
             entity = new BufferedHttpEntity(entity);
         }
 
+        response = buildWebResponse(resp);
         response.setRespEntity(entity);
-        response.setStatusLine(resp.getStatusLine());
         return response;
     }
 
@@ -268,12 +272,20 @@ public class WebClient {
         return headers;
     }
 
+    private WebResponse buildWebResponse(HttpResponse resp) {
+        WebResponse response = new WebResponse();
+
+        response.setStatusLine(resp.getStatusLine());
+        response.setHeaders(resp.getAllHeaders());
+        return response;
+    }
+
 
     public HttpClientContext getContext() {
         return context;
     }
 
-    public String getCookie() {
+    public String getContextCookies() {
         StringBuffer stringBuffer = new StringBuffer();
 
         for (Cookie cookie : context.getCookieStore().getCookies()) {
@@ -283,6 +295,48 @@ public class WebClient {
             stringBuffer.append(";");
         }
         return stringBuffer.toString();
+    }
+
+    public static String getClientCookies(WebRequest request, WebResponse response) {
+        Set<Cookie> cookies = new HashSet<>();
+        if (StringUtils.isNotEmpty(request.getCookie())) {
+            cookies.addAll(parse(request.getCookie()));
+        }
+        if (StringUtils.isNotEmpty(response.getCookie())) {
+            cookies.addAll(parse(response.getCookie()));
+        }
+
+        StringBuffer cookieStr = new StringBuffer();
+        for (Cookie cookie : cookies) {
+            cookieStr.append(cookie.getName());
+            cookieStr.append("=");
+            cookieStr.append(cookie.getValue());
+            cookieStr.append(";");
+        }
+
+        return cookieStr.toString();
+    }
+
+    private static Set<Cookie> parse(String cookieStr) {
+        if (StringUtils.isEmpty(cookieStr)) {
+            return new HashSet<>();
+        }
+        String[] cookieStrs = cookieStr.split(";");
+
+        Set<Cookie> setCookies = new HashSet<>();
+        for (String cs : cookieStrs) {
+            try {
+                String csName = StringUtils.substringBefore(cs, "=");
+                String csVal = StringUtils.substringAfter(cs, "=");
+                if (StringUtils.isNotEmpty(csName) && !"expires".equals(csName.trim()) && !"Max-Age".equals(csName.trim()) && !"path".equals(csName.trim())) {
+                    Cookie cookie = new BasicClientCookie(csName, csVal);
+                    setCookies.add(cookie);
+                }
+            } catch (Exception e) {
+                logger.error("parser cookieStr error:{}", cs);
+            }
+        }
+        return setCookies;
     }
 
     public void close() {

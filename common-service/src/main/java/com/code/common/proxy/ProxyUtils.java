@@ -1,5 +1,6 @@
 package com.code.common.proxy;
 
+import com.code.common.bean.ProxyObj;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -10,12 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProxyUtils {
-    private final static String packageName = "com/code/common/proxy/";
+    private final static String packageName = "com/code/common/proxyplugin/";
+    private final static String recommendUrl = "http://dl.l4110.com/";//推荐ip代理的网站
 
-    public static ProxyStr getProxy() {
-        ProxyStr proxy = null;
+    public static ProxyObj getProxy() {
+        ProxyObj proxy = null;
 
-//        (proxy==null){
+//        (proxyplugin==null){
 //            obtainProxys();
 //        }
         return proxy;

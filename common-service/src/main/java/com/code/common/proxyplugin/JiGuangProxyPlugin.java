@@ -1,12 +1,14 @@
-package com.code.common.proxy;
+package com.code.common.proxyplugin;
 
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
+import com.code.common.bean.ProxyObj;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.crawl.WebUtils;
 import com.code.common.enums.MatcherType;
+import com.code.common.proxy.TrialProxyPlugin;
 import com.code.common.utils.PatternUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,14 +19,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-//极光代理（每天50个）
+//极光代理（每天50个）（联系客服一天200个）
 public class JiGuangProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://h.jiguangdaili.com/";
     private static String loginUrl = "http://webapi.jghttp.golangapi.com/index/users/login_do?jsonpcallback=jQuery112408231205000709008_%s&phone=%s&password=%s&remember=true&_=%s";
-    private static String checkCookieUrl = "http://h.jiguangdaili.com/ucenter/?first_time=1&jsonpcallback=jQuery112405316686798599242_%s&_=%s";
+    private static String checkCookieUrl = "http://webapi.jghttp.golangapi.com/index/users/user_info?jsonpcallback=jQuery112402374532623441622_%s&_=%s";
     private static String getProxyUrl = "http://d.jghttp.golangapi.com/getip?num=1&type=1&pro=&city=0&yys=0&port=1&pack=%s&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=";
     private static List<LoginParam> loginParams = null;
     private WebClient client = WebUtils.defaultClient();
+    private String cookies = "";
     private static Logger logger = LoggerFactory.getLogger(JiGuangProxyPlugin.class);
 
     @Override
@@ -41,7 +44,7 @@ public class JiGuangProxyPlugin extends TrialProxyPlugin {
     public CheckCookieBean checkCookieBean() {
         Long timestamp = new Date().getTime();
         String finalCheckCookieUrl = String.format(checkCookieUrl, timestamp, timestamp);
-        return new CheckCookieBean(finalCheckCookieUrl, MatcherType.CONTAINS, "");
+        return new CheckCookieBean(finalCheckCookieUrl, MatcherType.CONTAINS, "\\\\\\\"ret\\\\\\\":0");
     }
 
     public JiGuangProxyPlugin() {
@@ -52,30 +55,33 @@ public class JiGuangProxyPlugin extends TrialProxyPlugin {
     private void init() {
         loginParams = new ArrayList<>();
         LoginParam param1 = new LoginParam("holiday123", "m13354612723", "13354612723");
+//        LoginParam param2 = new LoginParam("gxb123", "m18342238909", "18342238909");
         loginParams.add(param1);
+//        loginParams.add(param2);
     }
 
     @Override
-    public ProxyStr process() {
+    public ProxyObj process() {
         String packId = "9526";
         WebResponse response = null;
+        ProxyObj proxyStr = null;
         try {
             WebRequest request = new WebRequest(String.format(getProxyUrl, packId));
-//            request.setCookie(genCookie());
-            request.setCookie("UM_distinctid=16a98537165221-059a3ab70d408b-4a546e-13c680-16a985371663f7; CNZZDATA1273135583=2127688764-1557331792-%7C1557331792");
+            String redisCookie = genCookie();
+            request.setCookie(StringUtils.isEmpty(redisCookie) ? cookies : redisCookie);
             response = WebUtils.defaultClient().execute(request);
         } catch (IOException e) {
             logger.error("webclient error:{}", e);
         }
         String page = response.getRespText();
-        if (StringUtils.isNotEmpty(page) && !page.contains("false")) {
-            //114.100.0.10:4537
-            //有换行符
-            ProxyStr str = new ProxyStr(page.split(":")[0], Integer.parseInt(page.split(":")[1].trim()));
+        if (StringUtils.isNotEmpty(page) && !page.contains("\"success\":false")) {
+            page = page.trim();
+            logger.info("{} acquire proxyplugin:{}", getProxyPluginName(), page);
+            proxyStr = new ProxyObj(page.split(":")[0], Integer.parseInt(page.split(":")[1]));
         } else {
-            logger.info("get proxy error:{}", page);
+            logger.error("{} get proxyplugin error:{}", getProxyPluginName(), page);
         }
-        return null;
+        return proxyStr;
     }
 
     @Override
@@ -88,14 +94,21 @@ public class JiGuangProxyPlugin extends TrialProxyPlugin {
             Long timestamp = new Date().getTime();
             String finialLoginUrl = String.format(loginUrl, timestamp, param.getUsername(), param.getPassword(), timestamp);
             WebResponse response = null;
+            WebRequest request = null;
             try {
-                response = client.execute(new WebRequest(finialLoginUrl));
+                request = new WebRequest(finialLoginUrl);
+                response = client.execute(request);
             } catch (IOException e) {
-                logger.error("webclient error:{}", e);
+                logger.error("{} webclient error:{}", getProxyPluginName(), e);
+                continue;
             }
-            if (PatternUtils.match(response.getRespText(), "\"ret\":0")) {
-                logger.info("retry {} times, login success", i);
+            logger.info("login page:{}", response.getRespText());
+            if (PatternUtils.match(response.getRespText(), "\\\\\\\"ret\\\\\\\":0")) {
+                logger.info("retry {} times, {} login success", i, getProxyPluginName());
+                cookies = WebClient.getClientCookies(request, response);
                 return;
+            } else {
+                break;
             }
         }
         logger.info("name:{}, login fails", getProxyPluginName());

@@ -1,5 +1,6 @@
 package com.code.common.proxy;
 
+import com.code.common.bean.ProxyObj;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,19 +11,19 @@ public abstract class ProxyPlugin {
 
     public abstract String process();
 
-    public abstract List<ProxyStr> resolveProxys(String page);
+    public abstract List<ProxyObj> resolveProxys(String page);
 
     public void doProcess() {
         try {
             String page = process();
-            List<ProxyStr> proxyStrs= resolveProxys(page);
+            List<ProxyObj> proxyStrs = resolveProxys(page);
             putToRedis(proxyStrs);
         } catch (Exception e) {
             logger.error("请求代理出错, msg:{}", e);
         }
     }
 
-    public void putToRedis(List<ProxyStr> proxyStrs){
+    public void putToRedis(List<ProxyObj> proxyStrs) {
 
     }
 }

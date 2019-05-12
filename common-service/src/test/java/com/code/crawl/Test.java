@@ -1,8 +1,9 @@
 package com.code.crawl;
 
 import com.code.common.crawl.WebClient;
-import com.code.common.proxy.JiGuangProxyPlugin;
-import com.code.common.utils.RedisUtils;
+import com.code.common.crawl.WebRequest;
+import com.code.common.crawl.WebResponse;
+import com.code.common.proxyplugin.JiGuangProxyPlugin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.conn.routing.HttpRoute;
@@ -19,7 +20,22 @@ public class Test {
     @org.junit.Test
     public void testt() throws IOException, ClassNotFoundException, URISyntaxException {
 
-        System.out.println(RedisUtils.getValueByKey("test1"));
+        WebRequest req = new WebRequest("https://www.baidu.com/?tn=monline_3_dg");
+        req.setCookie("BAIDUID=C19546E298915105CC0C6518070EE3B7:FG=1; BIDUPSID=F84824E997CC27748B441FEC160A917B; PSTM=1551428467; BD_UPN=133252; BDUSS=GxEcEgxOENjV250T1RCdVlyc35WMC1SR1VqM21tTkljblpEOHRwUVUzQks0TlJjSVFBQUFBJCQAAAAAAAAAAAEAAADnsmKWzOzM7MvRy~cyMDE3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEpTrVxKU61cb; MCITY=-179%3A; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; H_PS_PSSID=1466_28938_21121_28519_28774_28724_28964_28836_28584_22157; delPer=0; BD_CK_SAM=1; PSINO=5; BDRCVFR[Fc9oatPmwxn]=mk3SLVN4HKm; BD_HOME=1; sug=3; sugstore=1; ORIGIN=0; bdime=0");
+        WebClient client = WebClient.buildDefaultClient();
+
+        WebResponse resp = client.execute(req);
+
+        System.out.println(resp.getCookie());
+        System.out.println(client.getClientCookies(req, resp));
+
+
+//        String s = "auto_login=9b398806f11fc7bf20d5b3e3ead90852; expires=Fri, 17-May-2019 15:53:19 GMT; Max-Age=604799; path=/";
+//
+//        System.out.println(JSONObject.parseObject(s, Cookie.class));
+
+
+//        System.out.println(RedisUtils.getValueByKey("test1"));
 //        for(Class c: ProxyUtils.getPluginClasses()){
 //            System.out.println(c.getName());
 //        }
@@ -28,7 +44,7 @@ public class Test {
 //        System.out.println(RedisUtils.redisTemplate().opsForValue().get("test1"));
 
 //        List<Class> classes = new ArrayList<>();
-//        String packageName = "com/code/common/proxy/";
+//        String packageName = "com/code/common/proxyplugin/";
 //
 //        URLClassLoader classLoader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
 //        URL packUrl = classLoader.getResource(packageName);
@@ -44,7 +60,7 @@ public class Test {
 
 //        URL url = ProxyUtils.class.getClassLoader().getResource("com/code/common");
 //        URLClassLoader classLoader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
-//        URL url = classLoader.getResource("com/code/common/proxy/");
+//        URL url = classLoader.getResource("com/code/common/proxyplugin/");
 //        File file = new File(url.getPath());
 //
 //        for (File f : file.listFiles()) {
@@ -59,7 +75,7 @@ public class Test {
 //        Class cls = new URLClassLoader(uris).loadClass("com.code.common.proxy.ProxyPlugin");
 //        System.out.println(cls.getSimpleName());
 
-//        Enumeration<URL> urls = classLoader.getResources("com/code/common/proxy/");
+//        Enumeration<URL> urls = classLoader.getResources("com/code/common/proxyplugin/");
 //
 //        while(urls.hasMoreElements()){
 //            URL[] uris = new URL[1];
@@ -73,7 +89,7 @@ public class Test {
 //        while(uris.hasMoreElements()){
 //            System.out.println(uris.nextElement().getPath());
 //        }
-//        System.out.println(ResourceUtils.getFile("/src/main/java/com.code.common/proxy")==null);
+//        System.out.println(ResourceUtils.getFile("/src/main/java/com.code.common/proxyplugin")==null);
     }
 
     @org.junit.Test

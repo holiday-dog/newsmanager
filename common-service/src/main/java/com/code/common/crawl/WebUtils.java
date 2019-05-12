@@ -28,7 +28,7 @@ public class WebUtils {
         }
         PoolingHttpClientConnectionManager connectionManager = createConnectionManager(countPerRoute, maxCount);
 
-        WebClient client = WebClient.createCustome().buildConnectionManager(connectionManager).buildConnectionMonitor(new IdleConnectionMonitor(connectionManager));
+        WebClient client = WebClient.buildCustomeClient().buildConnectionManager(connectionManager).buildConnectionMonitor(new IdleConnectionMonitor(connectionManager));
         return client;
     }
 

@@ -1,4 +1,7 @@
-package com.code.common.proxy;
+package com.code.common.proxyplugin;
+
+import com.code.common.bean.ProxyObj;
+import com.code.common.proxy.ProxyPlugin;
 
 import java.util.List;
 
@@ -11,7 +14,7 @@ public class QiYunProxyPlugin extends ProxyPlugin {
     }
 
     @Override
-    public List<ProxyStr> resolveProxys(String page) {
+    public List<ProxyObj> resolveProxys(String page) {
         return null;
     }
 }

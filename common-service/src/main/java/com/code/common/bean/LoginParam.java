@@ -13,11 +13,20 @@ public class LoginParam {
 
     private String bindPhone;
 
+    private String bindEmail;
+
     private String others;
 
     public LoginParam(String username, String password, String bindPhone) {
         this.username = username;
         this.password = password;
         this.bindPhone = bindPhone;
+    }
+
+    public LoginParam(String username, String password, String bindPhone, String bindEmail) {
+        this.username = username;
+        this.password = password;
+        this.bindPhone = bindPhone;
+        this.bindEmail = bindEmail;
     }
 }
