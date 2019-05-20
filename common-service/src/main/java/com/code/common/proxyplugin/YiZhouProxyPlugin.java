@@ -37,7 +37,7 @@ public class YiZhouProxyPlugin extends TrialProxyPlugin {
 
 
     @Override
-    public ProxyObj process() {
+    public ProxyObj process(LoginParam param) {
         String packId = "9526";
         WebResponse response = null;
         ProxyObj proxyStr = null;

@@ -15,6 +15,8 @@ public class LoginParam {
 
     private String bindEmail;
 
+    private String proxyUserId;
+
     private String others;
 
     public LoginParam(String username, String password, String bindPhone) {

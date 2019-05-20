@@ -7,4 +7,11 @@ public class RandomUtils {
         Random random = new Random();
         return random.nextInt(bound);
     }
+
+    public static <T> T nextObj(T[] objs) {
+        if (objs == null) {
+            return null;
+        }
+        return objs[nextInt(objs.length)];
+    }
 }

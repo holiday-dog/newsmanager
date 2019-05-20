@@ -8,15 +8,15 @@ import com.code.common.proxy.TrialProxyPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-//每天免费500个，但是可用率太低,获取ip重试5次
-public class XiLaProxyPlugin extends TrialProxyPlugin {
-    private final String indexUrl = "http://www.xiladaili.com/login/?next=/interface/";
-    private static String getProxyUrl = "http://www.xiladaili.com/api/?uuid=472adb9ba1464f778350d58387f0c843&num=1&place=中国&protocol=0&sortby=0&repeat=1&format=3&position=1";
+//每天免费10个
+public class JingLingTrialProxyPlugin extends TrialProxyPlugin {
+    private static String indexUrl = "http://www.jinglingdaili.com/Users-index.html";
+    private static String getProxyUrl = "http://t.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=";
     private List<LoginParam> loginParamList = null;
 
     @Override
     public String getProxyPluginName() {
-        return "XiLaProxyPlugin";
+        return "JingLingTrialProxyPlugin";
     }
 
     @Override
@@ -24,9 +24,9 @@ public class XiLaProxyPlugin extends TrialProxyPlugin {
         return loginParamList;
     }
 
-    public XiLaProxyPlugin() {
+    public JingLingTrialProxyPlugin() {
         loginParamList = new ArrayList<>();
-        LoginParam param1 = new LoginParam("holiday999", "m13354612723", "13354612723");
+        LoginParam param1 = new LoginParam("holidaydog", "m13354612723", "13354612723");
         loginParamList.add(param1);
     }
 

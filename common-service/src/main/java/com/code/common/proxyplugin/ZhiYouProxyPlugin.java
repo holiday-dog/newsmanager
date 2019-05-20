@@ -32,7 +32,7 @@ public class ZhiYouProxyPlugin extends TrialProxyPlugin {
 
 
     @Override
-    public ProxyObj process() {
+    public ProxyObj process(LoginParam param) {
         return null;
     }
 

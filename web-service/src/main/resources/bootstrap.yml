@@ -1,11 +1,11 @@
-spring:
-  cloud:
-    config:
-#      uri: http://localhost:8762
-      label: dev
-      profile: dev
-      discovery:
-        service-id: config-service
-        enabled: true
+#spring:
+#  cloud:
+#    config:
+##      uri: http://localhost:8762
+#      label: dev
+#      profile: dev
+#      discovery:
+#        service-id: config-service
+#        enabled: true
 # 如果config-service也是服务，可以不用写url
 

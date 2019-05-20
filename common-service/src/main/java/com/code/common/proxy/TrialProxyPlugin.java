@@ -26,7 +26,7 @@ public abstract class TrialProxyPlugin {
     private final static Integer proxyRetryCount = 3;
     private final static Integer loginRetryCount = 2;
 
-    public abstract ProxyObj process();
+    public abstract ProxyObj process(LoginParam param);
 
     public abstract CheckCookieBean checkCookieBean();
 
@@ -46,15 +46,21 @@ public abstract class TrialProxyPlugin {
 
     public ProxyObj getProxy() {
         ProxyObj str = null;
-        if (!checkCookie()) {
+        LoginParam param = getRandomLoginParam();
+        if (!checkCookie(param)) {
             logger.info("{} cookie invalidate, need login", getProxyPluginName());
-            login(getRandomLoginParam());
+            login(param);
         }
         for (int i = 0; i < getProxyRetryCount(); i++) {
-            str = process();
-            if (str != null && validateProxy(str)) {
-                logger.info("retry {} times, proxyplugin validate success, proxyplugin:{}, pluginName:{}", i, str, getProxyPluginName());
-                break;
+            try {
+                str = process(param);
+                if (str != null && validateProxy(str)) {
+                    logger.info("retry {} times, proxyplugin validate success, proxyplugin:{}, pluginName:{}", i, str, getProxyPluginName());
+                    break;
+                }
+            } catch (Exception e) {
+                logger.error("acquire proxy error, msg:{}", e);
+                continue;
             }
         }
         if (str == null) {
@@ -74,20 +80,20 @@ public abstract class TrialProxyPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (resp.getRespText().contains("淘宝网")) {
-            return true;
-        }
-        return false;
+//        if (resp.getRespText().contains("淘宝网")) {
+//            return true;
+//        }
+        return true;
     }
 
-    public boolean checkCookie() {
+    public boolean checkCookie(LoginParam param) {
         CheckCookieBean checkCookieBean = checkCookieBean();
         if (checkCookieBean == null) {
             return true;
         }
         WebResponse response = null;
         try {
-            String cookie = genCookie();
+            String cookie = genCookie(param);
             if (StringUtils.isEmpty(cookie)) {
                 cookie = checkCookieBean.getCookie();
             }
@@ -125,9 +131,12 @@ public abstract class TrialProxyPlugin {
         return loginParamList().get(randomIndex);
     }
 
-    public String genCookie() {
+    public String genCookie(LoginParam param) {
         try {
-            String cookieKey = StringUtils.substringBefore(getProxyPluginName(), "ProxyPlugin") + "_" + "Cookie";
+            if (param == null) {
+                return null;
+            }
+            String cookieKey = StringUtils.substringBefore(getProxyPluginName(), "ProxyPlugin") + "_" + "Cookie" + "_" + param.getUsername();
             return RedisUtils.getValueByKey(cookieKey);
         } catch (Exception e) {
             logger.error("error:", e);

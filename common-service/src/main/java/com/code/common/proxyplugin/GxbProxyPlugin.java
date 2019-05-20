@@ -9,6 +9,7 @@ import com.code.common.crawl.WebUtils;
 import com.code.common.proxy.TrialProxyPlugin;
 import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.PatternUtils;
+import com.code.common.utils.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GxbProxyPlugin extends TrialProxyPlugin {
-    private static String _189ProxyUrl = "http://172.19.19.16:8080/wiseproxy/service/getProxy?site=189.cn&partition=adsl&mode=";
-    private static String qqProxyUrl = "http://172.19.19.16:8080/wiseproxy/service/getProxy?site=qq.com&partition=adsl&mode=";
-    private static String proxyUrl = "";
+    private static String[] proxyLocations = {"qq.com", "189.cn"};
+    private static String proxyTemplateUrl = "http://172.19.19.16:8080/wiseproxy/service/getProxy?site=%s&partition=adsl&mode=";
     private List<LoginParam> loginParamList = null;
     private Logger logger = LoggerFactory.getLogger(GxbProxyPlugin.class);
 
@@ -39,11 +39,13 @@ public class GxbProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
-    public ProxyObj process() {
+    public ProxyObj process(LoginParam param) {
         WebResponse response = null;
         ProxyObj proxyStr = null;
         try {
-            WebRequest request = new WebRequest(qqProxyUrl);
+            String proxyUrl = String.format(proxyTemplateUrl, getRandomProxyLocation());
+            logger.info("use proxy localtion is :{}", proxyUrl);
+            WebRequest request = new WebRequest(proxyUrl);
             response = WebUtils.defaultClient().execute(request);
         } catch (IOException e) {
             logger.error("webclient error:{}", e);
@@ -69,5 +71,13 @@ public class GxbProxyPlugin extends TrialProxyPlugin {
     @Override
     public void login(LoginParam param) {
         return;
+    }
+
+    private String getRandomProxyLocation() {
+        if (proxyLocations == null) {
+            return null;
+        }
+        int randomIndex = RandomUtils.nextInt(proxyLocations.length);
+        return proxyLocations[randomIndex];
     }
 }

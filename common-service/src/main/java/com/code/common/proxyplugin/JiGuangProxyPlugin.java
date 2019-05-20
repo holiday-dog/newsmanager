@@ -24,7 +24,7 @@ public class JiGuangProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://h.jiguangdaili.com/";
     private static String loginUrl = "http://webapi.jghttp.golangapi.com/index/users/login_do?jsonpcallback=jQuery112408231205000709008_%s&phone=%s&password=%s&remember=true&_=%s";
     private static String checkCookieUrl = "http://webapi.jghttp.golangapi.com/index/users/user_info?jsonpcallback=jQuery112402374532623441622_%s&_=%s";
-    private static String getProxyUrl = "http://d.jghttp.golangapi.com/getip?num=1&type=1&pro=&city=0&yys=0&port=1&pack=%s&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=";
+    private static String getProxyUrl = "http://d.jghttp.golangapi.com/getip?num=1&type=1&pro=&city=0&yys=0&port=1&pack=%s&ts=0&ys=0&cs=0&lb=1&sb=0&pb=45&mr=1&regions=";
     private static List<LoginParam> loginParams = null;
     private WebClient client = WebUtils.defaultClient();
     private String cookies = "";
@@ -55,19 +55,19 @@ public class JiGuangProxyPlugin extends TrialProxyPlugin {
     private void init() {
         loginParams = new ArrayList<>();
         LoginParam param1 = new LoginParam("holiday123", "m13354612723", "13354612723");
+        param1.setProxyUserId("9677");
 //        LoginParam param2 = new LoginParam("gxb123", "m18342238909", "18342238909");
         loginParams.add(param1);
 //        loginParams.add(param2);
     }
 
     @Override
-    public ProxyObj process() {
-        String packId = "9526";
+    public ProxyObj process(LoginParam param) {
         WebResponse response = null;
         ProxyObj proxyStr = null;
         try {
-            WebRequest request = new WebRequest(String.format(getProxyUrl, packId));
-            String redisCookie = genCookie();
+            WebRequest request = new WebRequest(String.format(getProxyUrl, param.getProxyUserId()));
+            String redisCookie = genCookie(param);
             request.setCookie(StringUtils.isEmpty(redisCookie) ? cookies : redisCookie);
             response = WebUtils.defaultClient().execute(request);
         } catch (IOException e) {

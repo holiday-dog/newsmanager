@@ -40,7 +40,9 @@ import java.net.ProxySelector;
 import java.util.*;
 
 public class WebClient {
-    private final static String User_Agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:63.0) Gecko/20100101 Firefox/63.0";
+    private String User_Agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:63.0) Gecko/20100101 Firefox/63.0";
+    private String Referer = null;
+    //    private final static String User_Agent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/535.3";
     private final static String Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
     private final static String Accept_Language = "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2";
     private final static String Accept_Encoding = "gzip, deflate, br";
@@ -51,9 +53,6 @@ public class WebClient {
 
     //线程安全
     private static HttpClient client = null;
-
-    //httppost,httpget的父类
-//    private HttpRequestBase request;
 
     //自定义返回结果处理
     private ResponseHandler handler;
@@ -72,6 +71,22 @@ public class WebClient {
 
     private Boolean needCacheStream = false;
 
+    public String getUser_Agent() {
+        return User_Agent;
+    }
+
+    public void setUser_Agent(String user_Agent) {
+        User_Agent = user_Agent;
+    }
+
+    public String getReferer() {
+        return Referer;
+    }
+
+    public void setReferer(String referer) {
+        Referer = referer;
+    }
+
     private WebClient() {
     }
 
@@ -87,6 +102,7 @@ public class WebClient {
     }
 
     public WebClient init() {
+        this.setUser_Agent(RandomUAUtils.getRandomUA(BrowersUA.FIREFOX));
         clientBuilder = HttpClients.custom();
         return this;
     }
@@ -99,6 +115,12 @@ public class WebClient {
     //不受自定义client的影响，可以直接跟在build的后面
     public WebClient buildContext() {
         context = HttpClientContext.create();
+        return this;
+    }
+
+    public WebClient buildUaAndReferer(BrowersUA browersUA, String referer) {
+        this.setUser_Agent(RandomUAUtils.getRandomUA(browersUA));
+        this.setReferer(referer);
         return this;
     }
 
@@ -250,13 +272,26 @@ public class WebClient {
     private void buildHeaders(WebRequest request, HttpRequestBase req) {
         Map<String, String> headers = request.getRequestHeaders();
 
+//        if (headers != null && headers.size() > 0) {
+//            for (Map.Entry<String, String> entry : headers.entrySet()) {
+//                req.addHeader(entry.getKey(), entry.getValue());
+//            }
+//        }
+        List<Header> defaultHeaders = buildDefaultHeaders();
+        for (Header header : defaultHeaders) {
+            req.addHeader(header.getName(), header.getValue());
+        }
         if (headers != null && headers.size() > 0) {
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                req.addHeader(entry.getKey(), entry.getValue());
+            if (StringUtils.isNotEmpty(headers.get("User-Agent")) && !"Apache-HttpClient".equals(headers.get("User-Agent"))) {
+                req.addHeader("User-Agent", headers.get("User-Agent"));
+            }
+            if (StringUtils.isNotEmpty(headers.get("Referer"))) {
+                req.addHeader("Referer", headers.get("Referer"));
+            }
+            if (StringUtils.isNotEmpty(request.getCookie())) {
+                req.addHeader("Cookie", request.getCookie());
             }
         }
-
-        req.addHeader("Cookie", StringUtils.isNotEmpty(request.getCookie()) ? request.getCookie() : "");
     }
 
     private List<Header> buildDefaultHeaders() {
