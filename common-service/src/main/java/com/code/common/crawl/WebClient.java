@@ -40,9 +40,8 @@ import java.net.ProxySelector;
 import java.util.*;
 
 public class WebClient {
-    private String User_Agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:63.0) Gecko/20100101 Firefox/63.0";
+    private String User_Agent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0";
     private String Referer = null;
-    //    private final static String User_Agent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/535.3";
     private final static String Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
     private final static String Accept_Language = "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2";
     private final static String Accept_Encoding = "gzip, deflate, br";
@@ -277,9 +276,11 @@ public class WebClient {
 //                req.addHeader(entry.getKey(), entry.getValue());
 //            }
 //        }
-        List<Header> defaultHeaders = buildDefaultHeaders();
-        for (Header header : defaultHeaders) {
-            req.addHeader(header.getName(), header.getValue());
+        if (clientBuilder == null) {
+            List<Header> defaultHeaders = buildDefaultHeaders();
+            for (Header header : defaultHeaders) {
+                req.addHeader(header.getName(), header.getValue());
+            }
         }
         if (headers != null && headers.size() > 0) {
             if (StringUtils.isNotEmpty(headers.get("User-Agent")) && !"Apache-HttpClient".equals(headers.get("User-Agent"))) {

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //每天免费10个
+@Deprecated
 public class BiTeProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://pc.bitdaili.com/index-getapi.html";
     private static String getProxyUrl = "http://t.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=";

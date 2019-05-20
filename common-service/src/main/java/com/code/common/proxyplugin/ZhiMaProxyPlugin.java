@@ -25,11 +25,15 @@ public class ZhiMaProxyPlugin extends TrialProxyPlugin {
     private static String loginUrl = "http://wapi.http.cnapi.cc/index/users/login_do?jsonpcallback=jQuery1124038366609614490454_%s&phone=%s&password=%s&remember=false&_=%s";
     private static String getProxyUrl = "http://webapi.http.zhimacangku.com/getip?num=1&type=1&pro=&city=0&yys=0&port=1&pack=%s&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=";
     private static String checkCookieUrl = "http://wapi.http.cnapi.cc/index/users/user_info?jsonpcallback=jQuery11240725991062937152_%s&_=%s";
+    private static String freeIp = "http://wapi.http.cnapi.cc/index/users/get_day_free_pack?jsonpcallback=jQuery1124007282048382492023_%s&_=%s";
     private List<LoginParam> loginParamList = null;
     private Logger logger = LoggerFactory.getLogger(ZhiMaProxyPlugin.class);
     private WebClient client = WebUtils.defaultClient();
-    private String cookies = "";
+    private static String cookies = null;
+    //是否需要点击套餐
+    private boolean flag = true;
 
+    //http://webapi.http.zhimacangku.com/getip?num=1&type=1&pro=&city=0&yys=0&port=1&pack=52239&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=
     @Override
     public String getProxyPluginName() {
         return "ZhiMaProxyPlugin";
@@ -37,12 +41,16 @@ public class ZhiMaProxyPlugin extends TrialProxyPlugin {
 
     public ZhiMaProxyPlugin() {
         loginParamList = new ArrayList<>();
-        LoginParam param1 = new LoginParam("holiday123", "m13354612723", "13354612723");
-        param1.setProxyUserId("52239");
-        LoginParam param2 = new LoginParam("unlessone", "m18342238909", "18342238909");
-        param2.setProxyUserId("52417");
-        loginParamList.add(param1);
-        loginParamList.add(param2);
+//        LoginParam param1 = new LoginParam("holiday123", "m13354612723", "13354612723");
+//        param1.setProxyUserId("52239");
+//        LoginParam param2 = new LoginParam("unlessone", "m18342238909", "18342238909");
+//        param2.setProxyUserId("52417");
+        LoginParam param3 = new LoginParam("dog123", "xyjabc", "17783130253");
+        param3.setProxyUserId("52417");
+//        LoginParam param3 = new LoginParam("dog123", "xyjabc", "17783130253");
+//        param3.setProxyUserId("52417");
+//        loginParamList.add(param1);
+        loginParamList.add(param3);
     }
 
     @Override
@@ -102,6 +110,25 @@ public class ZhiMaProxyPlugin extends TrialProxyPlugin {
             if (PatternUtils.match(response.getRespText(), "\\\\\\\"ret\\\\\\\":0")) {
                 logger.info("retry {} times, {} login success", i, getProxyPluginName());
                 cookies = WebClient.getClientCookies(request, response);
+
+                //获取每天的免费ip套餐
+                if (flag) {
+                    Long ts = new Date().getTime();
+                    String freeIpUrl = String.format(freeIp, ts, ts);
+                    WebRequest freeReq = new WebRequest(freeIpUrl);
+                    freeReq.setCookie(cookies);
+                    try {
+                        WebResponse freeResp = client.execute(freeReq);
+                        if (PatternUtils.match(freeResp.getRespText(), "\\\\\\\"ret\\\\\\\":0")) {
+                            logger.info("请求免费ip成功");
+                            return;
+                        } else {
+                            logger.error("请求免费的ip失败， page:{}", freeResp.getRespText());
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 return;
             } else {
                 break;

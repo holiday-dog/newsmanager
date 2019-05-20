@@ -28,6 +28,16 @@ public class TuZiProxyPlugin extends TrialProxyPlugin {
         loginParamList = new ArrayList<>();
         LoginParam param1 = new LoginParam("holiday321", "199711", "13354612723");
         loginParamList.add(param1);
+        LoginParam param2 = new LoginParam("xuwenqiang", "xwq123", "18342238909");
+        loginParamList.add(param2);
+        LoginParam param3 = new LoginParam("luckcat", "catcat", "17783130253");
+        loginParamList.add(param3);
+        LoginParam param4 = new LoginParam("admin8575", "271543", "18958078575");
+        loginParamList.add(param4);
+        LoginParam param5 = new LoginParam("xuwenqiang", "xwq123", "18342238909");
+        loginParamList.add(param5);
+        LoginParam param6 = new LoginParam("feitianzai", "042371", "17704255028");
+        loginParamList.add(param6);
     }
 
 

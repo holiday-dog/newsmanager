@@ -6,6 +6,8 @@ import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.proxyplugin.GxbProxyPlugin;
 import com.code.common.proxy.TrialProxyPlugin;
+import com.code.common.proxyplugin.JiGuangProxyPlugin;
+import com.code.common.proxyplugin.ZhiMaProxyPlugin;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,8 +17,8 @@ public class ProxyTest {
     public void test1() {
         TrialProxyPlugin proxyPlugin = null;
 //        proxyPlugin = new JiGuangProxyPlugin();
-//        proxyPlugin = new ZhiMaProxyPlugin();
-        proxyPlugin = new GxbProxyPlugin();
+        proxyPlugin = new ZhiMaProxyPlugin();
+//        proxyPlugin = new GxbProxyPlugin();
 
         System.out.println(proxyPlugin.getProxy());
     }

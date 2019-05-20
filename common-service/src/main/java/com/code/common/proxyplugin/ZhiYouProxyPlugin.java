@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 //每天免费10个
+//(可用ip不够)
+@Deprecated
 public class ZhiYouProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://www.zhiyoudaili.com/";
     private static String getProxyUrl = "http://t.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=";
@@ -28,6 +30,10 @@ public class ZhiYouProxyPlugin extends TrialProxyPlugin {
         loginParamList = new ArrayList<>();
         LoginParam param1 = new LoginParam("holiday1234", "m13354612723", "13354612723");
         loginParamList.add(param1);
+        LoginParam param2 = new LoginParam("liumeng123", "mengmeng", "17783130253");
+        loginParamList.add(param2);
+        LoginParam param3 = new LoginParam("happydog", "xycxsj", "18342238909");
+        loginParamList.add(param3);
     }
 
 

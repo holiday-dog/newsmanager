@@ -28,6 +28,14 @@ public class HengXingProxyPlugin extends TrialProxyPlugin {
         loginParamList = new ArrayList<>();
         LoginParam param1 = new LoginParam("holiday333", "m13354612723", "13354612723", "m13354612723@126.com");
         loginParamList.add(param1);
+        LoginParam param2 = new LoginParam("zhangna", "zhangna123", "18342238909", "m13354612723@126.com");
+        loginParamList.add(param2);
+        LoginParam param3 = new LoginParam("xiaoqiao", "201287", "13354612723", "m13354612723@126.com");
+        loginParamList.add(param3);
+        LoginParam param4 = new LoginParam("George", "George123", "18958078575", "m13354612723@126.com");
+        loginParamList.add(param4);
+        LoginParam param5 = new LoginParam("holiday333", "m13354612723", "13354612723", "m13354612723@126.com");
+        loginParamList.add(param5);
     }
 
 
