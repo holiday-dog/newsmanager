@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 //极光代理（每天50个）（联系客服一天200个）
+@Deprecated
 public class JiGuangProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://h.jiguangdaili.com/";
     private static String loginUrl = "http://webapi.jghttp.golangapi.com/index/users/login_do?jsonpcallback=jQuery112408231205000709008_%s&phone=%s&password=%s&remember=true&_=%s";

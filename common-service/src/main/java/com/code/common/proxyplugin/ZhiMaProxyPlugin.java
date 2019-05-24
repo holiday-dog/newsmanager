@@ -47,8 +47,7 @@ public class ZhiMaProxyPlugin extends TrialProxyPlugin {
 //        param2.setProxyUserId("52417");
         LoginParam param3 = new LoginParam("dog123", "xyjabc", "17783130253");
         param3.setProxyUserId("52417");
-//        LoginParam param3 = new LoginParam("dog123", "xyjabc", "17783130253");
-//        param3.setProxyUserId("52417");
+        LoginParam param4 = new LoginParam("17704255028", "feiqiu123", "17704255028");
 //        loginParamList.add(param1);
         loginParamList.add(param3);
     }

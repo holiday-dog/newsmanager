@@ -32,6 +32,10 @@ public class YunLianProxyPlugin extends TrialProxyPlugin {
         loginParamList.add(param2);
         LoginParam param3 = new LoginParam("wangheng", "heng123", "17783130253");
         loginParamList.add(param3);
+        LoginParam param4 = new LoginParam("xiaozhu_177", "ty2571", "17704255028");
+        loginParamList.add(param4);
+        LoginParam param5 = new LoginParam("xiaozhu_177", "ty2571", "17704255028");
+        loginParamList.add(param5);
     }
 
 

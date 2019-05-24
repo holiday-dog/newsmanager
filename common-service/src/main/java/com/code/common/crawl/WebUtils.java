@@ -11,7 +11,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 public class WebUtils {
     public static WebClient defaultClient() {
-        return WebClient.buildDefaultClient();
+        return WebClient.defaultClient();
     }
 
     public static WebClient multiThreadClient() {

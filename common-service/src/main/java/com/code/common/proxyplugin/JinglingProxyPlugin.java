@@ -5,6 +5,7 @@ import com.code.common.proxy.ProxyPlugin;
 
 import java.util.List;
 
+@Deprecated
 public class JinglingProxyPlugin extends ProxyPlugin {
 
     @Override

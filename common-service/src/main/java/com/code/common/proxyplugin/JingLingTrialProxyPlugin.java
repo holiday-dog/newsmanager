@@ -10,7 +10,7 @@ import java.util.List;
 
 //每天免费10个
 public class JingLingTrialProxyPlugin extends TrialProxyPlugin {
-    private static String indexUrl = "http://www.jinglingdaili.com/Users-index.html";
+    private static String indexUrl = "http://www.jinglingdaili.com/Users-login.html";
     private static String getProxyUrl = "http://t.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=";
     private List<LoginParam> loginParamList = null;
 
@@ -28,6 +28,8 @@ public class JingLingTrialProxyPlugin extends TrialProxyPlugin {
         loginParamList = new ArrayList<>();
         LoginParam param1 = new LoginParam("holidaydog", "m13354612723", "13354612723");
         loginParamList.add(param1);
+        LoginParam param2 = new LoginParam("dto312", "lixian123", "18958078576");
+        loginParamList.add(param2);
     }
 
 

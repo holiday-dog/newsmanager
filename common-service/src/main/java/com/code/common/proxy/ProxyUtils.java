@@ -1,5 +1,6 @@
 package com.code.common.proxy;
 
+import com.code.common.annos.PoorProxy;
 import com.code.common.bean.ProxyObj;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public class ProxyUtils {
     private final static String packageName = "com/code/common/proxyplugin/";
     private final static String recommendUrl = "http://dl.l4110.com/";//推荐ip代理的网站
+    private static List<Class> avaliableProxy = null;
+    private static List<Class> poorProxy = null;
 
     public static ProxyObj getProxy() {
         ProxyObj proxy = null;
@@ -23,13 +26,9 @@ public class ProxyUtils {
         return proxy;
     }
 
-    public static void obtainProxys() {
-//        List<Class> proxyPluginClasses = getPluginClasses();
-
-    }
-
-    public static List<Class> getPluginClasses() throws IOException, ClassNotFoundException {
-        List<Class> classes = new ArrayList<>();
+    private static void scanPlugin() throws IOException, ClassNotFoundException {
+        avaliableProxy = new ArrayList<>();
+        poorProxy = new ArrayList<>();
 
         URLClassLoader classLoader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
         URL packUrl = classLoader.getResource(packageName);
@@ -39,9 +38,23 @@ public class ProxyUtils {
         for (File file : new File(packUrl.getPath()).listFiles()) {
             String className = packageName.replace("/", ".") + StringUtils.substring(file.getName(), 0, file.getName().lastIndexOf("."));
             Class cls = classLoader.loadClass(className);
-            classes.add(cls);
-        }
 
-        return classes;
+            //获取可用插件
+            if (cls.getAnnotation(Deprecated.class) == null) {
+                if (cls.getAnnotation(PoorProxy.class) == null) {
+                    avaliableProxy.add(cls);
+                } else {
+                    poorProxy.add(cls);
+                }
+            }
+        }
     }
+
+    //测试
+    public static List<Class> getProxyPlugin() throws IOException, ClassNotFoundException {
+        scanPlugin();
+//        return avaliableProxy;
+        return poorProxy;
+    }
+
 }

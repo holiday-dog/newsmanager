@@ -145,7 +145,7 @@ public class Test {
 //        }
 
 //        System.out.println(new Date(1557333766373L));
-        System.out.println(StringUtils.isEmpty(new JiGuangProxyPlugin().genCookie(null)));
+//        System.out.println(StringUtils.isEmpty(new JiGuangProxyPlugin().genCookie(null)));
 //        String ss = "http://qhm1.cnzz.com/heatmap.gif?id=1273135583&x=1006&y=50&w=1171&s=1440x900&b=firefox&c=1&r=&a=1&random=Thu May 09 2019 00:42:53 GMT+0800 (中国标准时间)";
 ////        System.out.println(url.toURI().toString());
 //        String s = URLEncoder.encode(ss, Charset.defaultCharset().toString());

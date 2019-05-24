@@ -6,7 +6,6 @@ import com.code.common.bean.ProxyObj;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
-import com.code.common.crawl.WebUtils;
 import com.code.common.utils.PatternUtils;
 import com.code.common.utils.RandomUtils;
 import com.code.common.utils.RedisUtils;
@@ -35,6 +34,10 @@ public abstract class TrialProxyPlugin {
     public abstract String getProxyPluginName();
 
     public abstract List<LoginParam> loginParamList();
+
+    public String getCookie(String loginName) {
+        return genCookie(loginName);
+    }
 
     public Integer getProxyRetryCount() {
         return proxyRetryCount;
@@ -80,9 +83,7 @@ public abstract class TrialProxyPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        if (resp.getRespText().contains("淘宝网")) {
-//            return true;
-//        }
+
         return true;
     }
 
@@ -93,13 +94,13 @@ public abstract class TrialProxyPlugin {
         }
         WebResponse response = null;
         try {
-            String cookie = genCookie(param);
+            String cookie = getCookie(param.getUsername());
             if (StringUtils.isEmpty(cookie)) {
                 cookie = checkCookieBean.getCookie();
             }
             WebRequest request = new WebRequest(checkCookieBean.getCheckCookieUrl());
             request.setCookie(cookie);
-            response = WebUtils.defaultClient().execute(request);
+            response = WebClient.buildDefaultClient().build().execute(request);
             logger.info("cookie check page:{}", response.getRespText());
         } catch (IOException e) {
             logger.error("webclient error:{}", e);
@@ -131,12 +132,12 @@ public abstract class TrialProxyPlugin {
         return loginParamList().get(randomIndex);
     }
 
-    public String genCookie(LoginParam param) {
+    public String genCookie(String loginName) {
         try {
-            if (param == null) {
+            if (StringUtils.isEmpty(loginName)) {
                 return null;
             }
-            String cookieKey = StringUtils.substringBefore(getProxyPluginName(), "ProxyPlugin") + "_" + "Cookie" + "_" + param.getUsername();
+            String cookieKey = getProxyPluginName() + "_" + "Cookie" + "_" + loginName;
             return RedisUtils.getValueByKey(cookieKey);
         } catch (Exception e) {
             logger.error("error:", e);
@@ -147,4 +148,19 @@ public abstract class TrialProxyPlugin {
         return StringUtils.EMPTY;
     }
 
+    public String genCookie(LoginParam param) {
+        try {
+            if (param == null || StringUtils.isEmpty(param.getUsername())) {
+                return null;
+            }
+            String cookieKey = getProxyPluginName() + "_" + "Cookie" + "_" + param.getUsername();
+            return RedisUtils.getValueByKey(cookieKey);
+        } catch (Exception e) {
+            logger.error("error:", e);
+            if (!(e instanceof RedisConnectionFailureException)) {
+                throw e;
+            }
+        }
+        return StringUtils.EMPTY;
+    }
 }

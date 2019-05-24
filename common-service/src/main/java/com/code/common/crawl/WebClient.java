@@ -16,7 +16,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.conn.HttpClientConnectionManager;
-import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.BufferedHttpEntity;
@@ -25,13 +24,14 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,10 +48,11 @@ public class WebClient {
     private final static String Connection = "keep-alive";
     private final static String Pragma = "no-cache";
     private final static String Cache_Control = "no-cache";
+    private final static String Content_Type = "application/x-www-form-urlencoded";
     private static Logger logger = LoggerFactory.getLogger(WebClient.class);
 
     //线程安全
-    private static HttpClient client = null;
+    private HttpClient client = null;
 
     //自定义返回结果处理
     private ResponseHandler handler;
@@ -89,10 +90,15 @@ public class WebClient {
     private WebClient() {
     }
 
-    public static WebClient buildDefaultClient() {
+    public static WebClient defaultClient() {
         WebClient webClient = new WebClient();
         webClient.client = HttpClients.createDefault();
         return webClient;
+    }
+
+    public static WebClient buildDefaultClient() {
+        WebClient webClient = new WebClient();
+        return webClient.init();
     }
 
     public static WebClient buildCustomeClient() {
@@ -124,8 +130,10 @@ public class WebClient {
     }
 
     public WebClient build() {
+        clientBuilder.setRedirectStrategy(new LaxRedirectStrategy());
         clientBuilder.setDefaultHeaders(buildDefaultHeaders());
         client = clientBuilder.build();
+        context = HttpClientContext.create();
         return this;
     }
 
@@ -155,9 +163,9 @@ public class WebClient {
         return this;
     }
 
-    public static void setMaxCountPerRoute(HttpRoute route, int count) {
-        ((PoolingHttpClientConnectionManager) client.getConnectionManager()).setMaxPerRoute(route, count);
-    }
+//    public static void setMaxCountPerRoute(HttpRoute route, int count) {
+//        ((PoolingHttpClientConnectionManager) client.getConnectionManager()).setMaxPerRoute(route, count);
+//    }
 
     public WebClient buildConnectionMonitor(IdleConnectionMonitor connectionMonitor) {
         this.connectionMonitor = connectionMonitor;
@@ -213,11 +221,12 @@ public class WebClient {
         }
 
         HttpResponse resp = null;
-        if (context == null) {
-            resp = client.execute(request);
-        } else {
-            resp = client.execute(request, context);
-        }
+        resp = client.execute(request, context);
+//        if (context == null) {
+//            resp = client.execute(request);
+//        } else {
+//            resp = client.execute(request, context);
+//        }
 
         HttpEntity entity = resp.getEntity();
         if (needCacheStream) {
@@ -283,16 +292,20 @@ public class WebClient {
             }
         }
         if (headers != null && headers.size() > 0) {
-            if (StringUtils.isNotEmpty(headers.get("User-Agent")) && !"Apache-HttpClient".equals(headers.get("User-Agent"))) {
+            if (StringUtils.isNotEmpty(headers.get("User-Agent")) && !(headers.get("User-Agent").contains("Apache-HttpClient"))) {
                 req.addHeader("User-Agent", headers.get("User-Agent"));
             }
             if (StringUtils.isNotEmpty(headers.get("Referer"))) {
                 req.addHeader("Referer", headers.get("Referer"));
             }
-            if (StringUtils.isNotEmpty(request.getCookie())) {
-                req.addHeader("Cookie", request.getCookie());
+            if (StringUtils.isNotEmpty(headers.get("Content-Type"))) {
+                req.addHeader("Content-Type", headers.get("Content-Type"));
             }
         }
+        if (StringUtils.isNotEmpty(request.getCookie())) {
+            req.addHeader("Cookie", request.getCookie());
+        }
+
     }
 
     private List<Header> buildDefaultHeaders() {
@@ -304,6 +317,7 @@ public class WebClient {
         headers.add(new BasicHeader("Connection", Connection));
         headers.add(new BasicHeader("Pragma", Pragma));
         headers.add(new BasicHeader("Cache-Control", Cache_Control));
+        headers.add(new BasicHeader("Content-Type", Content_Type));
 
         return headers;
     }
@@ -342,6 +356,9 @@ public class WebClient {
             cookies.addAll(parse(response.getCookie()));
         }
 
+        if (CollectionUtils.isEmpty(cookies)) {
+            return StringUtils.EMPTY;
+        }
         StringBuffer cookieStr = new StringBuffer();
         for (Cookie cookie : cookies) {
             cookieStr.append(cookie.getName());
