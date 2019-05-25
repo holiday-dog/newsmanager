@@ -51,6 +51,12 @@ public class WebClient {
     private final static String Content_Type = "application/x-www-form-urlencoded";
     private static Logger logger = LoggerFactory.getLogger(WebClient.class);
 
+    private static final Integer routeCount = 10;
+    private static final Integer maxCount = 100;
+    private static final Integer requestConnectTime = 500;
+    private Integer buildConnectTime = 1000;
+    private Integer socketTime = 2000;
+
     //线程安全
     private HttpClient client = null;
 
@@ -73,10 +79,6 @@ public class WebClient {
 
     public String getUser_Agent() {
         return User_Agent;
-    }
-
-    public void setUser_Agent(String user_Agent) {
-        User_Agent = user_Agent;
     }
 
     public String getReferer() {
@@ -107,7 +109,6 @@ public class WebClient {
     }
 
     public WebClient init() {
-        this.setUser_Agent(RandomUAUtils.getRandomUA(BrowersUA.FIREFOX));
         clientBuilder = HttpClients.custom();
         return this;
     }
@@ -124,7 +125,7 @@ public class WebClient {
     }
 
     public WebClient buildUaAndReferer(BrowersUA browersUA, String referer) {
-        this.setUser_Agent(RandomUAUtils.getRandomUA(browersUA));
+        clientBuilder.setUserAgent(RandomUAUtils.getRandomUA(BrowersUA.FIREFOX));
         this.setReferer(referer);
         return this;
     }
@@ -132,6 +133,12 @@ public class WebClient {
     public WebClient build() {
         clientBuilder.setRedirectStrategy(new LaxRedirectStrategy());
         clientBuilder.setDefaultHeaders(buildDefaultHeaders());
+        clientBuilder.setMaxConnPerRoute(routeCount);
+        clientBuilder.setMaxConnTotal(maxCount);
+        clientBuilder.setUserAgent(RandomUAUtils.getRandomUA(BrowersUA.FIREFOX));
+        RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(requestConnectTime).setConnectTimeout(buildConnectTime).setSocketTimeout(socketTime).build();
+        clientBuilder.setDefaultRequestConfig(config);
+
         client = clientBuilder.build();
         context = HttpClientContext.create();
         return this;
@@ -163,13 +170,15 @@ public class WebClient {
         return this;
     }
 
-//    public static void setMaxCountPerRoute(HttpRoute route, int count) {
-//        ((PoolingHttpClientConnectionManager) client.getConnectionManager()).setMaxPerRoute(route, count);
-//    }
-
     public WebClient buildConnectionMonitor(IdleConnectionMonitor connectionMonitor) {
         this.connectionMonitor = connectionMonitor;
         connectionMonitor.start();
+        return this;
+    }
+
+    public WebClient buildConnectAndSocketTime(Integer connectTime, Integer socketTime) {
+        this.buildConnectTime = connectTime;
+        this.socketTime = socketTime;
         return this;
     }
 
@@ -222,11 +231,6 @@ public class WebClient {
 
         HttpResponse resp = null;
         resp = client.execute(request, context);
-//        if (context == null) {
-//            resp = client.execute(request);
-//        } else {
-//            resp = client.execute(request, context);
-//        }
 
         HttpEntity entity = resp.getEntity();
         if (needCacheStream) {
@@ -250,7 +254,9 @@ public class WebClient {
             case "post":
                 request = new HttpPost(req.getUrl());
                 try {
-                    ((HttpPost) request).setEntity(new UrlEncodedFormEntity(req.getRequestBody()));
+                    if (!CollectionUtils.isEmpty(req.getRequestBody())) {
+                        ((HttpPost) request).setEntity(new UrlEncodedFormEntity(req.getRequestBody()));
+                    }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -258,7 +264,9 @@ public class WebClient {
             case "post_string":
                 request = new HttpPost(req.getUrl());
                 try {
-                    ((HttpPost) request).setEntity(new StringEntity(req.getRequestBodyString()));
+                    if (StringUtils.isNotEmpty(req.getRequestBodyString())) {
+                        ((HttpPost) request).setEntity(new StringEntity(req.getRequestBodyString()));
+                    }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

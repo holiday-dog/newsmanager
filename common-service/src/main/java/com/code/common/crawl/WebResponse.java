@@ -89,4 +89,8 @@ public class WebResponse {
         cookie = stringBuffer.deleteCharAt(stringBuffer.length() - 1).toString();
         return cookie;
     }
+
+    public Integer statusCode() {
+        return statusLine.getStatusCode();
+    }
 }

@@ -25,18 +25,37 @@ public abstract class TrialProxyPlugin {
     private final static Integer proxyRetryCount = 3;
     private final static Integer loginRetryCount = 2;
 
-    public abstract ProxyObj process(LoginParam param);
-
-    public abstract CheckCookieBean checkCookieBean();
-
-    public abstract void login(LoginParam param);
-
     public abstract String getProxyPluginName();
 
     public abstract List<LoginParam> loginParamList();
 
+    public abstract ProxyObj process(LoginParam param);
+
+
+    public boolean needFreeIp() {
+        return false;
+    }
+
+    public void getFreeIp(LoginParam param) {
+        return;
+    }
+
+    public CheckCookieBean checkCookieBean() {
+        return null;
+    }
+
+    public void login(LoginParam param) {
+        return;
+    }
+
+    //默认从redis中获取cookie
     public String getCookie(String loginName) {
         return genCookie(loginName);
+    }
+
+    //默认不需要验证代理
+    public boolean needValidateProxy() {
+        return false;
     }
 
     public Integer getProxyRetryCount() {
@@ -48,17 +67,22 @@ public abstract class TrialProxyPlugin {
     }
 
     public ProxyObj getProxy() {
-        ProxyObj str = null;
+        boolean validate = false;
+        ProxyObj obj = null;
         LoginParam param = getRandomLoginParam();
         if (!checkCookie(param)) {
             logger.info("{} cookie invalidate, need login", getProxyPluginName());
             login(param);
         }
+        if (needFreeIp()) {
+            getFreeIp(param);
+        }
         for (int i = 0; i < getProxyRetryCount(); i++) {
             try {
-                str = process(param);
-                if (str != null && validateProxy(str)) {
-                    logger.info("retry {} times, proxyplugin validate success, proxyplugin:{}, pluginName:{}", i, str, getProxyPluginName());
+                obj = process(param);
+                if (obj != null && (!needValidateProxy() || validateProxy(obj))) {
+                    validate = true;
+                    logger.info("retry {} times, proxyplugin validate success, proxy-address:{}, pluginName:{}", i, obj, getProxyPluginName());
                     break;
                 }
             } catch (Exception e) {
@@ -66,25 +90,31 @@ public abstract class TrialProxyPlugin {
                 continue;
             }
         }
-        if (str == null) {
+        if (obj == null || !validate) {
             logger.error("Obtain proxyplugin fail, pluginName:{}", getProxyPluginName());
+            return null;
         }
-        return str;
+        return obj;
     }
 
     public boolean validateProxy(ProxyObj str) {
         WebClient client = WebClient.buildCustomeClient();
         client.buildProxy(WebClient.ProxyType.PROXY_ADDRESS, str.getProxyHost(), str.getProxyPort());
+        client.buildConnectAndSocketTime(5000, 3000);
         client.build();
 
         WebResponse resp = null;
         try {
             resp = client.execute(new WebRequest(checkProxyUrl));
+            if (resp.statusCode() == 200) {
+                return true;
+            }
+            logger.error("request taobao error:statusCode:{}", resp.statusCode());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return true;
+        return false;
     }
 
     public boolean checkCookie(LoginParam param) {

@@ -26,7 +26,7 @@ public class TaiYangProxyPlugin extends TrialProxyPlugin {
 
     public TaiYangProxyPlugin() {
         loginParamList = new ArrayList<>();
-        LoginParam param1 = new LoginParam("holiday333", "m13354612723", "13354612723");
+        LoginParam param1 = new LoginParam("dawang123", "m18958078576", "13354612723");
         loginParamList.add(param1);
     }
 

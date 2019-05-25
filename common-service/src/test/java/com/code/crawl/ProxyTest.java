@@ -1,12 +1,16 @@
 package com.code.crawl;
 
-import com.code.common.crawl.RequestMethod;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.proxy.TrialProxyPlugin;
 import com.code.common.proxyplugin.BiTeProxyPlugin;
+import com.code.common.proxyplugin.HeiDongProxyPlugin;
+import com.code.common.proxyplugin.HengXingProxyPlugin;
+import com.code.common.proxyplugin.ZhiMaProxyPlugin;
+import com.code.common.utils.NetUtils;
 import com.code.common.utils.UnicodeUtils;
+import org.apache.http.client.config.RequestConfig;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,10 +19,18 @@ public class ProxyTest {
     @Test
     public void test1() throws IOException, ClassNotFoundException {
         TrialProxyPlugin proxyPlugin = null;
-        proxyPlugin = new BiTeProxyPlugin();
+//        proxyPlugin = new BiTeProxyPlugin();
 //        proxyPlugin = new JiGuangProxyPlugin();
 //        proxyPlugin = new ZhiMaProxyPlugin();
 //        proxyPlugin = new GxbProxyPlugin();
+//        proxyPlugin = new HengXingProxyPlugin();
+//        proxyPlugin = new JingLingTrialProxyPlugin();
+        proxyPlugin = new HeiDongProxyPlugin();
+//        proxyPlugin = new WanDouProxyPlugin();
+//        proxyPlugin = new YunLianProxyPlugin();
+//        proxyPlugin = new XiLaProxyPlugin();
+//        proxyPlugin = new YiZhouProxyPlugin();
+//        proxyPlugin = new ZhiYouProxyPlugin();
 
         System.out.println(proxyPlugin.getProxy());
     }
@@ -26,8 +38,6 @@ public class ProxyTest {
     @Test
     public void test4() {
 //        System.out.println(BrowersUA.OPERA.randomUa());
-
-
         WebClient client = WebClient.buildDefaultClient().build();
 //        System.out.println(client.getUser_Agent());
         WebResponse resp = null;
@@ -70,8 +80,8 @@ public class ProxyTest {
         WebRequest request3 = new WebRequest("https://www.taobao.com/");
         WebResponse response3 = client.execute(request3);
 
-         request3 = new WebRequest("https://www.baidu.com/");
-         response3 = client.execute(request3);
+        request3 = new WebRequest("https://www.baidu.com/");
+        response3 = client.execute(request3);
 
         request3 = new WebRequest("https://www.qq.com/");
         response3 = client.execute(request3);
@@ -80,11 +90,17 @@ public class ProxyTest {
         response3 = client.execute(request3);
 
 
-
     }
 
     @Test
-    public void test00() throws IOException, ClassNotFoundException {
+    public void test00() throws Exception, ClassNotFoundException {
+        RequestConfig config = RequestConfig.DEFAULT;
+        System.out.println(NetUtils.getLocalAddress().getHostAddress());
+        for (String ip : NetUtils.getLocalIPList()) {
+            System.out.println(ip);
+        }
+        config = RequestConfig.custom().setConnectTimeout(20000).setSocketTimeout(5000).build();
+        System.out.println(config.getSocketTimeout());
         String s = "\\u60a8\\u5df2\\u7ecf\\u83b7\\u53d6\\u4e86\\u8d60\\u9001\\uff0c24\\u5c0f\\u65f6\\u540e\\u624d\\u80fd\\u518d\\u6b21\\u83b7\\u5f97\\u8d60\\u9001";
 
         System.out.println(UnicodeUtils.unicodeToString(UnicodeUtils.stringToUnicode("您已经获取了赠送，24小时后才能再次获得赠送")));

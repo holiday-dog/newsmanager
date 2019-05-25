@@ -3,16 +3,26 @@ package com.code.common.proxyplugin;
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
 import com.code.common.bean.ProxyObj;
+import com.code.common.crawl.WebClient;
+import com.code.common.crawl.WebRequest;
+import com.code.common.crawl.WebResponse;
 import com.code.common.proxy.TrialProxyPlugin;
+import com.code.common.utils.JsonPathUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 //每天免费20个
 public class WanDouProxyPlugin extends TrialProxyPlugin {
     private static final String indexUrl = "https://www.wandouip.com/";
-    private static String getProxyUrl = "http://api.wandoudl.com/api/ip?app_key=83eb53ac2ce277a1f336cdc582bc8c19&pack=0&num=1&xy=1&type=2&lb=\\r\\n&mr=2&";
+    private static String getProxyUrl = "http://api.wandoudl.com/api/ip?app_key=83eb53ac2ce277a1f336cdc582bc8c19&pack=0&num=1&xy=1&type=2&lb=&mr=2&";
     private List<LoginParam> loginParamList = null;
+    private static Logger logger = LoggerFactory.getLogger(WanDouProxyPlugin.class);
+    private static WebClient client = WebClient.buildDefaultClient().build();
 
     @Override
     public String getProxyPluginName() {
@@ -43,7 +53,23 @@ public class WanDouProxyPlugin extends TrialProxyPlugin {
 
     @Override
     public ProxyObj process(LoginParam param) {
-        return null;
+        ProxyObj obj = null;
+        WebRequest request = new WebRequest(getProxyUrl);
+        try {
+            WebResponse response = client.execute(request);
+            logger.info("getproxy page:{}", response.getRespText());
+            if (StringUtils.isNotEmpty(response.getRespText())) {
+                String proxys = response.getRespText().trim();
+                String proxyHost = (String) JsonPathUtils.getValue(proxys, "$.data[0].ip");
+                Integer proxyPort = (Integer) JsonPathUtils.getValue(proxys, "$.data[0].port");
+                obj = new ProxyObj(proxyHost, proxyPort);
+            } else {
+                logger.error("{} request proxy fail, page:{}", getProxyPluginName(), response.getRespText());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     @Override

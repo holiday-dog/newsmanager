@@ -14,8 +14,4 @@ public class ProxyObj {
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
     }
-//    public ProxyStr(String proxyplugin) {
-//        this.proxyHost = proxyHost;
-//        this.proxyPort = proxyPort;
-//    }
 }

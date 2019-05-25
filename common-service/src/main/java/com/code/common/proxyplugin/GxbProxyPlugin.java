@@ -21,7 +21,7 @@ import java.util.List;
 public class GxbProxyPlugin extends TrialProxyPlugin {
     private static String[] proxyLocations = {"qq.com", "189.cn"};
     private static String proxyTemplateUrl = "http://172.19.19.16:8080/wiseproxy/service/getProxy?site=%s&partition=adsl&mode=";
-    private List<LoginParam> loginParamList = null;
+    private static List<LoginParam> loginParamList = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(GxbProxyPlugin.class);
 
     @Override
@@ -32,10 +32,6 @@ public class GxbProxyPlugin extends TrialProxyPlugin {
     @Override
     public List<LoginParam> loginParamList() {
         return loginParamList;
-    }
-
-    public GxbProxyPlugin() {
-        loginParamList = new ArrayList<>();
     }
 
     @Override
@@ -55,7 +51,7 @@ public class GxbProxyPlugin extends TrialProxyPlugin {
             page = page.trim();
             logger.info("{} acquire proxyplugin:{}", getProxyPluginName(), page);
             //{"proxyplugin":"124.152.185.57:4329","provCode":"620000","createTime":1557676394000,"cityCode":"621000","timestamp":1557677535015}
-            String proxy = JsonPathUtils.getValue(page, "$.proxy");
+            String proxy = (String) JsonPathUtils.getValue(page, "$.proxy");
             proxyStr = new ProxyObj(proxy.split(":")[0], Integer.parseInt(proxy.split(":")[1]));
         } else {
             logger.error("{} get proxyplugin error:{}", getProxyPluginName(), page);
@@ -66,11 +62,6 @@ public class GxbProxyPlugin extends TrialProxyPlugin {
     @Override
     public CheckCookieBean checkCookieBean() {
         return null;
-    }
-
-    @Override
-    public void login(LoginParam param) {
-        return;
     }
 
     private String getRandomProxyLocation() {
