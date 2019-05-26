@@ -21,10 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HengXingProxyPlugin extends TrialProxyPlugin {
     private static final String indexUrl = "http://h.zbzok.com/";
     private static String getProxyUrl = "http://120.79.197.226:8080/Index-generate_api_url.html?packid=1&fa=0&qty=1&port=1&format=txt&ss=1&css=&pro=&city=";
-    private static String checkCookieUrl = "http://h.zbzok.com/Users-index.html";
+    //http://120.79.197.226:8080/Index-generate_api_url.html?packid=1&fa=0&qty=1&port=1&format=txt&ss=1&css=&pro=&city=
     private static String loginUrl = "http://h.zbzok.com/Users-login.html";
-
-    private static List<LoginParam> loginParamList = null;
+    private static List<LoginParam> loginParamList = new ArrayList<>();
     private static ConcurrentHashMap<String, String> cookies = new ConcurrentHashMap<>();
     private WebClient client = WebClient.buildDefaultClient().build();
     private static Logger logger = LoggerFactory.getLogger(HengXingProxyPlugin.class);
@@ -40,7 +39,6 @@ public class HengXingProxyPlugin extends TrialProxyPlugin {
     }
 
     static {
-        loginParamList = new ArrayList<>();
         LoginParam param1 = new LoginParam("holiday333", "m13354612723", "13354612723", "m13354612723@126.com");
         loginParamList.add(param1);
         LoginParam param2 = new LoginParam("zhangna", "zhangna123", "18342238909", "m13354612723@126.com");
@@ -55,7 +53,6 @@ public class HengXingProxyPlugin extends TrialProxyPlugin {
 
     public HengXingProxyPlugin() {
     }
-
 
     @Override
     public ProxyObj process(LoginParam param) {
@@ -78,8 +75,10 @@ public class HengXingProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
-    public CheckCookieBean checkCookieBean() {
-//        return new CheckCookieBean(checkCookieUrl, MatcherType.CONTAINS, "个人资料");
+    public CheckCookieBean checkCookieBean(LoginParam param) {
+        if (StringUtils.isEmpty(cookies.get(param.getUsername()))) {
+            return new CheckCookieBean(null, null, null);
+        }
         return null;
     }
 
@@ -94,17 +93,6 @@ public class HengXingProxyPlugin extends TrialProxyPlugin {
                 logger.info("{} login success", getProxyPluginName());
                 String cookie = client.getContextCookies();
                 cookies.put(param.getUsername(), cookie);
-
-                //获取每天的免费ip
-                //{"code":0,"msg":"","data":[{"IpValidTimeZoneType":1,"IpCanUseQtyPerDay":10,"TodayUseIpQty":0,"surplusCanUseQty":10,"tiquQty":10,"subject":"1-5\u5206\u949f","fa":0,"ZoneValidTime":"2019-05-23 00:21:29"}]}
-                WebRequest request1 = new WebRequest("http://h.zbzok.com/Index-getFree.html");
-                request1.setMethod(RequestMethod.POST_STRING);
-                client.execute(request1);
-                logger.info("获取每天的每天的免费ip成功");
-
-                request1 = new WebRequest("http://h.zbzok.com/Index-getips.html");
-                request1.setMethod(RequestMethod.POST_STRING);
-                client.execute(request1);
             } else {
                 logger.error("{} login fail!", getProxyPluginName());
             }
@@ -114,7 +102,24 @@ public class HengXingProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
+    public void getFreeIp(LoginParam param) {
+        try {
+            //获取每天的免费ip
+            //{"code":0,"msg":"","data":[{"IpValidTimeZoneType":1,"IpCanUseQtyPerDay":10,"TodayUseIpQty":0,"surplusCanUseQty":10,"tiquQty":10,"subject":"1-5\u5206\u949f","fa":0,"ZoneValidTime":"2019-05-23 00:21:29"}]}
+            WebRequest request1 = new WebRequest("http://h.zbzok.com/Index-getFree.html");
+            request1.setMethod(RequestMethod.POST_STRING);
+            client.execute(request1);
+            logger.info("获取每天的每天的免费ip成功");
+
+            request1 = new WebRequest("http://h.zbzok.com/Index-getips.html");
+            request1.setMethod(RequestMethod.POST_STRING);
+            client.execute(request1);
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
     public String getCookie(String loginName) {
-        return null;
+        return cookies.get(loginName);
     }
 }

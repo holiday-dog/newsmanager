@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //每天免费20个(cookie可以2小时不过期)
+@Deprecated//已下架
 public class TuZiProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "https://vip.tuziip.com/crawler";
     private static String getProxyUrl = "http://t.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=";
@@ -70,7 +71,7 @@ public class TuZiProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
-    public CheckCookieBean checkCookieBean() {
+    public CheckCookieBean checkCookieBean(LoginParam param) {
         return null;
     }
 

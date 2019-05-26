@@ -21,8 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BiTeProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://pc.bitdaili.com/index-getapi.html";
     private static String getProxyUrl = "http://47.105.97.33/Index-generate_api_url.html?packid=1&fa=0&qty=1&port=1&format=txt&ss=1&css=&pro=&city=";
-    private static String getProxyUra = "http://47.105.97.33/Index-generate_api_url.html?packid=1&fa=0&qty=1&port=1&format=txt&ss=1&css=&pro=&city=";
-    private static String checkCookieUrl = "http://pc.bitdaili.com/Users-index.html";
     private static String loginUrl = "http://pc.bitdaili.com/Users-login.html";
     private static List<LoginParam> loginParamList = new ArrayList<>();
     private WebClient client = WebClient.buildDefaultClient().build();
@@ -40,14 +38,14 @@ public class BiTeProxyPlugin extends TrialProxyPlugin {
     }
 
     static {
-//        LoginParam param1 = new LoginParam("holidaycat", "m13354612723", "13354612723");
-//        loginParamList.add(param1);
-//        LoginParam param2 = new LoginParam("caowen", "caowen123", "17783130253");
-//        loginParamList.add(param2);
+        LoginParam param1 = new LoginParam("holidaycat", "m13354612723", "13354612723");
+        loginParamList.add(param1);
+        LoginParam param2 = new LoginParam("caowen", "caowen123", "17783130253");
+        loginParamList.add(param2);
         LoginParam param3 = new LoginParam("xiaoqq", "hanxiao", "18342238909");
         loginParamList.add(param3);
-//        LoginParam param4 = new LoginParam("xiaofeixia", "wangxiaofei000", "18958078576");
-//        loginParamList.add(param4);
+        LoginParam param4 = new LoginParam("xiaofeixia", "wangxiaofei000", "18958078576");
+        loginParamList.add(param4);
     }
 
     public BiTeProxyPlugin() {
@@ -61,6 +59,10 @@ public class BiTeProxyPlugin extends TrialProxyPlugin {
         try {
             WebResponse response = client.execute(request);
             logger.info("getproxy page:{}", response.getRespText());
+//            if (!response.getRespText().contains("")) {
+//                logger.info("need get freeip");
+//                getFreeIp(param);
+//            }
             if (StringUtils.isNotEmpty(response.getRespText())) {
                 String[] proxys = response.getRespText().split(":");
                 obj = new ProxyObj(proxys[0], Integer.parseInt(proxys[1]));
@@ -74,8 +76,10 @@ public class BiTeProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
-    public CheckCookieBean checkCookieBean() {
-//        return new CheckCookieBean(checkCookieUrl, MatcherType.CONTAINS, "个人资料");
+    public CheckCookieBean checkCookieBean(LoginParam param) {
+        if (cookies.get(param.getUsername()) == null) {
+            return new CheckCookieBean(null, null, null);
+        }
         return null;
     }
 
@@ -99,7 +103,7 @@ public class BiTeProxyPlugin extends TrialProxyPlugin {
 
     @Override
     public boolean needFreeIp() {
-        return true;
+        return false;
     }
 
     @Override
@@ -109,7 +113,7 @@ public class BiTeProxyPlugin extends TrialProxyPlugin {
             //{"code":0,"msg":"","data":[{"IpValidTimeZoneType":1,"IpCanUseQtyPerDay":10,"TodayUseIpQty":0,"surplusCanUseQty":10,"tiquQty":10,"subject":"1-5\u5206\u949f","fa":0,"ZoneValidTime":"2019-05-23 00:21:29"}]}
             WebRequest request1 = new WebRequest("http://pc.bitdaili.com/Index-getFree.html");
             request1.setMethod(RequestMethod.POST_STRING);
-            request1.setRequestBodyString("");
+            request1.setCookie(getCookie(param.getUsername()));
             client.execute(request1);
             logger.info("获取每天的每天的免费ip成功");
 

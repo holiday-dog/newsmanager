@@ -32,7 +32,7 @@ public abstract class NonTrialProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
-    public CheckCookieBean checkCookieBean() {
+    public CheckCookieBean checkCookieBean(LoginParam param) {
         return null;
     }
 

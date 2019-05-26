@@ -42,7 +42,6 @@ public class XiLaProxyPlugin extends TrialProxyPlugin {
         loginParamList.add(param1);
     }
 
-
     @Override
     public ProxyObj process(LoginParam param) {
         ProxyObj obj = null;
@@ -53,6 +52,7 @@ public class XiLaProxyPlugin extends TrialProxyPlugin {
                 logger.info("getproxy page:{}", response.getRespText());
                 if (response.getRespText().contains("调用频率过快")) {
                     TimeUnit.SECONDS.sleep(1);
+                    logger.info("sleep 1s, retry request proxy");
                     continue;
                 }
                 if (StringUtils.isNotEmpty(response.getRespText())) {
@@ -79,12 +79,7 @@ public class XiLaProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
-    public CheckCookieBean checkCookieBean() {
+    public CheckCookieBean checkCookieBean(LoginParam param) {
         return null;
-    }
-
-    @Override
-    public void login(LoginParam param) {
-
     }
 }

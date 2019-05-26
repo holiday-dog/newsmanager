@@ -37,7 +37,7 @@ public class TaiYangProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
-    public CheckCookieBean checkCookieBean() {
+    public CheckCookieBean checkCookieBean(LoginParam param) {
         return null;
     }
 

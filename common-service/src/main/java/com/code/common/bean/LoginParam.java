@@ -21,6 +21,8 @@ public class LoginParam {
 
     private String others;
 
+    private String cookie;
+
     public LoginParam(String username, String password, String bindPhone) {
         this.username = username;
         this.password = password;

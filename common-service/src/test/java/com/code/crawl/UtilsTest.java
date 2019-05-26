@@ -31,11 +31,13 @@ public class UtilsTest {
     @Test
     public void test2() throws IOException {
         String s = "s,1;;w,4;;234;r,1";
+        s = "{\"code\":5,\"success\":\"false\",\"msg\":\"36.23.159.12登录IP不是白名单IP，请在用户中心添加该白名单\",\"data\":[]}";
 
-        System.out.println(PatternUtils.groupOne(s, "(\\d{1};;)", 1));
-        for (String ss : PatternUtils.groupAllIndex(s, "(\\d{1};;)", 1)) {
-            System.out.println(ss);
-        }
+        System.out.println(PatternUtils.groupOne(s, "(\\d+\\.\\d+\\.\\d+\\.\\d+)", 1));
+//        System.out.println(PatternUtils.groupOne(s, "(\\d{1};;)", 1));
+//        for (String ss : PatternUtils.groupAllIndex(s, "(\\d{1};;)", 1)) {
+//            System.out.println(ss);
+//        }
     }
 
     @Test

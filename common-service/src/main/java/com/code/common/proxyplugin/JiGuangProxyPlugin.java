@@ -42,7 +42,7 @@ public class JiGuangProxyPlugin extends TrialProxyPlugin {
     }
 
     @Override
-    public CheckCookieBean checkCookieBean() {
+    public CheckCookieBean checkCookieBean(LoginParam param) {
         Long timestamp = new Date().getTime();
         String finalCheckCookieUrl = String.format(checkCookieUrl, timestamp, timestamp);
         return new CheckCookieBean(finalCheckCookieUrl, MatcherType.CONTAINS, "\\\\\\\"ret\\\\\\\":0");

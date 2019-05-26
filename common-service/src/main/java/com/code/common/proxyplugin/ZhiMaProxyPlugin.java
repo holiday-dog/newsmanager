@@ -6,7 +6,6 @@ import com.code.common.bean.ProxyObj;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
-import com.code.common.enums.MatcherType;
 import com.code.common.proxy.TrialProxyPlugin;
 import com.code.common.utils.PatternUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,9 +23,8 @@ public class ZhiMaProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://h.zhimaruanjian.com/";
     private static String loginUrl = "http://wapi.http.cnapi.cc/index/users/login_do?jsonpcallback=jQuery1124038366609614490454_%s&phone=%s&password=%s&remember=false&_=%s";
     private static String getProxyUrl = "http://webapi.http.zhimacangku.com/getip?num=1&type=1&pro=&city=0&yys=0&port=1&pack=%s&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=";
-    private static String checkCookieUrl = "http://wapi.http.cnapi.cc/index/users/user_info?jsonpcallback=jQuery11240725991062937152_%s&_=%s";
     private static List<LoginParam> loginParamList = new ArrayList<>();
-    private Logger logger = LoggerFactory.getLogger(ZhiMaProxyPlugin.class);
+    private static Logger logger = LoggerFactory.getLogger(ZhiMaProxyPlugin.class);
     private WebClient client = WebClient.buildDefaultClient().build();
     private static ConcurrentHashMap<String, String> cookies = new ConcurrentHashMap();
     //是否需要点击套餐
@@ -69,6 +67,23 @@ public class ZhiMaProxyPlugin extends TrialProxyPlugin {
         ProxyObj proxyStr = null;
         try {
             WebRequest request = new WebRequest(String.format(getProxyUrl, param.getProxyUserId()));
+            request.setCookie(getCookie(param.getUsername()));
+            response = client.execute(request);
+
+            if (response.getRespText().contains("白名单")) {
+                String proxy = PatternUtils.groupOne(response.getRespText(), "(\\d+\\.\\d+\\.\\d+\\.\\d+)", 1);
+                //添加ip白名单
+                Long ts = new Date().getTime();
+                request = new WebRequest("http://wapi.http.cnapi.cc/index/users/save_wirteip?jsonpcallback=jQuery1124004909076297724502_" + ts + "&ip=" + proxy + "&_=" + ts);
+                client.execute(request);
+
+                getFreeIp(param);
+            }
+            if (response.getRespText().contains("套餐已过期")) {
+                //{"code":115,"success":false,"msg":"您的该套餐已过期!","data":[]}
+                getFreeIp(param);
+            }
+            request = new WebRequest(String.format(getProxyUrl, param.getProxyUserId()));
             response = client.execute(request);
         } catch (IOException e) {
             logger.error("webclient error:{}", e);
@@ -82,11 +97,6 @@ public class ZhiMaProxyPlugin extends TrialProxyPlugin {
             logger.error("{} get proxyplugin error:{}", getProxyPluginName(), page);
         }
         return proxyStr;
-    }
-
-    @Override
-    public boolean needFreeIp() {
-        return true;
     }
 
     @Override
@@ -105,14 +115,14 @@ public class ZhiMaProxyPlugin extends TrialProxyPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
-    public CheckCookieBean checkCookieBean() {
-        Long timestamp = new Date().getTime();
-        String finalCheckCookieUrl = String.format(checkCookieUrl, timestamp, timestamp);
-        return new CheckCookieBean(finalCheckCookieUrl, MatcherType.CONTAINS, "\\\\\\\"ret\\\\\\\":0");
+    public CheckCookieBean checkCookieBean(LoginParam param) {
+        if (StringUtils.isEmpty(cookies.get(param.getUsername()))) {
+            return new CheckCookieBean(null, null, null);
+        }
+        return null;
     }
 
     @Override

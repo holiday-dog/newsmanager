@@ -22,8 +22,9 @@ import java.util.List;
 public abstract class TrialProxyPlugin {
     private Logger logger = LoggerFactory.getLogger(TrialProxyPlugin.class);
     private final static String checkProxyUrl = "https://www.taobao.com/";
-    private final static Integer proxyRetryCount = 3;
+    private final static Integer proxyRetryCount = 1;
     private final static Integer loginRetryCount = 2;
+    public static final String NEED_LOGIN = "need_login";
 
     public abstract String getProxyPluginName();
 
@@ -40,7 +41,7 @@ public abstract class TrialProxyPlugin {
         return;
     }
 
-    public CheckCookieBean checkCookieBean() {
+    public CheckCookieBean checkCookieBean(LoginParam param) {
         return null;
     }
 
@@ -118,9 +119,13 @@ public abstract class TrialProxyPlugin {
     }
 
     public boolean checkCookie(LoginParam param) {
-        CheckCookieBean checkCookieBean = checkCookieBean();
+        CheckCookieBean checkCookieBean = checkCookieBean(param);
         if (checkCookieBean == null) {
             return true;
+        }
+        if (checkCookieBean.getCheckCookieUrl() == null || checkCookieBean.getMatcherStr() == null || checkCookieBean.getMatcheType() == null) {
+            //不需要检查cookie，直接进行登录
+            return false;
         }
         WebResponse response = null;
         try {
@@ -131,7 +136,7 @@ public abstract class TrialProxyPlugin {
             WebRequest request = new WebRequest(checkCookieBean.getCheckCookieUrl());
             request.setCookie(cookie);
             response = WebClient.buildDefaultClient().build().execute(request);
-            logger.info("cookie check page:{}", response.getRespText());
+//            logger.info("cookie check page:{}", response.getRespText());
         } catch (IOException e) {
             logger.error("webclient error:{}", e);
         }

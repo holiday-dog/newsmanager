@@ -4,10 +4,7 @@ import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.proxy.TrialProxyPlugin;
-import com.code.common.proxyplugin.BiTeProxyPlugin;
-import com.code.common.proxyplugin.HeiDongProxyPlugin;
-import com.code.common.proxyplugin.HengXingProxyPlugin;
-import com.code.common.proxyplugin.ZhiMaProxyPlugin;
+import com.code.common.proxyplugin.*;
 import com.code.common.utils.NetUtils;
 import com.code.common.utils.UnicodeUtils;
 import org.apache.http.client.config.RequestConfig;
@@ -19,18 +16,21 @@ public class ProxyTest {
     @Test
     public void test1() throws IOException, ClassNotFoundException {
         TrialProxyPlugin proxyPlugin = null;
-//        proxyPlugin = new BiTeProxyPlugin();
-//        proxyPlugin = new JiGuangProxyPlugin();
+//        proxyPlugin = new XiLaProxyPlugin();
 //        proxyPlugin = new ZhiMaProxyPlugin();
+//        proxyPlugin = new WanDouProxyPlugin();
 //        proxyPlugin = new GxbProxyPlugin();
+
+//        proxyPlugin = new YiZhouProxyPlugin();
+//        proxyPlugin = new HeiDongProxyPlugin();
+
+//        proxyPlugin = new BiTeProxyPlugin();
 //        proxyPlugin = new HengXingProxyPlugin();
 //        proxyPlugin = new JingLingTrialProxyPlugin();
-        proxyPlugin = new HeiDongProxyPlugin();
-//        proxyPlugin = new WanDouProxyPlugin();
+
+//
 //        proxyPlugin = new YunLianProxyPlugin();
-//        proxyPlugin = new XiLaProxyPlugin();
-//        proxyPlugin = new YiZhouProxyPlugin();
-//        proxyPlugin = new ZhiYouProxyPlugin();
+        proxyPlugin = new ZhiYouProxyPlugin();
 
         System.out.println(proxyPlugin.getProxy());
     }
