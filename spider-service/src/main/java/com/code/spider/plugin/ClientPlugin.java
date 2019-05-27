@@ -1,6 +1,7 @@
 package com.code.spider.plugin;
 
 import com.code.common.enums.ProcessStatus;
+import com.code.common.exception.CodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,17 +10,9 @@ import java.util.Map;
 
 public abstract class ClientPlugin {
     private Logger logger = LoggerFactory.getLogger(ClientPlugin.class);
-    private Integer executorCount = 2;
+    private Integer executorCount = 1;
 
-    private Boolean retry;
-
-    String clientName;
-
-    abstract void setName();
-
-    public String getName() {
-        return clientName;
-    }
+    public abstract String getClientPluginName();
 
     public Integer getExecutorCount() {
         return executorCount;
@@ -30,21 +23,22 @@ public abstract class ClientPlugin {
     }
 
     public Boolean getRetry() {
-        return retry;
+        return false;
     }
 
-    public void setRetry(Boolean retry) {
-        this.retry = retry;
-    }
+    abstract Map<String, Object> preProcess(Map<String, Object> resultMap);
 
-    abstract Map<String, Object> preProcess(Map<String, Object> params);
+    abstract Map<String, Object> process(Map<String, Object> resultMap) throws Exception;
 
-    abstract Map<String, Object> process(Map<String, Object> params);
+    abstract Map<String, Object> handleData(Map<String, Object> resultMap);
 
-    public ProcessStatus spiderProcess(Map<String, Object> args) {
+    public ProcessStatus spiderProcess(Map<String, Object> params) {
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.putAll(args);
-        logger.info("{} start spider..", getName());
+        Map<String, Object> spiderData = null;
+        if (params != null) {
+            resultMap.putAll(params);
+        }
+        logger.info("{} start spider..", getClientPluginName());
 
         try {
             logger.info("execute preProcess method");
@@ -53,16 +47,17 @@ public abstract class ClientPlugin {
             for (int i = 0; i < executorCount; i++) {
                 try {
                     logger.info("retry {} times execute process method", i);
-                    resultMap = process(resultMap);
-                    logger.info("retry {} times execute success", i);
+                    spiderData = process(resultMap);
                     break;
                 } catch (Exception e) {
-                    if (e instanceof SpiderException) {
+                    if (e instanceof CodeException) {
                         logger.error("happen spiderException, spider end..");
                         return ProcessStatus.SPIDER_FAIL;
                     }
                 }
             }
+            logger.info("execute handleData method");
+            resultMap = handleData(spiderData);
 
             logger.info("execute sendToMQ");
             sendToMQ(resultMap);
@@ -70,7 +65,7 @@ public abstract class ClientPlugin {
             logger.error("happen exception, msg:{}", e);
         }
 
-        logger.info("{} plugin spider success..", getName());
+        logger.info("{} plugin spider success..", getClientPluginName());
         return ProcessStatus.SPIDER_SUCCESS;
     }
 

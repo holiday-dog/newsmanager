@@ -1,4 +1,4 @@
-package com.code.spider.plugin;
+package com.code.spider.bean;
 
 import lombok.Data;
 
