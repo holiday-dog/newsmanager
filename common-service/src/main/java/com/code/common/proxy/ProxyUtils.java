@@ -2,6 +2,8 @@ package com.code.common.proxy;
 
 import com.code.common.annos.ProxyOrder;
 import com.code.common.bean.ProxyObj;
+import com.code.common.bean.ProxyWrap;
+import com.code.common.exception.CodeException;
 import com.code.common.proxyplugin.JiGuangProxyPlugin;
 import com.code.common.proxyplugin.MoGuProxyPlugin;
 import org.apache.commons.lang3.StringUtils;
@@ -15,12 +17,14 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ProxyUtils {
     private final static String packageName = "com/code/common/proxyplugin/";
     private final static String recommendUrl = "http://dl.l4110.com/";//推荐ip代理的网站
-    private static List<Class> avaliableProxy = null;
-    private static List<Class> poorProxy = null;
+    private static Set<ProxyWrap> proxyWraps;
+    private static List<ProxyWrap> invalidWraps = new ArrayList<>();
     private static Class[] endProxy = {MoGuProxyPlugin.class, JiGuangProxyPlugin.class};
     private static Logger logger = LoggerFactory.getLogger(ProxyUtils.class);
 
@@ -29,13 +33,30 @@ public class ProxyUtils {
         ProxyObj proxy = null;
 
         try {
-            if (CollectionUtils.isEmpty(avaliableProxy) && CollectionUtils.isEmpty(poorProxy)) {
-                logger.info("首次获取代理，需要初始化代理插件list");
+            if (CollectionUtils.isEmpty(proxyWraps)) {
+                logger.info("首次获取代理，需要初始化代理插件集合");
                 scanPlugin();
             }
-//        (proxyplugin == null) {
-//            obtainProxys();
-//        }
+            if (CollectionUtils.isEmpty(proxyWraps)) {
+                throw new CodeException("初始化代理插件集合失败");
+            }
+
+            for (ProxyWrap wrap : proxyWraps) {
+                if (wrap.getInValid())
+                    continue;
+                int n = 0;
+                while (proxy == null && n < 3) {
+                    n++;
+                    proxy = wrap.getPlugin().getProxy();
+                }
+                if (proxy != null) {
+                    logger.info("{} acquire proxy success, proxy:{}", wrap, proxy);
+                    break;
+                } else if (n == 3 && proxy == null) {
+                    logger.info("{} invalid", wrap);
+                    wrap.setInValid(true);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,9 +80,8 @@ public class ProxyUtils {
         return obj;
     }
 
-    private static void scanPlugin() throws IOException, ClassNotFoundException {
-        avaliableProxy = new ArrayList<>();
-        poorProxy = new ArrayList<>();
+    private static void scanPlugin() throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+        proxyWraps = new TreeSet<>();
 
         URLClassLoader classLoader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
         URL packUrl = classLoader.getResource(packageName);
@@ -73,22 +93,19 @@ public class ProxyUtils {
             Class cls = classLoader.loadClass(className);
 
             //获取可用插件
-            if (cls.getAnnotation(Deprecated.class) == null) {
-                if (cls.getAnnotation(ProxyOrder.class) == null) {
-                    avaliableProxy.add(cls);
-                } else {
-                    poorProxy.add(cls);
-                }
+            if (cls.isAnnotationPresent(ProxyOrder.class) && !cls.isAnnotationPresent(Deprecated.class)) {
+                ProxyOrder proxyOrder = (ProxyOrder) cls.getAnnotation(ProxyOrder.class);
+                ProxyWrap wrap = new ProxyWrap((TrialProxyPlugin) cls.newInstance(), proxyOrder.order());
+                proxyWraps.add(wrap);
             }
         }
     }
 
 
     //测试
-    public static List<Class> getProxyPlugin() throws IOException, ClassNotFoundException {
+    public static Set<ProxyWrap> getProxyPlugin() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         scanPlugin();
-//        return avaliableProxy;
-        return poorProxy;
+        return proxyWraps;
     }
 
 }

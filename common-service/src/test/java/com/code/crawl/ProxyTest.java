@@ -1,19 +1,19 @@
 package com.code.crawl;
 
+import com.code.common.bean.ProxyWrap;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.proxy.ProxyUtils;
 import com.code.common.proxy.TrialProxyPlugin;
-import com.code.common.proxyplugin.JingLingTrialProxyPlugin;
-import com.code.common.proxyplugin.YunLianProxyPlugin;
+import com.code.common.proxyplugin.YiZhouProxyPlugin;
 import com.code.common.utils.NetUtils;
 import com.code.common.utils.UnicodeUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 public class ProxyTest {
     @Test
@@ -29,11 +29,11 @@ public class ProxyTest {
 //        proxyPlugin = new BiTeProxyPlugin();
 //        proxyPlugin = new HengXingProxyPlugin();
 
-//        proxyPlugin = new YiZhouProxyPlugin();
+        proxyPlugin = new YiZhouProxyPlugin();
 
 
 //        proxyPlugin = new JingLingTrialProxyPlugin();
-        proxyPlugin = new YunLianProxyPlugin();
+//        proxyPlugin = new YunLianProxyPlugin();
 
 
         System.out.println(proxyPlugin.getProxy());
@@ -116,13 +116,14 @@ public class ProxyTest {
     @Test
     public void testwe() {
         try {
-            List<Class> plugins = ProxyUtils.getProxyPlugin();
-            for (Class cls : plugins) {
-                System.out.println(cls.getName());
-            }
-//            Class c = YiZhouProxyPlugin.class;
-//            for (Annotation a : c.getAnnotations()) {
-//                System.out.println(a.getClass().getName());
+            System.out.println(ProxyUtils.getProxy());
+//            Set<ProxyWrap> wraps = ProxyUtils.getProxyPlugin();
+//            for (ProxyWrap wrap : wraps) {
+//                System.out.println(wrap);
+//            }
+//            List<ProxyWrap> wrapList = ProxyUtils.getProxyPluginList();
+//            for (ProxyWrap wrap : wrapList) {
+//                System.out.println(wrap.getPlugin().getProxyPluginName());
 //            }
         } catch (Exception e) {
         }

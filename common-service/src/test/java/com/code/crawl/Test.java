@@ -3,9 +3,6 @@ package com.code.crawl;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
-import com.code.common.proxy.ProxyUtils;
-import com.code.common.proxyplugin.JiGuangProxyPlugin;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -166,7 +163,7 @@ public class Test {
         cm.setMaxPerRoute(new HttpRoute(localhost), 50);
 
         CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(cm).build();
-        System.out.println(httpClient.getConnectionManager().getClass());
+//        System.out.println(httpClient.getConnectionManager().getClass());
     }
 
     //@org.junit.Test
@@ -178,10 +175,4 @@ public class Test {
         }
     }
 
-    @org.junit.Test
-    public void tet1() throws IOException, ClassNotFoundException {
-       for(Class cls: ProxyUtils.getProxyPlugin()){
-           System.out.println(cls.getName());
-       }
-    }
 }
