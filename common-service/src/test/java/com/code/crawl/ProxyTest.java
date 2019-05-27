@@ -3,14 +3,17 @@ package com.code.crawl;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
+import com.code.common.proxy.ProxyUtils;
 import com.code.common.proxy.TrialProxyPlugin;
-import com.code.common.proxyplugin.*;
+import com.code.common.proxyplugin.JingLingTrialProxyPlugin;
+import com.code.common.proxyplugin.YunLianProxyPlugin;
 import com.code.common.utils.NetUtils;
 import com.code.common.utils.UnicodeUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ProxyTest {
     @Test
@@ -21,16 +24,17 @@ public class ProxyTest {
 //        proxyPlugin = new WanDouProxyPlugin();
 //        proxyPlugin = new GxbProxyPlugin();
 
-//        proxyPlugin = new YiZhouProxyPlugin();
 //        proxyPlugin = new HeiDongProxyPlugin();
-
+//        proxyPlugin = new ZhiYouProxyPlugin();
 //        proxyPlugin = new BiTeProxyPlugin();
 //        proxyPlugin = new HengXingProxyPlugin();
-//        proxyPlugin = new JingLingTrialProxyPlugin();
 
-//
-//        proxyPlugin = new YunLianProxyPlugin();
-        proxyPlugin = new ZhiYouProxyPlugin();
+//        proxyPlugin = new YiZhouProxyPlugin();
+
+
+//        proxyPlugin = new JingLingTrialProxyPlugin();
+        proxyPlugin = new YunLianProxyPlugin();
+
 
         System.out.println(proxyPlugin.getProxy());
     }
@@ -106,13 +110,21 @@ public class ProxyTest {
         System.out.println(UnicodeUtils.unicodeToString(UnicodeUtils.stringToUnicode("您已经获取了赠送，24小时后才能再次获得赠送")));
         System.out.println(UnicodeUtils.unicodeToString("\\u60a8\\u5df2\\u7ecf\\u83b7\\u53d6\\u4e86\\u8d60\\u9001\\uff0c24\\u5c0f\\u65f6\\u540e\\u624d\\u80fd\\u518d\\u6b21\\u83b7\\u5f97\\u8d60\\u9001"));
         System.out.println(UnicodeUtils.unicodeToCn("\\u60a8\\u5df2\\u7ecf\\u83b7\\u53d6\\u4e86\\u8d60\\u9001\\uff0c24\\u5c0f\\u65f6\\u540e\\u624d\\u80fd\\u518d\\u6b21\\u83b7\\u5f97\\u8d60\\u9001"));
-//        List<Class> plugins = ProxyUtils.getProxyPlugin();
-//        for (Class cls : plugins) {
-//            System.out.println(cls.getName());
-//        }
-//        Class c = YiZhouProxyPlugin.class;
-//        for(Annotation a:c.getAnnotations()){
-//            System.out.println(a.getClass().getName());
-//        }
+//
+    }
+
+    @Test
+    public void testwe() {
+        try {
+            List<Class> plugins = ProxyUtils.getProxyPlugin();
+            for (Class cls : plugins) {
+                System.out.println(cls.getName());
+            }
+//            Class c = YiZhouProxyPlugin.class;
+//            for (Annotation a : c.getAnnotations()) {
+//                System.out.println(a.getClass().getName());
+//            }
+        } catch (Exception e) {
+        }
     }
 }

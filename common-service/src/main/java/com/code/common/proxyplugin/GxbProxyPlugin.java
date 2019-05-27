@@ -1,5 +1,6 @@
 package com.code.common.proxyplugin;
 
+import com.code.common.annos.ProxyOrder;
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
 import com.code.common.bean.ProxyObj;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@ProxyOrder
 public class GxbProxyPlugin extends TrialProxyPlugin {
     private static String[] proxyLocations = {"qq.com", "189.cn"};
     private static String proxyTemplateUrl = "http://172.19.19.16:8080/wiseproxy/service/getProxy?site=%s&partition=adsl&mode=";

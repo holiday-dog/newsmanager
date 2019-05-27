@@ -1,6 +1,6 @@
 package com.code.common.proxyplugin;
 
-import com.code.common.annos.PoorProxy;
+import com.code.common.annos.ProxyOrder;
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
 import com.code.common.bean.ProxyObj;
@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 //每天免费500个，但是可用率太低,获取ip重试5次
-@PoorProxy
+@ProxyOrder(order = 100)
 public class XiLaProxyPlugin extends TrialProxyPlugin {
     private final String indexUrl = "http://www.xiladaili.com/login/?next=/interface/";
-    private static String getProxyUrl = "http://www.xiladaili.com/api/?uuid=472adb9ba1464f778350d58387f0c843&num=1&place=中国&protocol=0&sortby=0&repeat=1&format=3&position=1";
+    private static String getProxyUrl = "http://www.xiladaili.com/api/?uuid=472adb9ba1464f778350d58387f0c843&num=2&place=中国&protocol=0&sortby=0&repeat=1&format=3&position=1";
     private List<LoginParam> loginParamList = null;
     private static WebClient client = WebClient.buildDefaultClient().build();
     private static Logger logger = LoggerFactory.getLogger(XiLaProxyPlugin.class);
@@ -56,9 +56,14 @@ public class XiLaProxyPlugin extends TrialProxyPlugin {
                     continue;
                 }
                 if (StringUtils.isNotEmpty(response.getRespText())) {
-                    String proxys = response.getRespText().trim();
-                    obj = new ProxyObj(proxys.split(":")[0], Integer.parseInt(proxys.split(":")[1]));
-                    break;
+                    String[] proxys = response.getRespText().split(" ");
+                    for (int n = 0; n < 2; n++) {
+                        String proxy = proxys[n].trim();
+                        obj = new ProxyObj(proxy.split(":")[0], Integer.parseInt(proxy.split(":")[1]));
+                        if (validateProxy(obj)) {
+                            return obj;
+                        }
+                    }
                 } else {
                     logger.error("{} request proxy fail, page:{}", getProxyPluginName(), response.getRespText());
                 }
@@ -73,10 +78,10 @@ public class XiLaProxyPlugin extends TrialProxyPlugin {
         return 5;
     }
 
-    @Override
-    public boolean needValidateProxy() {
-        return true;
-    }
+//    @Override
+//    public boolean needValidateProxy() {
+//        return true;
+//    }
 
     @Override
     public CheckCookieBean checkCookieBean(LoginParam param) {

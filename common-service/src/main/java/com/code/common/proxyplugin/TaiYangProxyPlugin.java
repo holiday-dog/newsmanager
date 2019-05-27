@@ -10,7 +10,7 @@ import java.util.List;
 
 @Deprecated
 public class TaiYangProxyPlugin extends TrialProxyPlugin {
-    private static String indexUrl = "http://ip.taiyangruanjian.com/";
+    private static String indexUrl = "http://http.taiyangruanjian.com/";
     private static String getProxyUrl = "http://t.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=";
     private List<LoginParam> loginParamList = null;
 

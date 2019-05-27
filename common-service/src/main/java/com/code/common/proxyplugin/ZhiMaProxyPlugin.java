@@ -1,5 +1,6 @@
 package com.code.common.proxyplugin;
 
+import com.code.common.annos.ProxyOrder;
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
 import com.code.common.bean.ProxyObj;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 //每天免费20个
+@ProxyOrder(order = 20)
 public class ZhiMaProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://h.zhimaruanjian.com/";
     private static String loginUrl = "http://wapi.http.cnapi.cc/index/users/login_do?jsonpcallback=jQuery1124038366609614490454_%s&phone=%s&password=%s&remember=false&_=%s";

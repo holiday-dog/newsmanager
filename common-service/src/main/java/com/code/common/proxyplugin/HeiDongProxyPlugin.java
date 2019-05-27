@@ -1,5 +1,6 @@
 package com.code.common.proxyplugin;
 
+import com.code.common.annos.ProxyOrder;
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
 import com.code.common.bean.ProxyObj;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //每天免费10(有图片验证码，无法进行登录，只能存cookie)
+@ProxyOrder(order = 80)
 public class HeiDongProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://http.hunbovps.com/getapi.html";
     private static String getProxyUrl = "http://ip.ipjldl.com/index.php/api/entry?method=proxyServer.hdtiqu_api_url&packid=1&fa=0&dt=0&fetch_key=&qty=1&time=100&port=1&format=txt&ss=1&css=&pro=&city=";

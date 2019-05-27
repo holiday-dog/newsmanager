@@ -1,5 +1,6 @@
 package com.code.common.proxyplugin;
 
+import com.code.common.annos.ProxyOrder;
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
 import com.code.common.bean.ProxyObj;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //每天免费20个
+@ProxyOrder(order = 20)
 public class WanDouProxyPlugin extends TrialProxyPlugin {
     private static final String indexUrl = "https://www.wandouip.com/";
     private static String getProxyUrl = "http://api.wandoudl.com/api/ip?app_key=%s&pack=0&num=1&xy=1&type=2&lb=&mr=2&";

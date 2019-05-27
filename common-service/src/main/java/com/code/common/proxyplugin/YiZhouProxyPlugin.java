@@ -1,5 +1,6 @@
 package com.code.common.proxyplugin;
 
+import com.code.common.annos.ProxyOrder;
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
 import com.code.common.bean.ProxyObj;
@@ -8,22 +9,27 @@ import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.proxy.TrialProxyPlugin;
+import com.code.common.utils.JsonPathUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 //每天免费20个,注册当天免费200个(有图片验证码，无法登陆)
+@ProxyOrder(order = 80)
 public class YiZhouProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "https://www.ueuz.com/getip";
-    private static String getProxyUrl = "https://too.ueuz.com/frontapi/public/http/get_ip/index?type=%s&iptimelong=1&ipcount=1&protocol=0&areatype=1&area=&resulttype=txt&duplicate=1&separator=1&other=&show_city=0&show_carrier=0&show_expire=0&isp=-1&%s";
+    private static String getProxyUrl = null;
     private static List<LoginParam> loginParamList = new ArrayList<>();
-    private Logger logger = LoggerFactory.getLogger(YiZhouProxyPlugin.class);
+    private static Logger logger = LoggerFactory.getLogger(YiZhouProxyPlugin.class);
     private static WebClient client = WebClient.buildDefaultClient().build();
+    private static ConcurrentHashMap<String, String> cookies = new ConcurrentHashMap<>();
 
+    //https://too.ueuz.com/frontapi/public/http/get_ip/index?type=3174&iptimelong=1&ipcount=1&protocol=0&areatype=1&area=&resulttype=txt&duplicate=0&separator=1&other=&show_city=0&show_carrier=0&show_expire=0&isp=-1&auth_key=ea5adc375a93d1cdc8c83259d66f579b&app_key=3e13c9f643413f76802ff29d43b7ee22&timestamp=1558876899&sign=F1C49FF0E2006E64E69F4E384FB4CFDE
     @Override
     public String getProxyPluginName() {
         return "YiZhouProxyPlugin";
@@ -35,22 +41,14 @@ public class YiZhouProxyPlugin extends TrialProxyPlugin {
     }
 
     static {
-        LoginParam param1 = new LoginParam("holiday321", "m13354612723", "13354612723");
-        param1.setProxyUserId("3159");
-        param1.setProxyUrl("timestamp=1558843028&sign=CE46E6577E0AB68DB6EF259A95C6E97B");
-        param1.setOthers("auth_key=05597c0df9014def85a269051fa23bfe&app_key=fac8d3f024a3d6ff113c5ee9334c2dca&timestamp=1558783870&sign=64A15C90CC59AB27277AF547C96796B8");
-        loginParamList.add(param1);
-
-        LoginParam param2 = new LoginParam("dawang", "dawang123", "18958078576");
-        param2.setProxyUserId("3160");
-        param2.setProxyUrl("timestamp=1558784290&sign=B4151E36B54D3D6189AAD318E91D32FB");
-        param2.setOthers("auth_key=c210e08361581ec1492ff087baf7e5ef&app_key=3e13c9f643413f76802ff29d43b7ee22&timestamp=1558784290&sign=53159BB336615FDEA36BD2F180A0EDF1");
-        loginParamList.add(param2);
-
+//        LoginParam param1 = new LoginParam("holiday321", "m13354612723", "13354612723");
+//        param1.setProxyUserId("2d9a161c14d64849309ef1fd070933c9");
+//        loginParamList.add(param1);
+//        LoginParam param2 = new LoginParam("dawang", "dawang123", "18958078576");
+//        param2.setProxyUserId("8727aa46c38e9b05d485d293292a4194");//登录标记Authorization
+//        loginParamList.add(param2);
         LoginParam param3 = new LoginParam("zhulihui", "zlh2937", "15754335612");
-        param3.setProxyUserId("3169");
-        param3.setProxyUrl("timestamp=1558843269&sign=741E896DF242DF9D34546922444BB80E");
-        param3.setOthers("auth_key=bcf3d856b2a991d477cdad20fa62277b&app_key=4000e58a6b8e728e1162a735e61ba2d7&timestamp=1558843394&sign=777A50F7834363A980BA07E210A682AB");
+        param3.setProxyUserId("6d0fdaf927c4f4736cefd084e577226b");
         loginParamList.add(param3);
     }
 
@@ -61,9 +59,16 @@ public class YiZhouProxyPlugin extends TrialProxyPlugin {
     public ProxyObj process(LoginParam param) {
         ProxyObj obj = null;
         try {
-            String proxyUrl = String.format(getProxyUrl, param.getProxyUserId(), param.getOthers());
-            WebRequest request = new WebRequest(proxyUrl);
+            if (StringUtils.isEmpty(cookies.get(param.getUsername()))) {
+                getFreeIp(param);
+            }
+            WebRequest request = new WebRequest(cookies.get(param.getUsername()));
             WebResponse response = client.execute(request);
+            if (response.getRespText().contains("用户未登录")) {
+                getFreeIp(param);
+                request = new WebRequest(cookies.get(param.getUsername()));
+                response = client.execute(request);
+            }
             logger.info("getproxy page:{}", response.getRespText());
             if (StringUtils.isNotEmpty(response.getRespText())) {
                 String proxys = response.getRespText().trim();
@@ -71,7 +76,7 @@ public class YiZhouProxyPlugin extends TrialProxyPlugin {
             } else {
                 logger.error("{} request proxy fail, page:{}", getProxyPluginName(), response.getRespText());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return obj;
@@ -85,16 +90,28 @@ public class YiZhouProxyPlugin extends TrialProxyPlugin {
     @Override
     public void getFreeIp(LoginParam param) {
         try {
+            Long ts = new Date().getTime();
             //获取每天的免费ip
-            //{"code":0,"msg":"","data":[{"IpValidTimeZoneType":1,"IpCanUseQtyPerDay":10,"TodayUseIpQty":0,"surplusCanUseQty":10,"tiquQty":10,"subject":"1-5\u5206\u949f","fa":0,"ZoneValidTime":"2019-05-23 00:21:29"}]}
-            WebRequest request1 = new WebRequest("https://too.ueuz.com/frontapi/public/http/get_ip/createurl");
+            WebRequest request1 = new WebRequest("https://too.ueuz.com/frontapi/public/http/get_ip/freeIp?timestamp=" + ts + "&sign=E35BC0CBA82BFD9351B7D432B2BBA7D8");
             request1.setMethod(RequestMethod.POST_STRING);
-            client.execute(request1);
-            logger.info("获取每天的每天的免费ip成功");
+            request1.addRequestHeader("Authorization", param.getProxyUserId());
+            request1.setCookie(param.getCookie());
+            WebResponse response = client.execute(request1);
+            logger.info("获取每天的每天的免费ip成功, page:{}", response.getRespText());
+//
+            request1 = new WebRequest("https://too.ueuz.com/frontapi/public/http/get_ip/info?timestamp=" + ts + "&sign=FD5093FE0579C15C82B8E1C9CF415122");
+            request1.addRequestHeader("Authorization", param.getProxyUserId());
+            response = client.execute(request1);
+            Object type = JsonPathUtils.getValue(response.getRespText(), "$.data.packagelist[0].id");
 
-            request1 = new WebRequest("https://too.ueuz.com/frontapi/public/http/get_ip/freeIp?" + param.getProxyUserId());
+            request1 = new WebRequest("https://too.ueuz.com/frontapi/public/http/get_ip/createurl");
             request1.setMethod(RequestMethod.POST_STRING);
-            client.execute(request1);
+            request1.addRequestHeader("Authorization", param.getProxyUserId());
+            request1.setRequestBodyString("type=" + type + "&ipcount=1&iptimelong=1&protocol=0&areatype=1&area=&resulttype=txt&separator=1&other=&duplicate=0&show_city=0&show_carrier=0&show_expire=0&isp=-1&timestamp=" + ts + "&sign=EC6FF6E189E3B755F7B28A4EC491045D");
+            response = client.execute(request1);
+            logger.info("获取proxyUrl页面:{}", response.getRespText());
+            getProxyUrl = (String) JsonPathUtils.getValue(response.getRespText(), "$.data.url");
+            cookies.put(param.getUsername(), getProxyUrl);
         } catch (Exception e) {
             logger.error("{} error, msg:{}", getProxyPluginName(), e);
         }

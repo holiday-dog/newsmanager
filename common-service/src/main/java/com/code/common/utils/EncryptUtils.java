@@ -31,4 +31,27 @@ public class EncryptUtils {
 
         return outStr;
     }
+
+    public static String getSha(String original) throws Exception {
+        MessageDigest sha = null;
+        StringBuffer hexValue = new StringBuffer();
+        try {
+            sha = MessageDigest.getInstance("SHA");
+            sha.update(original.getBytes("UTF-8"));
+            byte[] shaBytes = sha.digest();
+
+            for (int i = 0; i < shaBytes.length; i++) {
+                int val = ((int) shaBytes[i]) & 0xff;
+                if (val < 16) {
+                    hexValue.append("0");
+                }
+                hexValue.append(Integer.toHexString(val));
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+        return hexValue.toString();
+    }
+
 }

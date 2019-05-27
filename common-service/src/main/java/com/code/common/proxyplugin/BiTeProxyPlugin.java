@@ -1,5 +1,6 @@
 package com.code.common.proxyplugin;
 
+import com.code.common.annos.ProxyOrder;
 import com.code.common.bean.CheckCookieBean;
 import com.code.common.bean.LoginParam;
 import com.code.common.bean.ProxyObj;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 //每天免费10个
+@ProxyOrder(order = 80)
 public class BiTeProxyPlugin extends TrialProxyPlugin {
     private static String indexUrl = "http://pc.bitdaili.com/index-getapi.html";
     private static String getProxyUrl = "http://47.105.97.33/Index-generate_api_url.html?packid=1&fa=0&qty=1&port=1&format=txt&ss=1&css=&pro=&city=";

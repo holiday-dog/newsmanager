@@ -309,6 +309,9 @@ public class WebClient {
             if (StringUtils.isNotEmpty(headers.get("Content-Type"))) {
                 req.addHeader("Content-Type", headers.get("Content-Type"));
             }
+            for (String headerKey : headers.keySet()) {
+                req.addHeader(headerKey, headers.get(headerKey));
+            }
         }
         if (StringUtils.isNotEmpty(request.getCookie())) {
             req.addHeader("Cookie", request.getCookie());
