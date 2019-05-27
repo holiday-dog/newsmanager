@@ -1,6 +1,8 @@
 package com.code.common.enums;
 
 public enum ProcessStatus {
+    SPIDER_INIT, SPIDER_PROCESS, SPIDER_HANDLERDATA,
+
     SPIDER_FAIL, SPIDER_SUCCESS,
 
     HANDLE_FAIL, HANDLE_SUCCESS, STORE_FAIL, STORE_SUCCESS,
