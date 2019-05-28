@@ -4,13 +4,10 @@ import com.code.common.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
 import org.junit.Test;
-import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 public class Testt {
     @Test
@@ -26,18 +23,21 @@ public class Testt {
 //        List<String> lists= JsonPathUtils.getValueList(ss, "$.data.list[*].LinkUrl");
 //        System.out.println(JSON.toJSONString(lists));
 
+//        String title = JsoupUtils.getText(page, "span#title").trim();
         String title = JsoupUtils.getText(page, "div.h-title").trim();
         String keyword = JsoupUtils.getAttr(page, "meta[name='keywords']", "content").get(0);
         String description = JsoupUtils.getAttr(page, "meta[name='description']", "content").get(0);
         description = StringUtils.substringAfter(description, "---");
+//        String content = JsoupUtils.getElementsHtmlPage(page, "span#content p");
         String content = JsoupUtils.getElementsHtmlPage(page, "div#p-detail p");
-        String pubTime = JsoupUtils.getText(page, "div.h-info span.h-time");
-        String source = JsoupUtils.getText(page, "div.h-info em#source");
+//        String pubTime = JsoupUtils.getText(page, "span#pubtime");
+        String pubTime = JsoupUtils.getText(page, "span.h-time");
+        String source = JsoupUtils.getText(page, "em#source");
         String author = JsoupUtils.getText(page, "span:contains(责任编辑)");
-        List<String> images = JsoupUtils.getAttr(content, "img", "src");
-        if (!CollectionUtils.isEmpty(images)) {
-            content = JsoupUtils.replaceAttrAppendValue(content, "img", "src", "http://");
-        }
+//        List<String> images = JsoupUtils.getAttr(content, "img", "src");
+//        if (!CollectionUtils.isEmpty(images)) {
+//            content = JsoupUtils.replaceAttrAppendValue(content, "img", "src", "http://");
+//        }
         System.out.println(keyword);
         System.out.println(title);
         System.out.println(description);
@@ -94,10 +94,19 @@ public class Testt {
         InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page3.html");
         String page = IOUtils.getStringByInputStream(inputStream);
 
-        List<Map<String, String>> pages = JsonPathUtils.getObjList(page, "$.data.list[*]");
+        System.out.println(JsoupUtils.getAttr(page, "div#div_currpage a:contains(下一页)", "href"));
+//        System.out.println(JsoupUtils.getElementsHtmlPage(page, "div#hideData0 ul.dataList li h3 a"));
+//        for (String s : JsoupUtils.getAttr(page, "div#hideData0 ul.dataList li h3 a", "href")) {
+//            System.out.println(s);
+//        }
+    }
 
-       for(Map<String, String> map:pages){
-           System.out.println(map.get("Title"));
-       }
+    @Test
+    public void test7() {
+        String s = "BCore.prototype.options.gid=\"87205254007bf95200005f7b0330b2d35ced1e02\";";
+
+        System.out.println(RandomUtils.nextString().length());
+        System.out.println("5b1bd51383a2571b294eafa41c789a28".length());
+//        System.out.println(PatternUtils.groupOne(s, "gid=\"(\\w+)\"", 1));
     }
 }

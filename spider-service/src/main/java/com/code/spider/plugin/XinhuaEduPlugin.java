@@ -107,7 +107,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
                 description = StringUtils.substringAfter(description, "---");
                 String content = JsoupUtils.getElementsHtmlPage(page, "div#p-detail p");
                 String pubTime = JsoupUtils.getText(page, "div.h-info span.h-time");
-                String source = JsoupUtils.getText(page, "div.h-info em#source");
+                String source = JsoupUtils.getText(page, "em#source");
                 String author = JsoupUtils.getText(page, "span:contains(责任编辑)");
                 author = StringUtils.substringAfter(author, "责任编辑：").trim();
                 List<String> images = JsoupUtils.getAttr(content, "img", "src");
