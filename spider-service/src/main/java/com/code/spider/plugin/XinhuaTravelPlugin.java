@@ -24,11 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class XinhuaEduPlugin extends ClientPlugin {
+public class XinhuaTravelPlugin extends ClientPlugin {
     private static String indexUrl = "http://education.news.cn/";
     private static final String eduListUrl = "http://qc.wa.news.cn/nodeart/list?nid=11109063&pgnum=%s&cnt=%s&tp=1&orderby=1?callback=jQuery112409162368214565164_%s&_=%s";
     private static WebClient client = WebClient.buildDefaultClient().build();
-    private Logger logger = LoggerFactory.getLogger(XinhuaEduPlugin.class);
+    private Logger logger = LoggerFactory.getLogger(XinhuaTravelPlugin.class);
 
     @Override
     public String getClientPluginName() {
@@ -38,7 +38,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", LocalDateTime.now());
-        resultMap.put("moduleType", Modules.EDUCATION);
+        resultMap.put("moduleType", Modules.TRAVEL);
         resultMap.put("spiderWebsite", "XinHua");
 
         return resultMap;
@@ -50,7 +50,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
         WebResponse response = null;
         Map<String, Object> spiderData = new HashMap<>();
         //今日新闻
-        request = new WebRequest("http://education.news.cn/");
+        request = new WebRequest("http://www.xinhuanet.com/travel/");
         response = client.execute(request);
 
         if (StringUtils.isNotEmpty(response.getRespText())) {

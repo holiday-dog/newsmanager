@@ -5,6 +5,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.internal.JsonContext;
 
 import java.util.List;
+import java.util.Map;
 
 public class JsonPathUtils {
     public static Object getValue(String content, String jsonpath) {
@@ -19,5 +20,12 @@ public class JsonPathUtils {
 
         List<String> vals = context.read(jsonpath);
         return vals;
+    }
+
+    public static List<Map<String, String>> getObjList(String content, String jsonpath) {
+        DocumentContext context = (JsonContext) JsonPath.parse(content);
+
+        List<Map<String, String>> maps = context.read(jsonpath);
+        return maps;
     }
 }

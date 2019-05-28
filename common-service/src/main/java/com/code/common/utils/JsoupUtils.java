@@ -48,7 +48,19 @@ public class JsoupUtils {
         return outHtmls;
     }
 
-    public static List<String> getElementsText(String page, String cssPath) {
+    public static String getElementsHtmlPage(String page, String cssPath) {
+        Elements elements = getElements(page, cssPath);
+        if (elements == null) {
+            return null;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        for (Element element : elements) {
+            stringBuffer.append(element.outerHtml());
+        }
+        return stringBuffer.toString();
+    }
+
+    public static List<String> getTexts(String page, String cssPath) {
         Elements elements = getElements(page, cssPath);
         if (elements == null) {
             return null;
@@ -58,6 +70,58 @@ public class JsoupUtils {
             texts.add(element.text());
         }
         return texts;
+    }
+
+    public static String getText(String page, String cssPath) {
+        Elements elements = getElements(page, cssPath);
+        if (elements == null) {
+            return null;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        for (Element element : elements) {
+            stringBuffer.append(element.text());
+        }
+        return stringBuffer.toString();
+    }
+
+    public static String getText(String page, String cssPath, String separator) {
+        Elements elements = getElements(page, cssPath);
+        if (elements == null) {
+            return null;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        for (Element element : elements) {
+            stringBuffer.append(element.text());
+            stringBuffer.append(separator);
+        }
+        stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+        return stringBuffer.toString();
+    }
+
+    public static String replaceAttr(String page, String cssPath, String key, String value) {
+        Document document = Jsoup.parse(page);
+        Elements elements = document.select(cssPath);
+        if (elements == null) {
+            return null;
+        }
+        for (int i = 0; i < elements.size(); i++) {
+            Element element = elements.get(i);
+            element.attr(key, value);
+        }
+        return document.body().html();
+    }
+
+    public static String replaceAttrAppendValue(String page, String cssPath, String key, String appendValue) {
+        Document document = Jsoup.parse(page);
+        Elements elements = document.select(cssPath);
+        if (elements == null) {
+            return null;
+        }
+        for (int i = 0; i < elements.size(); i++) {
+            Element element = elements.get(i);
+            element.attr(key, appendValue + element.attr(key));
+        }
+        return document.body().html();
     }
 
 }

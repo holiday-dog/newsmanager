@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class DateUtils {
     private static final String YEARMONTHDAY_PATTERN = "yyyy-MM-dd";
+    private static final String HOURMINUTESECOND_PATTERN = "yyyy-MM-dd";
     private static final String FULLTIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     public static String formatDateTime(LocalDateTime dateTime) {
@@ -25,6 +26,18 @@ public class DateUtils {
     public static LocalDateTime parseDateTime(String dateTime, String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return LocalDateTime.parse(dateTime, formatter);
+    }
+
+    public static LocalDateTime parseDateTime(String dateTime) {
+        return parseDateTime(dateTime, FULLTIME_PATTERN);
+    }
+
+    public static LocalDateTime parseDate(String dateTime) {
+        return parseDateTime(dateTime, YEARMONTHDAY_PATTERN);
+    }
+
+    public static LocalDateTime parseTime(String dateTime) {
+        return parseDateTime(dateTime, HOURMINUTESECOND_PATTERN);
     }
 
     public static long timestampByDateTime(LocalDateTime localDateTime) {

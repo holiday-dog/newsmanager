@@ -3,7 +3,7 @@ package com.code.common.enums;
 import java.io.Serializable;
 
 public enum Modules implements Serializable {
-    OTHERS((byte) 0, "其他"), SCIENCE((byte) 1, "科技"), EDUCATION((byte) 2, "教育"), TOUR((byte) 3, "旅游"), INTERNATIONAL((byte) 4, "国际");
+    OTHERS((byte) 0, "其他"), SCIENCE((byte) 1, "科技"), EDUCATION((byte) 2, "教育"), TRAVEL((byte) 3, "旅游"), INTERNATIONAL((byte) 4, "国际");
 
     private Byte value;
 

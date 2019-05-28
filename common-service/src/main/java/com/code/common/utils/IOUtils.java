@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 public class IOUtils {
     public static byte[] getBytesByInputStream(InputStream inputStream) throws IOException {
@@ -24,7 +25,7 @@ public class IOUtils {
         StringBuffer stringBuffer = new StringBuffer();
 
         while ((n = bis.read(bus)) != -1) {
-            stringBuffer.append(new String(bus, 0, n));
+            stringBuffer.append(new String(bus, 0, n, Charset.defaultCharset()));
         }
         return stringBuffer.toString();
     }
