@@ -34,6 +34,15 @@ public class News {
 
     private List<String> relationTitles;
 
+    public News(String title, String description, String keywords, String author, LocalDateTime pubTime, String articleSource) {
+        this.title = title;
+        this.description = description;
+        this.keywords = keywords;
+        this.author = author;
+        this.pubTime = pubTime;
+        this.articleSource = articleSource;
+    }
+
     public News(String title, String description, String keywords, String author, String content, LocalDateTime pubTime, String articleSource, String referUrl) {
         this.title = title;
         this.description = description;

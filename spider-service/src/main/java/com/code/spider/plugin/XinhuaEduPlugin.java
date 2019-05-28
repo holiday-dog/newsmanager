@@ -54,9 +54,10 @@ public class XinhuaEduPlugin extends ClientPlugin {
         response = client.execute(request);
 
         if (StringUtils.isNotEmpty(response.getRespText())) {
-            List<RawData> newestEduList = new ArrayList<>();
+
             List<String> newestEduUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
             if (!CollectionUtils.isEmpty(newestEduUrlList)) {
+                List<RawData> newestEduList = new ArrayList<>();
 //                for (String newestEduUrl : newestEduUrlList) {
                 for (int i = 0; i < 1; i++) {
                     String newestEduUrl = newestEduUrlList.get(i);
@@ -64,12 +65,11 @@ public class XinhuaEduPlugin extends ClientPlugin {
                     response = client.execute(request);
                     newestEduList.add(new RawData(newestEduUrl, response.getRespText()));
                 }
+                spiderData.put("newestEduList", newestEduList);
             }
-            spiderData.put("newestEduList", newestEduList);
         }
-
         //新闻历史
-        List<RawData> eduPageList = new ArrayList<>();
+
         long ts = DateUtils.nowTimeStamp();
         for (int i = 1; i <= 1; i++) {
             String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
@@ -78,13 +78,16 @@ public class XinhuaEduPlugin extends ClientPlugin {
 
             String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+_\\d+\\(([^\\(\\)]+)\\)", 1);
             List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
-            for (int j = 0; j < 2; j++) {
-                request = new WebRequest(linkUrls.get(j));
-                response = client.execute(request);
-                eduPageList.add(new RawData(linkUrls.get(j), response.getRespText()));
+            if (!CollectionUtils.isEmpty(linkUrls)) {
+                List<RawData> eduPageList = new ArrayList<>();
+                for (int j = 0; j < 2; j++) {
+                    request = new WebRequest(linkUrls.get(j));
+                    response = client.execute(request);
+                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText()));
+                }
+                spiderData.put("historyEduList", eduPageList);
             }
         }
-        spiderData.put("historyEduList", eduPageList);
 
         return spiderData;
     }
@@ -101,21 +104,10 @@ public class XinhuaEduPlugin extends ClientPlugin {
             }
             for (RawData result : results) {
                 String page = result.getPage();
-                String title = JsoupUtils.getText(page, "div.h-title").trim();
-                String keyword = JsoupUtils.getAttr(page, "meta[name='keywords']", "content").get(0);
-                String description = JsoupUtils.getAttr(page, "meta[name='description']", "content").get(0);
-                description = StringUtils.substringAfter(description, "---");
-                String content = JsoupUtils.getElementsHtmlPage(page, "div#p-detail p");
-                String pubTime = JsoupUtils.getText(page, "div.h-info span.h-time");
-                String source = JsoupUtils.getText(page, "em#source");
-                String author = JsoupUtils.getText(page, "span:contains(责任编辑)");
-                author = StringUtils.substringAfter(author, "责任编辑：").trim();
-                List<String> images = JsoupUtils.getAttr(content, "img", "src");
-                if (!CollectionUtils.isEmpty(images)) {
-                    content = JsoupUtils.replaceAttrAppendValue(content, "img", "src", genHostPrex(result.getUrl()) + "/");
-                }
+                News news = ExtractorUtils.extractXinhua(page);
+                news.setContent(ExtractorUtils.extractorXinhuaContent(page, result.getUrl()));
+                news.setReferUrl(result.getUrl());
 
-                News news = new News(title, description, keyword, author, content, DateUtils.parseDateTime(pubTime), source, result.getUrl());
                 newsList.add(news);
             }
             resultMap.put(key, newsList);

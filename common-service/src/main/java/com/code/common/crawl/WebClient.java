@@ -51,8 +51,8 @@ public class WebClient {
     private final static String Content_Type = "application/x-www-form-urlencoded";
     private static Logger logger = LoggerFactory.getLogger(WebClient.class);
 
-    private static final Integer routeCount = 10;
-    private static final Integer maxCount = 100;
+    private Integer routeCount = 10;
+    private Integer maxCount = 100;
     private static final Integer requestConnectTime = 500;
     private Integer buildConnectTime = 2000;
     private Integer socketTime = 4000;
@@ -127,6 +127,12 @@ public class WebClient {
     public WebClient buildUaAndReferer(BrowersUA browersUA, String referer) {
         clientBuilder.setUserAgent(RandomUAUtils.getRandomUA(BrowersUA.FIREFOX));
         this.setReferer(referer);
+        return this;
+    }
+
+    public WebClient buildRouteAndCount(Integer routeCount, Integer maxCount) {
+        this.routeCount = routeCount;
+        this.maxCount = maxCount;
         return this;
     }
 

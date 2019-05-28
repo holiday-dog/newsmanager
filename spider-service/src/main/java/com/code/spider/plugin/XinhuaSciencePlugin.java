@@ -6,7 +6,8 @@ import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
-import com.code.common.utils.*;
+import com.code.common.utils.DateUtils;
+import com.code.common.utils.JsoupUtils;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,14 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class XinhuaTravelPlugin extends ClientPlugin {
+public class XinhuaSciencePlugin extends ClientPlugin {
     private static String indexUrl = "http://education.news.cn/";
-    private static final String preHotTravelUrl = "http://bd.xinhuanet.com/js/StdID.do?bfdid=1&appkey=%s";
-    private static final String hotTravelUrl = "http://bd.xinhuanet.com/xhw/2.0/%s.do?unq=1&p_bid=%s&bidlst=%s&req=%s&tma=&tmc=&tmd=&pageflag=%s&fingerprint=%s&fpduration=0&sid=&cid=Cxhw&uid=123456&appkey=%s&d_s=pc&p_t=chl&gid=%s&callback=BCore.instances[2].callbacks[0]&random=%s";
-    private static final String appKey = "0333404b77b18137ae80579b763fcfe7";
-    private static final String hotUrlId = "A1510559300955";
     private static WebClient client = WebClient.buildDefaultClient().buildRouteAndCount(50, 100).build();
-    private Logger logger = LoggerFactory.getLogger(XinhuaTravelPlugin.class);
+    private Logger logger = LoggerFactory.getLogger(XinhuaSciencePlugin.class);
 
     @Override
     public String getClientPluginName() {
@@ -37,7 +34,7 @@ public class XinhuaTravelPlugin extends ClientPlugin {
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", LocalDateTime.now());
-        resultMap.put("moduleType", Modules.TRAVEL);
+        resultMap.put("moduleType", Modules.SCIENCE);
         resultMap.put("spiderWebsite", "XinHua");
 
         return resultMap;
@@ -48,62 +45,52 @@ public class XinhuaTravelPlugin extends ClientPlugin {
         WebRequest request = null;
         WebResponse response = null;
         Map<String, Object> spiderData = new HashMap<>();
-        request = new WebRequest("http://www.xinhuanet.com/travel/");
+        request = new WebRequest("http://www.news.cn/tech/index.htm");
         response = client.execute(request);
 
         if (StringUtils.isNotEmpty(response.getRespText())) {
             //今日新闻
-            List<String> newestTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
-            List<String> historyTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "div#hideData0 ul.dataList li h3 a", "href");
+            List<String> newestScienceUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
+            List<String> historyScienceUrlList = JsoupUtils.getAttr(response.getRespText(), "ul#showData0 + div#hideData3 ul li  h3 a", "href");
+            List<String> hotTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "div.impNews div.textList ul li a", "href");
 
-            if (!CollectionUtils.isEmpty(newestTravelUrlList)) {
-                List<RawData> newestTravelList = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
-                    String newestEduUrl = newestTravelUrlList.get(i);
-                    System.out.println("-----" + newestEduUrl);
-                    request = new WebRequest(newestEduUrl);
-                    response = client.execute(request);
-                    newestTravelList.add(new RawData(newestEduUrl, response.getRespText()));
-                }
-                spiderData.put("newestTravelList", newestTravelList);
-            }
+//            if (!CollectionUtils.isEmpty(newestScienceUrlList)) {
+//                List<RawData> newestSciencelList = new ArrayList<>();
+//                for (int i = 0; i < 3; i++) {
+//                    String newestScienceUrl = newestScienceUrlList.get(i);
+//                    System.out.println("-----" + newestScienceUrl);
+//                    request = new WebRequest(newestScienceUrl);
+//                    response = client.execute(request);
+//                    newestSciencelList.add(new RawData(newestScienceUrl, response.getRespText()));
+//                }
+//                spiderData.put("newestScienceList", newestSciencelList);
+//            }
 
             //新闻历史
-            if (!CollectionUtils.isEmpty(historyTravelUrlList)) {
-                List<RawData> historyTravelList = new ArrayList<>();
+            if (!CollectionUtils.isEmpty(historyScienceUrlList)) {
+                List<RawData> historyScienceList = new ArrayList<>();
                 long ts = DateUtils.nowTimeStamp();
                 for (int i = 0; i < 3; i++) {
-                    System.out.println(historyTravelUrlList.get(i));
-                    request = new WebRequest(historyTravelUrlList.get(i));
-                    response = client.execute(request);
-                    historyTravelList.add(new RawData(historyTravelUrlList.get(i), response.getRespText()));
+                    System.out.println(historyScienceUrlList.get(i));
+//                    request = new WebRequest(historyScienceUrlList.get(i));
+//                    response = client.execute(request);
+//                    historyScienceList.add(new RawData(historyScienceUrlList.get(i), response.getRespText()));
                 }
-                spiderData.put("historyTravelList", historyTravelList);
+//                spiderData.put("historySciencelList", historyScienceList);
             }
-        }
 
-
-        //热点新闻
-        request = new WebRequest(String.format(preHotTravelUrl, appKey));
-        response = client.execute(request);
-        String gid = PatternUtils.groupOne(response.getRespText(), "gid=\"(\\w+)\"", 1);
-
-        long ts = DateUtils.nowTimeStamp();
-        String url = String.format(hotTravelUrl, hotUrlId, hotUrlId, hotUrlId, hotUrlId, ts, RandomUtils.nextString(), appKey, gid, ts);
-        request = new WebRequest(url);
-        response = client.execute(request);
-
-        List<String> hotTravelUrlList = JsonPathUtils.getValueList(PatternUtils.groupOne(response.getRespText(), "callbacks\\[\\d+\\]\\(([^\\(\\)]+)\\)", 1), "$..[*].url");
-        if (!CollectionUtils.isEmpty(hotTravelUrlList)) {
-            List<RawData> hotTravelList = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                String hotTravelUrl = hotTravelUrlList.get(i);
-//                System.out.println(hotTravelUrl);
-                request = new WebRequest(hotTravelUrl);
-                response = client.execute(request);
-                hotTravelList.add(new RawData(hotTravelUrl, response.getRespText()));
-            }
-            spiderData.put("hotTravelList", hotTravelList);
+            ////热点新闻
+//            if (!CollectionUtils.isEmpty(hotTravelUrlList)) {
+//                List<RawData> hotSciencelList = new ArrayList<>();
+//                for (int i = 0; i < 3; i++) {
+//                    String hotSciencelUrl = hotTravelUrlList.get(i);
+//                    System.out.println("--" + hotSciencelUrl);
+//                    request = new WebRequest(hotSciencelUrl);
+//                    response = client.execute(request);
+//                    hotSciencelList.add(new RawData(hotSciencelUrl, response.getRespText()));
+//                }
+//                spiderData.put("hotSciencelList", hotSciencelList);
+//            }
         }
 
         return spiderData;

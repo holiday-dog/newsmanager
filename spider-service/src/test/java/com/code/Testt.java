@@ -1,6 +1,7 @@
 package com.code;
 
 import com.code.common.utils.*;
+import com.code.spider.plugin.ExtractorUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class Testt {
     @Test
     public void testpage() throws IOException {
-        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page2.html");
+        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page3.html");
         String page = IOUtils.getStringByInputStream(inputStream);
 
 //        for(String url: JsoupUtils.getAttr(page, "ul#gd_content li a", "href")){
@@ -34,6 +35,8 @@ public class Testt {
         String pubTime = JsoupUtils.getText(page, "span.h-time");
         String source = JsoupUtils.getText(page, "em#source");
         String author = JsoupUtils.getText(page, "span:contains(责任编辑)");
+        System.out.println(author);
+        author = PatternUtils.groupOne(author, "责任编辑:?：?([^\\<\\]]+)", 1);
 //        List<String> images = JsoupUtils.getAttr(content, "img", "src");
 //        if (!CollectionUtils.isEmpty(images)) {
 //            content = JsoupUtils.replaceAttrAppendValue(content, "img", "src", "http://");
@@ -83,22 +86,26 @@ public class Testt {
         InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page.html");
         String page = IOUtils.getStringByInputStream(inputStream);
 
-        String msg = JsoupUtils.getElementsHtmlPage(page, "div#p-detail p");
-
-        String ss = JsoupUtils.replaceAttrAppendValue(msg, "img", "src", "http://");
-        System.out.println(ss);
+//        String msg = JsoupUtils.getElementsHtmlPage(page, "div#p-detail p");
+//        String ss = JsoupUtils.replaceAttrAppendValue(msg, "img", "src", "http://");
+//        System.out.println(ss);
     }
 
     @Test
     public void test6() throws IOException {
-        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page3.html");
+        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page.html");
         String page = IOUtils.getStringByInputStream(inputStream);
 
-        System.out.println(JsoupUtils.getAttr(page, "div#div_currpage a:contains(下一页)", "href"));
+
+//        System.out.println(ExtractorUtils.extractorXinhuaContent(page, "aaaaaa"));
+//        System.out.println(JSON.toJSONString(ExtractorUtils.extractXinhua(page)));
+
+//        System.out.println(JsoupUtils.getAttr(page, "div#div_currpage a:contains(下一页)", "href"));
 //        System.out.println(JsoupUtils.getElementsHtmlPage(page, "div#hideData0 ul.dataList li h3 a"));
-//        for (String s : JsoupUtils.getAttr(page, "div#hideData0 ul.dataList li h3 a", "href")) {
-//            System.out.println(s);
-//        }
+        System.out.println(JsoupUtils.getElementsHtmlPage(page, "ul#showData0 + div#hideData3"));
+        for (String s : JsoupUtils.getAttr(page, "ul#showData0 + div#hideData3 ul li  h3 a", "href")) {
+            System.out.println(s);
+        }
     }
 
     @Test
@@ -107,6 +114,7 @@ public class Testt {
 
         System.out.println(RandomUtils.nextString().length());
         System.out.println("5b1bd51383a2571b294eafa41c789a28".length());
+        System.out.println(DateUtils.parseDateTime("2019年05月12日 08:51:23", "yyyy年MM月dd日 HH:mm:ss"));
 //        System.out.println(PatternUtils.groupOne(s, "gid=\"(\\w+)\"", 1));
     }
 }

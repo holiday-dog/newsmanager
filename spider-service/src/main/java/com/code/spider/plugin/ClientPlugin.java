@@ -74,8 +74,4 @@ public abstract class ClientPlugin {
         return null;
     }
 
-    public String genHostPrex(String url) {
-        return StringUtils.substringBeforeLast(url, "/");
-    }
-
 }
