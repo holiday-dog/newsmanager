@@ -12,7 +12,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/test" userId="root" password="root">
+                        connectionURL="jdbc:mysql://localhost:3306/newsmanager" userId="root" password="root">
             <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
@@ -32,12 +32,18 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <!--<table tableName="T_FEE_AGTBILL" domainObjectName="FeeAgentBill"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>-->
 
-        <table tableName="user" domainObjectName="User">
+        <table tableName="tb_news_info" domainObjectName="NewsInfo" enableSelectByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false" enableCountByExample="false" enableInsert="false">
+        </table>
+        <table tableName="tb_news_content_info" domainObjectName="NewsContentInfo" enableSelectByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false" enableCountByExample="false" enableInsert="false">
+        </table>
+        <table tableName="tb_news_hot_info" domainObjectName="NewsHotInfo" enableSelectByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false" enableCountByExample="false" enableInsert="false">
         </table>
     </context>
 </generatorConfiguration>
