@@ -18,15 +18,19 @@ public class IOUtils {
         return boas.toByteArray();
     }
 
-    public static String getStringByInputStream(InputStream inputStream) throws IOException {
+    public static String getStringByInputStream(InputStream inputStream, Charset charset) throws IOException {
         BufferedInputStream bis = new BufferedInputStream(inputStream);
         int n;
         byte[] bus = new byte[2048];
         StringBuffer stringBuffer = new StringBuffer();
 
         while ((n = bis.read(bus)) != -1) {
-            stringBuffer.append(new String(bus, 0, n, Charset.defaultCharset()));
+            stringBuffer.append(new String(bus, 0, n, charset));
         }
         return stringBuffer.toString();
+    }
+
+    public static String getStringByInputStream(InputStream inputStream) throws IOException {
+        return getStringByInputStream(inputStream, Charset.defaultCharset());
     }
 }

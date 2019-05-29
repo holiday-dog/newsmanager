@@ -8,10 +8,44 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 
 public class Testt {
     @Test
+    public void testpage2() throws IOException {
+        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page3.html");
+        String page = IOUtils.getStringByInputStream(inputStream);
+
+        String title = JsoupUtils.getText(page, "div[class~=text_title] h1").trim();
+        String keyword = JsoupUtils.getAttr(page, "meta[name='keywords']", "content").get(0);
+        String description = JsoupUtils.getAttr(page, "meta[name='description']", "content").get(0);
+        String content = JsoupUtils.getElementsHtmlPage(page, "div#rwb_zw");
+        if (StringUtils.isNotEmpty(content)) {
+            content = JsoupUtils.removeElement(content, "div.edit");
+        }
+
+        String pubTime = JsoupUtils.getText(page, "div[class~=text_title] div.fl");
+        pubTime = PatternUtils.groupOne(pubTime, "(\\d{4}.\\d{2}.\\d{2}.{1,2}\\d{2}:\\d{2})", 1);
+        String source = JsoupUtils.getAttr(page, "meta[name='source']", "content").get(0);
+        source = StringUtils.substringAfter(source, "来源：");
+        String author = JsoupUtils.getText(page, "div[class~=text_title] p.author");
+        if (StringUtils.isEmpty(author)) {
+            author = JsoupUtils.getText(page, "div:contains(责编)");
+            author = PatternUtils.groupOne(author, "\\(责编：([^\\(\\)]+)\\)", 1);
+        }
+        content = ExtractorUtils.extractRenminContent(page, null);
+
+        System.out.println(keyword);
+        System.out.println(title);
+        System.out.println(description);
+        System.out.println(content);
+        System.out.println(DateUtils.parseDateTime(pubTime, "yyyy年MM月dd日HH:mm"));
+        System.out.println(author);
+        System.out.println(source);
+
+    }
+
     public void testpage() throws IOException {
         InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page3.html");
         String page = IOUtils.getStringByInputStream(inputStream);
@@ -83,18 +117,20 @@ public class Testt {
 
     @Test
     public void test5() throws IOException {
-        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page.html");
-        String page = IOUtils.getStringByInputStream(inputStream);
+        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page2.html");
+        String page = IOUtils.getStringByInputStream(inputStream, Charset.forName("GB2312"));
 
-//        String msg = JsoupUtils.getElementsHtmlPage(page, "div#p-detail p");
+        //JsoupUtils.removeElement(content, "table:has(img[src~=prev_page]")
+        String msg = JsoupUtils.getElementsHtmlPage(page, "table:has(img[src~=prev_page])");
 //        String ss = JsoupUtils.replaceAttrAppendValue(msg, "img", "src", "http://");
-//        System.out.println(ss);
+        System.out.println(msg);
+        System.out.println(ExtractorUtils.extractRenmin(page));
     }
 
     @Test
     public void test6() throws IOException {
         InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page.html");
-        String page = IOUtils.getStringByInputStream(inputStream);
+        String page = IOUtils.getStringByInputStream(inputStream, Charset.forName("GB2312"));
 
 
 //        System.out.println(ExtractorUtils.extractorXinhuaContent(page, "aaaaaa"));
@@ -102,10 +138,17 @@ public class Testt {
 
 //        System.out.println(JsoupUtils.getAttr(page, "div#div_currpage a:contains(下一页)", "href"));
 //        System.out.println(JsoupUtils.getElementsHtmlPage(page, "div#hideData0 ul.dataList li h3 a"));
-        System.out.println(JsoupUtils.getElementsHtmlPage(page, "ul#showData0 + div#hideData3"));
-        for (String s : JsoupUtils.getAttr(page, "ul#showData0 + div#hideData3 ul li  h3 a", "href")) {
+        System.out.println(JsoupUtils.getElementsHtmlPage(page, "div[class='headingNews'][style='display:none;'] div.hdNews"));
+        for (String s : JsoupUtils.getAttr(page, "div.jsnew_line a", "href")) {
             System.out.println(s);
         }
+        for (String s : JsoupUtils.getAttr(page, "ul.ph_list li a", "href")) {
+            System.out.println("---" + s);
+        }
+        for (String s : JsoupUtils.getAttr(page, "div.headingNews div.hdNews div.on h5 a", "href")) {
+            System.out.println(s);
+        }
+        System.out.println(ExtractorUtils.genHostPrex("http://edu.people.com.cn/"));
     }
 
     @Test

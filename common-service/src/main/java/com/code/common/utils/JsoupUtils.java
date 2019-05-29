@@ -124,4 +124,17 @@ public class JsoupUtils {
         return document.body().html();
     }
 
+    public static String removeElement(String page, String cssPath) {
+        Document document = Jsoup.parse(page);
+        Elements elements = document.select(cssPath);
+        if (elements == null || elements.size() == 0) {
+            return document.body().html();
+        }
+        for (int i = 0; i < elements.size(); i++) {
+            elements.get(i).remove();
+        }
+
+        return document.body().html();
+    }
+
 }

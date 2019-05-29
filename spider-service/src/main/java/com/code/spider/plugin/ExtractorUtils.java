@@ -55,6 +55,41 @@ public class ExtractorUtils {
         return content;
     }
 
+    public static News extractRenmin(String page) {
+        String title = JsoupUtils.getText(page, "div[class~=text_title] h1").trim();
+        String keyword = JsoupUtils.getAttr(page, "meta[name='keywords']", "content").get(0);
+        String description = JsoupUtils.getAttr(page, "meta[name='description']", "content").get(0);
+        String pubTime = JsoupUtils.getText(page, "div[class~=text_title] div.fl");
+        pubTime = PatternUtils.groupOne(pubTime, "(\\d{4}.\\d{2}.\\d{2}.{1,2}\\d{2}:\\d{2})", 1);
+        LocalDateTime dateTime = null;
+        if (StringUtils.isNotEmpty(pubTime)) {
+            dateTime = DateUtils.parseDateTime(pubTime, "yyyy年MM月dd日HH:mm");
+        }
+        String source = JsoupUtils.getAttr(page, "meta[name='source']", "content").get(0);
+        source = StringUtils.substringAfter(source, "来源：");
+        String author = JsoupUtils.getText(page, "div[class~=text_title] p.author");
+        if (StringUtils.isEmpty(author)) {
+            author = JsoupUtils.getText(page, "div.edit");
+            author = PatternUtils.groupOne(author, "\\(责编：?:?(.+)\\)", 1);
+        }
+
+        News news = new News(title, description, keyword, author, dateTime, source);
+        return news;
+    }
+
+    public static String extractRenminContent(String page, String url) {
+        String content = JsoupUtils.getElementsHtmlPage(page, "div#rwb_zw");
+        if (StringUtils.isNotEmpty(content)) {
+            content = JsoupUtils.removeElement(content, "div.edit");
+            content = JsoupUtils.removeElement(content, "div.zdfy");
+            content = JsoupUtils.removeElement(content, "center:has(table)");
+//            content = JsoupUtils.removeElement(content, "table:has(img[src~=next_page])");
+//            content = JsoupUtils.removeElement(content, "table:has(img[src~=prev_page])");
+        }
+
+        return content;
+    }
+
     public static String genHostPrex(String url) {
         return StringUtils.substringBeforeLast(url, "/");
     }

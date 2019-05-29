@@ -53,16 +53,20 @@ public class WebResponse {
         return null;
     }
 
-    public String getRespText() {
+    public String getRespText(Charset charset) {
         if (StringUtils.isNotEmpty(respText)) {
             return respText;
         }
         try {
-            respText = IOUtils.toString(respEntity.getContent(), Charset.defaultCharset());
+            respText = IOUtils.toString(respEntity.getContent(), charset);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return respText;
+    }
+
+    public String getRespText() {
+        return getRespText(Charset.defaultCharset());
     }
 
     public Header[] getHeaders() {

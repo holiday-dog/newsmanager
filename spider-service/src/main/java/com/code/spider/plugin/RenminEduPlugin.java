@@ -6,17 +6,14 @@ import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
-import com.code.common.utils.DateUtils;
-import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.JsoupUtils;
-import com.code.common.utils.PatternUtils;
 import com.code.spider.bean.RawData;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RenminEduPlugin extends ClientPlugin {
-    private static String indexUrl = "http://edu.people.com.cn/";
+    private static String indexUrl = "http://edu.people.com.cn";
     private static WebClient client = WebClient.buildDefaultClient().buildRouteAndCount(50, 100).build();
     private Logger logger = LoggerFactory.getLogger(RenminEduPlugin.class);
 
@@ -50,42 +47,45 @@ public class RenminEduPlugin extends ClientPlugin {
         request = new WebRequest("http://edu.people.com.cn/");
         response = client.execute(request);
 
-        if (StringUtils.isNotEmpty(response.getRespText())) {
-
-            List<String> newestEduUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
-            if (!CollectionUtils.isEmpty(newestEduUrlList)) {
-                List<RawData> newestEduList = new ArrayList<>();
-//                for (String newestEduUrl : newestEduUrlList) {
-                for (int i = 0; i < 1; i++) {
-                    String newestEduUrl = newestEduUrlList.get(i);
-                    request = new WebRequest(newestEduUrl);
-                    response = client.execute(request);
-                    newestEduList.add(new RawData(newestEduUrl, response.getRespText()));
-                }
-                spiderData.put("newestEduList", newestEduList);
+        List<String> newestEduUrlList = JsoupUtils.getAttr(response.getRespText(), "div.jsnew_line a", "href");
+        List<String> hotEduUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.ph_list li a", "href");
+        List<String> historyEduUrlList = JsoupUtils.getAttr(response.getRespText(), "div.p1_content div.fr div.news_box ul li a", "href");
+        //即时新闻
+        if (!CollectionUtils.isEmpty(newestEduUrlList)) {
+            List<RawData> newestEduList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                String newestEduUrl = indexUrl + newestEduUrlList.get(i);
+                System.out.println(newestEduUrl);
+                request = new WebRequest(newestEduUrl);
+                response = client.execute(request);
+                newestEduList.add(new RawData(newestEduUrl, response.getRespText(Charset.forName("GB2312"))));
             }
+            spiderData.put("newestEduList", newestEduList);
         }
         //新闻历史
-
-        long ts = DateUtils.nowTimeStamp();
-        for (int i = 1; i <= 1; i++) {
-//            String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
-//            request = new WebRequest(spiderUrl);
-//            response = client.execute(request);
-
-            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+_\\d+\\(([^\\(\\)]+)\\)", 1);
-            List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
-            if (!CollectionUtils.isEmpty(linkUrls)) {
-                List<RawData> eduPageList = new ArrayList<>();
-                for (int j = 0; j < 2; j++) {
-                    request = new WebRequest(linkUrls.get(j));
-                    response = client.execute(request);
-                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText()));
-                }
-                spiderData.put("historyEduList", eduPageList);
+        if (!CollectionUtils.isEmpty(historyEduUrlList)) {
+            List<RawData> historyEduList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                String historyEduUrl = indexUrl + historyEduUrlList.get(i);
+                System.out.println("------" + historyEduUrl);
+                request = new WebRequest(historyEduUrl);
+                response = client.execute(request);
+                historyEduList.add(new RawData(historyEduUrl, response.getRespText(Charset.forName("GB2312"))));
             }
+            spiderData.put("historyEduList", historyEduList);
         }
-
+        //
+        if (!CollectionUtils.isEmpty(hotEduUrlList)) {
+            List<RawData> hotEduList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                String hotEduUrl = indexUrl + hotEduUrlList.get(i);
+                System.out.println(hotEduUrl);
+                request = new WebRequest(hotEduUrl);
+                response = client.execute(request);
+                hotEduList.add(new RawData(hotEduUrl, response.getRespText(Charset.forName("GB2312"))));
+            }
+            spiderData.put("hotEduList", hotEduList);
+        }
 
         return spiderData;
     }
@@ -103,11 +103,7 @@ public class RenminEduPlugin extends ClientPlugin {
                 }
                 for (RawData result : results) {
                     String page = result.getPage();
-                    if (page.contains("下一页") && page.contains("div_currpage")) {
-                        newsList.add(handleMultiPage(page, result.getUrl()));
-                    } else {
-                        newsList.add(handleSinglePage(page, result.getUrl()));
-                    }
+                    newsList.add(handleSinglePage(page, result.getUrl()));
                 }
                 resultMap.put(key, newsList);
             }
@@ -119,37 +115,9 @@ public class RenminEduPlugin extends ClientPlugin {
     }
 
     private News handleSinglePage(String page, String url) {
-        News news = ExtractorUtils.extractXinhua(page);
-        news.setContent(ExtractorUtils.extractorXinhuaContent(page, url));
+        News news = ExtractorUtils.extractRenmin(page);
+        news.setContent(ExtractorUtils.extractRenminContent(page, url));
         news.setReferUrl(url);
-        return news;
-    }
-
-    public News handleMultiPage(String page, String url) throws IOException {
-        News news = ExtractorUtils.extractXinhua(page);
-        String content = ExtractorUtils.extractorXinhuaContent(page, url);
-
-        StringBuffer contentBuffer = new StringBuffer(content);
-        String nextPageUrl = JsoupUtils.getAttr(page, "div#div_currpage a:contains(下一页)", "href").get(0);
-        WebResponse response = null;
-        while (StringUtils.isNotEmpty(nextPageUrl)) {
-            WebRequest request = new WebRequest(nextPageUrl);
-            response = client.execute(request);
-            if (StringUtils.isNotEmpty(response.getRespText())) {
-                contentBuffer.append(ExtractorUtils.extractorXinhuaContent(response.getRespText(), url));
-                List<String> nextPageUrls = JsoupUtils.getAttr(response.getRespText(), "div#div_currpage a:contains(下一页)", "href");
-                if (CollectionUtils.isEmpty(nextPageUrls)) {
-                    nextPageUrl = null;
-                } else {
-                    nextPageUrl = nextPageUrls.get(0);
-                }
-            } else {
-                nextPageUrl = null;
-            }
-        }
-        news.setContent(contentBuffer.toString());
-        news.setReferUrl(url);
-
         return news;
     }
 
