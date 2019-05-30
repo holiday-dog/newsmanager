@@ -12,6 +12,8 @@ import java.util.List;
 public class News {
     private String title;
 
+    private String sign;
+
     private String description;
 
     private String keywords;

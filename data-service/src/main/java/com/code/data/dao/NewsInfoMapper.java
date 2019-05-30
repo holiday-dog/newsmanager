@@ -1,13 +1,26 @@
 package com.code.data.dao;
 
 import com.code.data.beans.NewsInfo;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
+@Mapper
 public interface NewsInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
-    NewsInfo selectByPrimaryKey(Integer id);
+    int insert(NewsInfo record);
+
+    int insertList(List<NewsInfo> infos);
+
+    int insertSelective(NewsInfo record);
+
+    NewsInfo selectByPrimaryKey(Long id);
+
+    NewsInfo selectWithSign(String sign);
+
+    List<NewsInfo> selectListWithNewType(@Param("modulesType") Byte moduleType, @Param("newsType") Byte newsType);
 
     int updateByPrimaryKeySelective(NewsInfo record);
-
-    int updateByPrimaryKey(NewsInfo record);
 }

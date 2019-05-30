@@ -1,5 +1,7 @@
 package com.code.common.enums;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 
 public enum Modules implements Serializable {
@@ -28,6 +30,18 @@ public enum Modules implements Serializable {
         }
         for (Modules module : values()) {
             if (module.getValue().equals(value)) {
+                return module;
+            }
+        }
+        return OTHERS;
+    }
+
+    public static Modules parse(String msg) {
+        if (StringUtils.isEmpty(msg)) {
+            return OTHERS;
+        }
+        for (Modules module : values()) {
+            if (module.getMsg().equals(msg)) {
                 return module;
             }
         }

@@ -1,15 +1,18 @@
 package com.code.data.dao;
 
 import com.code.data.beans.NewsContentInfo;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
+@Mapper
 public interface NewsContentInfoMapper {
     int deleteByPrimaryKey(Long id);
 
-    NewsContentInfo selectByPrimaryKey(Long id);
+    int insert(NewsContentInfo record);
 
-    int updateByPrimaryKeySelective(NewsContentInfo record);
+    int insertList(List<NewsContentInfo> contentInfoList);
 
-    int updateByPrimaryKeyWithBLOBs(NewsContentInfo record);
+    NewsContentInfo selectBySign(String newsSign);
 
-    int updateByPrimaryKey(NewsContentInfo record);
 }

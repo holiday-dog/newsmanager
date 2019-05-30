@@ -4,6 +4,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.internal.JsonContext;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,13 @@ public class JsonPathUtils {
         return val;
     }
 
+    public static <T> T getObj(String content, String jsonpath, Class<T> cls) {
+        DocumentContext context = (JsonContext) JsonPath.parse(content);
+
+        T obj = context.read(jsonpath, cls);
+        return obj;
+    }
+
     public static List<String> getValueList(String content, String jsonpath) {
         DocumentContext context = (JsonContext) JsonPath.parse(content);
 
@@ -22,10 +30,18 @@ public class JsonPathUtils {
         return vals;
     }
 
-    public static List<Map<String, String>> getObjList(String content, String jsonpath) {
+    public static <T> List<T> getObjList(String content, String jsonpath, Class<T> cls) {
         DocumentContext context = (JsonContext) JsonPath.parse(content);
 
-        List<Map<String, String>> maps = context.read(jsonpath);
-        return maps;
+        List<Map> maps = context.read(jsonpath);
+        List<T> objs = new ArrayList<>();
+        try {
+            for (Map map : maps) {
+                objs.add(BeanUtils.mapToBean(map, cls));
+            }
+        } catch (Exception e) {
+        }
+        return objs;
     }
+
 }

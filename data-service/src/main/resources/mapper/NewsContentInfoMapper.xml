@@ -3,50 +3,37 @@
 <mapper namespace="com.code.data.dao.NewsContentInfoMapper" >
   <resultMap id="BaseResultMap" type="com.code.data.beans.NewsContentInfo" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="newId" property="newid" jdbcType="BIGINT" />
+    <result column="news_sign" property="newsSign" jdbcType="CHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.code.data.beans.NewsContentInfo" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, newId
+    id, news_sign
   </sql>
   <sql id="Blob_Column_List" >
     content
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectBySign" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from tb_news_content_info
-    where id = #{id,jdbcType=BIGINT}
+    where news_sign = #{newsSign,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from tb_news_content_info
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <update id="updateByPrimaryKeySelective" parameterType="com.code.data.beans.NewsContentInfo" >
-    update tb_news_content_info
-    <set >
-      <if test="newid != null" >
-        newId = #{newid,jdbcType=BIGINT},
-      </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.code.data.beans.NewsContentInfo" >
-    update tb_news_content_info
-    set newId = #{newid,jdbcType=BIGINT},
-      content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.code.data.beans.NewsContentInfo" >
-    update tb_news_content_info
-    set newId = #{newid,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+  <insert id="insert" parameterType="com.code.data.beans.NewsContentInfo" >
+    insert into tb_news_content_info (id, news_sign, content)
+    values (#{id,jdbcType=BIGINT}, #{newsSign,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertList" parameterType="java.util.List">
+    insert into tb_news_content_info (id, news_sign, content) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.newsSign,jdbcType=CHAR}, #{item.content,jdbcType=LONGVARCHAR})
+    </foreach>
+  </insert>
 </mapper>

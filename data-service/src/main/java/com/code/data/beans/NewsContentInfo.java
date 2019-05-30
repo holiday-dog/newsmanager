@@ -3,7 +3,7 @@ package com.code.data.beans;
 public class NewsContentInfo {
     private Long id;
 
-    private Long newid;
+    private String newsSign;
 
     private String content;
 
@@ -15,12 +15,12 @@ public class NewsContentInfo {
         this.id = id;
     }
 
-    public Long getNewid() {
-        return newid;
+    public String getNewsSign() {
+        return newsSign;
     }
 
-    public void setNewid(Long newid) {
-        this.newid = newid;
+    public void setNewsSign(String newsSign) {
+        this.newsSign = newsSign == null ? null : newsSign.trim();
     }
 
     public String getContent() {

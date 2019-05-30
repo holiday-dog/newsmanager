@@ -9,6 +9,7 @@ public class DateUtils {
     private static final String YEARMONTHDAY_PATTERN = "yyyy-MM-dd";
     private static final String HOURMINUTESECOND_PATTERN = "yyyy-MM-dd";
     private static final String FULLTIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String CONVERT_JSON_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
     public static String formatDateTime(LocalDateTime dateTime) {
         return formatDateTime(dateTime, YEARMONTHDAY_PATTERN);
@@ -30,6 +31,10 @@ public class DateUtils {
 
     public static LocalDateTime parseDateTime(String dateTime) {
         return parseDateTime(dateTime, FULLTIME_PATTERN);
+    }
+
+    public static LocalDateTime parseDateTimeByJson(String dateTime) {
+        return parseDateTime(dateTime, CONVERT_JSON_PATTERN);
     }
 
     public static LocalDateTime parseDate(String dateTime) {

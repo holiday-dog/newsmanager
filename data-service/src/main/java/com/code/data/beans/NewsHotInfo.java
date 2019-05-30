@@ -9,11 +9,11 @@ public class NewsHotInfo {
 
     private String images;
 
-    private String referurl;
+    private String referUrl;
 
-    private Date createdate;
+    private Date createDate;
 
-    private Date lastupdatedate;
+    private Date lastUpdateDate;
 
     public Long getId() {
         return id;
@@ -39,27 +39,27 @@ public class NewsHotInfo {
         this.images = images == null ? null : images.trim();
     }
 
-    public String getReferurl() {
-        return referurl;
+    public String getReferUrl() {
+        return referUrl;
     }
 
-    public void setReferurl(String referurl) {
-        this.referurl = referurl == null ? null : referurl.trim();
+    public void setReferUrl(String referUrl) {
+        this.referUrl = referUrl == null ? null : referUrl.trim();
     }
 
-    public Date getCreatedate() {
-        return createdate;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
-    public Date getLastupdatedate() {
-        return lastupdatedate;
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
-    public void setLastupdatedate(Date lastupdatedate) {
-        this.lastupdatedate = lastupdatedate;
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 }

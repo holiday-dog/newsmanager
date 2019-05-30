@@ -5,12 +5,12 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="images" property="images" jdbcType="VARCHAR" />
-    <result column="referUrl" property="referurl" jdbcType="VARCHAR" />
-    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
-    <result column="lastUpdateDate" property="lastupdatedate" jdbcType="TIMESTAMP" />
+    <result column="refer_url" property="referUrl" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, images, referUrl, createDate, lastUpdateDate
+    id, title, images, refer_url, create_date, last_update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -22,6 +22,57 @@
     delete from tb_news_hot_info
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <insert id="insert" parameterType="com.code.data.beans.NewsHotInfo" >
+    insert into tb_news_hot_info (id, title, images, 
+      refer_url, create_date, last_update_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, 
+      #{referUrl,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.code.data.beans.NewsHotInfo" >
+    insert into tb_news_hot_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="images != null" >
+        images,
+      </if>
+      <if test="referUrl != null" >
+        refer_url,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="lastUpdateDate != null" >
+        last_update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null" >
+        #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="referUrl != null" >
+        #{referUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateDate != null" >
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.code.data.beans.NewsHotInfo" >
     update tb_news_hot_info
     <set >
@@ -31,14 +82,14 @@
       <if test="images != null" >
         images = #{images,jdbcType=VARCHAR},
       </if>
-      <if test="referurl != null" >
-        referUrl = #{referurl,jdbcType=VARCHAR},
+      <if test="referUrl != null" >
+        refer_url = #{referUrl,jdbcType=VARCHAR},
       </if>
-      <if test="createdate != null" >
-        createDate = #{createdate,jdbcType=TIMESTAMP},
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="lastupdatedate != null" >
-        lastUpdateDate = #{lastupdatedate,jdbcType=TIMESTAMP},
+      <if test="lastUpdateDate != null" >
+        last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -47,9 +98,9 @@
     update tb_news_hot_info
     set title = #{title,jdbcType=VARCHAR},
       images = #{images,jdbcType=VARCHAR},
-      referUrl = #{referurl,jdbcType=VARCHAR},
-      createDate = #{createdate,jdbcType=TIMESTAMP},
-      lastUpdateDate = #{lastupdatedate,jdbcType=TIMESTAMP}
+      refer_url = #{referUrl,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
