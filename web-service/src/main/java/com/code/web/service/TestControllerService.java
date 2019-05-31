@@ -38,6 +38,22 @@ public class TestControllerService {
         return "test";
     }
 
+    @RequestMapping("/modules")
+    public String modules(@RequestParam(value = "msg", required = false) String msg) {
+        if (StringUtils.isNotEmpty(msg)) {
+            throw new CodecException("系统异常");
+        }
+        return "modules";
+    }
+
+    @RequestMapping("/content")
+    public String content(@RequestParam(value = "msg", required = false) String msg) {
+        if (StringUtils.isNotEmpty(msg)) {
+            throw new CodecException("系统异常");
+        }
+        return "content";
+    }
+
     @RequestMapping("/newList")
     public ModelAndView queryNewsList(@RequestParam("modules") String modules, @RequestParam("type") String type) {
 
