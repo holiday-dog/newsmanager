@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">My project</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#">推荐</a>
+                </li>
+                <li>
+                    <a href="#">教育</a>
+                </li>
+                <li>
+                    <a href="#">旅游</a>
+                </li>
+                <li>
+                    <a href="#">科技</a>
+                </li>
+                <li>
+                    <a href="#">国际</a>
+                </li>
+                <li>
+                    <a href="#">食品</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/signin">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in
+                    </a>
+                </li>
+                <!--<li th:if="${#authorization.expression('isAuthenticated()')}">-->
+                <!--<a href="/logout" th:href="@{#}" onclick="$('#form').submit();">-->
+                <!--<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout-->
+                <!--</a>-->
+                <!--<form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

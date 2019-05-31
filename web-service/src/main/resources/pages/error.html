@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error page</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<h1 th:text="${#response.status}"></h1>
+<p th:text="${errorMsg}"></p>
+<a href="index.html" th:href="@{index}">返回首页</a>
+</body>
+</html>

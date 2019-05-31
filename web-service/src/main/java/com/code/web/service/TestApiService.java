@@ -13,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping(value = "/test")
-public class TestService {
-    private Logger logger = LoggerFactory.getLogger(TestService.class);
+public class TestApiService {
+    private Logger logger = LoggerFactory.getLogger(TestApiService.class);
 
     @Autowired
     private RestTemplate restTemplate;

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="head :: header">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">推荐</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">教育</a></li>
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">教育</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="hero-unit">
+        <h1>Test</h1>
+        <p>
+            Welcome to the Spring MVC Quickstart application!
+            Get started quickly by signing up.
+        </p>
+        <div>
+            aaaaaa<br>
+            <span th:with="age=(3)"></span>
+            <div>
+                bbbb<span th:unless="${mm}">ssss</span>cccc
+            </div>
+        </div>
+        <p>
+            <a href="/signup" class="btn btn-large btn-success">Sign up</a>
+        </p>
+    </div>
+    <div th:replace="foot :: footer">&copy; 2019 The NewsManager</div>
+</div>
+
+
+</body>
+</html>

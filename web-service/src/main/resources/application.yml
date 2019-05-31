@@ -21,6 +21,14 @@ eureka:
 spring:
   application:
     name: web-service
+  thymeleaf:
+    prefix: classpath:/pages/
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+    servlet:
+      content-type: text/html
+
 
 feign:
   hystrix:
