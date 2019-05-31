@@ -62,6 +62,19 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
             <version>2.1.4.RELEASE</version>
         </dependency>
+        <!--引用bootstrap-->
+        <!--<dependency>-->
+            <!--<groupId>org.webjars</groupId>-->
+            <!--<artifactId>bootstrap</artifactId>-->
+            <!--<version>3.3.7</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.webjars/jquery &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.webjars</groupId>-->
+            <!--<artifactId>jquery</artifactId>-->
+            <!--<version>2.1.1</version>-->
+        <!--</dependency>-->
+
 
         <dependency>
             <groupId>code.guide</groupId>
@@ -80,6 +93,12 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.36.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>2.1.2.RELEASE</version>
         </dependency>
 
 
