@@ -16,6 +16,12 @@ public class PatternUtils {
         return matcher.find();
     }
 
+    public static boolean matchNoCase(String original, String reg) {
+        Pattern pattern = Pattern.compile(reg, Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
+        Matcher matcher = pattern.matcher(original);
+        return matcher.find();
+    }
+
     public static String groupOne(String original, String reg, Integer index) {
         Pattern pattern = Pattern.compile(reg);
         Matcher matcher = pattern.matcher(original);

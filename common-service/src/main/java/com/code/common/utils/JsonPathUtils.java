@@ -44,4 +44,11 @@ public class JsonPathUtils {
         return objs;
     }
 
+    public static List<Map<String, Object>> getMapList(String content, String jsonpath) {
+        DocumentContext context = (JsonContext) JsonPath.parse(content);
+
+        List<Map<String, Object>> maps = context.read(jsonpath);
+        return maps;
+    }
+
 }

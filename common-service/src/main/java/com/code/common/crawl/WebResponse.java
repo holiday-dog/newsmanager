@@ -1,6 +1,7 @@
 package com.code.common.crawl;
 
 import com.code.common.exception.CodeException;
+import com.code.common.utils.PatternUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
@@ -24,6 +25,8 @@ public class WebResponse {
     private Header[] headers;
 
     private String cookie;
+
+    private Charset charset;
 
     public void setHandlerObj(Object handlerObj) {
         this.handlerObj = handlerObj;
@@ -66,7 +69,19 @@ public class WebResponse {
     }
 
     public String getRespText() {
-        return getRespText(Charset.defaultCharset());
+        if (charset != null) {
+            return getRespText(charset);
+        }
+        Charset charset = Charset.defaultCharset();
+        if (headers != null && headers.length > 1) {
+            for (Header header : headers) {
+                if ("Content-Type".equals(header.getName())) {
+                    charset = getContentCharset(header.getValue());
+                    this.charset = charset;
+                }
+            }
+        }
+        return getRespText(charset);
     }
 
     public Header[] getHeaders() {
@@ -94,7 +109,25 @@ public class WebResponse {
         return cookie;
     }
 
+    public Charset getCharset() {
+        return charset;
+    }
+
     public Integer statusCode() {
         return statusLine.getStatusCode();
+    }
+
+    public Charset getContentCharset(String value) {
+        if (PatternUtils.matchNoCase(value, "(charset)\\s?=\\s?(utf-?8)")) {
+            return Charset.forName("utf8");
+        } else if (PatternUtils.matchNoCase(value, "(charset)\\s?=\\s?(gbk)")) {
+            return Charset.forName("gbk");
+        } else if (PatternUtils.matchNoCase(value, "(charset)\\s?=\\s?(gb2312)")) {
+            return Charset.forName("gb2312");
+        } else if (PatternUtils.matchNoCase(value, "(charset)\\s?=\\s?(iso-?8859-?1)")) {
+            return Charset.forName("iso8859-1");
+        }
+
+        return Charset.defaultCharset();
     }
 }

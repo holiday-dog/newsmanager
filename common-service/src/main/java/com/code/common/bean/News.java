@@ -32,6 +32,8 @@ public class News {
 
     private String referUrl;
 
+    private String img;
+
     private List<String> relationUrls;
 
     private List<String> relationTitles;

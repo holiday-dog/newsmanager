@@ -1,6 +1,8 @@
 package com.code.analyse;
 
 import com.alibaba.fastjson.JSON;
+import com.code.analyse.handler.KeyWordExtractor;
+import com.code.analyse.handler.SearchExtractor;
 import com.code.analyse.utils.IndexerUtils;
 import com.code.common.utils.IOUtils;
 import com.code.common.utils.JsonPathUtils;
@@ -12,6 +14,7 @@ import org.apache.lucene.util.BytesRef;
 import org.junit.Before;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -21,7 +24,7 @@ public class Test {
     @org.junit.Test
     public void test111() throws Exception {
 //        System.out.println(page);
-        page = JsonPathUtils.getValue(page, "$.historyTravelList[0].content");
+        page = JsonPathUtils.getValue(page, "$.historyTravelList[1].content");
         System.out.println(page);
 
         IndexWriter indexWriter = IndexerUtils.initIndexWrite();
@@ -55,6 +58,39 @@ public class Test {
             }
         });
         System.out.println(JSON.toJSONString(sortedMap));
+    }
+
+    @org.junit.Test
+    public void testt() throws Exception {
+//        page = JsonPathUtils.getValue(page, "$.newestTravelList[2].content");
+        page = JsonPathUtils.getValue(page, "$.topTravelList[1].content");
+        System.out.println(page);
+
+        KeyWordExtractor keyWordExtractor = new KeyWordExtractor();
+        System.out.println(JSON.toJSONString(keyWordExtractor.analyse(page)));
+    }
+
+    @org.junit.Test
+    public void testt3() throws Exception {
+//        System.out.println(new WebResponse().getContentCharset("text/html;charset=ISO-8859-1"));
+
+        SearchExtractor se = new SearchExtractor();
+        System.out.println(JSON.toJSONString(se.searchKeyWord("大会")));
+        System.out.println(URLEncoder.encode("美国", Charset.forName("gbk").toString()));
+
+//        String page = IOUtils.stringByResource("test/page.html", Charset.forName("gbk"));
+//
+//        if (page != null && StringUtils.isNotEmpty(page)) {
+//            List<String> searchList = JsoupUtils.getElementsHtml(page, "div[class~=w800] ul");
+//            for (String search : searchList) {
+////                System.out.println(search);
+//                System.out.println(JsoupUtils.getText(search, "ul li:eq(0) a"));
+//                System.out.println(JsoupUtils.getText(search, "ul li:eq(1)"));
+//                System.out.println(JsoupUtils.getText(search, "ul li:eq(2)"));
+//            }
+//        }
+
+
     }
 
     @Before

@@ -1,4 +1,4 @@
-package com.code.data.utils;
+package com.code.common.enums;
 
 public enum ResultStatus {
     SUCCESS("1000", "请求成功"),

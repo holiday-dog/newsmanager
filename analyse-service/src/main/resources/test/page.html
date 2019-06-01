@@ -1,0 +1,641 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk"/>
+    <meta http-equiv="Content-Language" content="gbk"/>
+    <meta name="robots" content="all"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="filetype" content="1"/>
+    <meta name="publishedtype" content="1"/>
+    <meta name="pagetype" content="2"/>
+    <meta name="catalogs" content="F_202936"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <script src="http://www.people.com.cn/img/2011people/jquery-1.4.3.min.js" type="text/javascript"></script>
+
+    <title>人民网--搜索</title>
+    <script type="text/javascript" src="../js/language.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            9999999999999999
+            $(document).keydown(function (e) {
+                var oC = $("#keyword").val();
+                var event = window.event || e;
+                var pressKey = event.keyCode;
+                if (pressKey == 13) {
+                    if (oC == "")
+                        emptyPrompt('news');
+                    else
+                        createParameter('/cnpeople/search.do', 'news');
+                }
+            })
+        })
+    </script>
+    <link href="css/news.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body>
+
+
+<!--nav-->
+<div>
+
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="gbk">
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=gbk"/>
+        <meta http-equiv="content-language" content="gbk"/>
+        <meta name="robots" content="all"/>
+        <meta name="author" content=""/>
+        <meta name="copyright" content=""/>
+        <meta name="description" content=""/>
+        <meta name="keywords" content=""/>
+        <title></title></head>
+    <body>
+    <center>
+        <iframe width="1003" height="110" frameborder="0" scrolling="no"
+                src="http://www.people.com.cn/GB/120508/120509/index.html"></iframe>
+    </center>
+    </body>
+    </html>
+</div>
+<!-- nav -->
+<div class="nav mt10 clearfix">
+    <div class="nav_l"><a href="http://www.people.com.cn" target="_blank">
+        <img src="images/logo.gif"/></a>
+    </div>
+    <form action="/cnpeople/search.do" name="searchForm" method="post">
+
+        <div class="t02">
+            <a href="#" onclick="createParameter('/cnpeople/search.do','news')">新闻</a>
+            <a href="#" onclick="createParameter('/cnpeople/newspapersearch.do','newspaper')">报刊</a>&nbsp;&nbsp;
+            <a href="#" onclick="setPicHref('news')">图片</a>
+            <a href="#" onclick="setVideoHref('news')">视频</a>
+            <!--
+            <a href="#" onclick="createParameter('/cnpeople/search.do','special')">专题</a>
+             -->
+        </div>
+
+        <div class="tt03">
+            <table width="100%">
+                <tr>
+                    <td width="90%">
+                        <input name="siteName" value="news" type="hidden"/>
+                        <input name="pageNum" value="1" type="hidden"/>
+                        <input name="keyword" id="keyword" size="60" type="text" value="北京"/>
+                        <input type="hidden" name="facetFlag" value="true"/>
+                        <input type="hidden" name="nodeType" value="belongsId"/>
+                        <input type="hidden" name="nodeId" value="0"/>
+                        <input type="hidden" name="pageCode" id="pageCode" value=""/>
+                        <input type="hidden" name="originName" value=""/>
+                    </td>
+                    <td width="10%"><img src="images/search.jpg" border="0"
+                                         onclick="createParameter('/cnpeople/search.do','news')"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<!--nav-->
+
+<div class="w980">
+    <div class="fl w180">
+        <ul>
+
+            <b>搜索结果</b>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1004">
+                    财经(111673)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1001">
+                    时政(88418)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1008">
+                    社会(78027)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14820">
+                    体育(77473)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=164220">
+                    房产(55611)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1002">
+                    国际(53035)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1012">
+                    人民网娱乐频道(50814)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14677">
+                    传媒(41192)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=58278">
+                    地方领导(40018)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=41570">
+                    旅游频道_权威全面报道旅游(37329)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=42510">
+                    法治(36963)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1009">
+                    IT(35882)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1000">
+                    新闻中心(33996)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1003">
+                    观点(25186)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1007">
+                    科技(23504)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1005">
+                    人民网汽车(22003)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1011">
+                    军事(20820)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1010">
+                    环保(19347)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=357069">
+                    人物(18260)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1016">
+                    图片频道(17668)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=71661">
+                    能源(16979)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=132212">
+                    人民网卫生频道(16167)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1014">
+                    时尚(15858)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1006">
+                    教育(14587)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=141677">
+                    中国央企新闻网--权威发布中央企业，国资委，地方国企最新消息(14070)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=34948">
+                    中国政协新闻网(13737)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1013">
+                    文化(13329)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=40130">
+                    人民网游戏_最权威中文游戏网站(12318)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14739">
+                    人民网健康卫生频道(11888)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=151132">
+                    公益(10863)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14576">
+                    中国人大新闻(9984)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=57922">
+                    节会频道(9467)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=42309">
+                    华人华侨(8611)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=209043">
+                    舆情频道(7882)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=41390">
+                    家电(7838)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14657">
+                    台湾频道(7621)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=366510">
+                    中华慈善新闻网(6648)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=183008">
+                    人民网通信频道(6599)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=122366">
+                    动漫(6133)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=151264">
+                    家居(5426)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=136655">
+                    知识产权(5319)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=85914">
+                    食品频道(4971)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=54918">
+                    开发区(4839)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=42272">
+                    港澳(3758)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=31889">
+                    彩票(2169)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=22160">
+                    棋牌(1858)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=241376">
+                    美国频道(1776)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=186327">
+                    浙江频道(1610)</a></li>
+
+            <li>
+                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=68880">
+                    读书(1560)</a></li>
+
+        </ul>
+    </div>
+
+
+    <div class="fr w800">
+        <div class="searchbar_text">
+            本次检索为您找到 <b>2681183</b> 篇有关 <font color="red">北京</font> 的页面,用时 0.249秒.
+        </div>
+
+        <ul>
+            <li><b><a href="http://military.people.com.cn/n1/2019/0601/c1011-31115335.html" target="_blank">海事局发布禁航公告称南海海域将进行军事训练</a></b>
+            </li>
+            <li>[
+
+
+                中国海事局网站截图
+
+                据中国海事局网站5月31日公开发布信息【琼航警0059】的内容显示，因南海海域有军事训练，从<font color='red'>北京</font>时间6月2日6时30分至18时30分、6月4日6时30分至12时30]
+            </li>
+            <li><a href="http://military.people.com.cn/n1/2019/0601/c1011-31115335.html" target="_blank">http://military.people.com.cn/n1/2019/0601/c1011-31115335.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 11:47:51
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115320.html" target="_blank">习近平向第14届伊斯兰合作组织首脑会议致贺电</a></b>
+            </li>
+            <li>[
+                新华社<font color='red'>北京</font>6月1日电 国家主席习近平5月31日致电祝贺第14届伊斯兰合作组织首脑会议在麦加召开。
+
+                习近平指出，伊斯兰合作组织是伊斯兰国家团结的象征，成立50年来，为促进伊斯兰国家合作作出重要]
+            </li>
+            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115320.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115320.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 11:35:14
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115313.html" target="_blank">“与共和国同龄
+                我们共同成长”——北京市北海幼儿园开展70年历程暨六一儿童节活动</a></b></li>
+            <li>[
+                人民网<font color='red'>北京</font>6月1日电 “六一”儿童节前夕，北京市北海幼儿园开展“与共和国同龄 我们共同成长”70年历程暨六一儿童节活动。
+
+                成立于1949年的北京市北海幼儿园，与新中国一同迎来70岁的生日。]
+            </li>
+            <li><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115313.html" target="_blank">http://edu.people.com.cn/n1/2019/0601/c1006-31115313.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 11:00:03
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115312.html"
+                      target="_blank">传统文化融入学前教育</a></b></li>
+            <li>[
+                人民网<font color='red'>北京</font>6月1日电 “六一”儿童节前夕，北京市北海幼儿园举办“与共和国同龄 我们共同成长”70年历程暨六一儿童节活动。
+
+                幼儿园以此次主题活动为契机，培养孩子们对中国传统文化的兴趣和热爱，]
+            </li>
+            <li><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115312.html" target="_blank">http://edu.people.com.cn/n1/2019/0601/c1006-31115312.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:54
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115311.html"
+                      target="_blank">赵克志与泰国副总理威沙努举行会谈</a></b></li>
+            <li>[
+                本报<font color='red'>北京</font>5月31日电（记者张洋）国务委员、公安部部长赵克志31日在京与泰国副总理威沙努举行会谈。
+
+                赵克志表示，习近平主席与巴育总理在第二届“一带一路”国际合作高峰论坛期间举行会见，为两国关系]
+            </li>
+            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115311.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115311.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:28
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115308.html"
+                      target="_blank">王晨出席俄罗斯驻华使馆国庆招待会</a></b></li>
+            <li>[
+                新华社<font color='red'>北京</font>5月31日电（记者温馨）中共中央政治局委员、全国人大常委会副委员长王晨31日出席俄罗斯驻华使馆国庆招待会并致辞。
+
+                王晨表示，今年是中俄建交70周年，是两国人民共同的节日。在习近平]
+            </li>
+            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115308.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115308.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:28
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115310.html" target="_blank">王毅同柬埔寨副首相兼外交大臣举行会谈</a></b>
+            </li>
+            <li>[
+                新华社<font color='red'>北京</font>5月31日电（记者成欣、朱超）国务委员兼外交部长王毅31日在<font color='red'>北京</font>同柬埔寨副首相兼外交大臣布拉索昆举行会谈。
+
+                王毅表示，中柬有着传统友好，双方率先在双边层面签署建设中柬命运共同体行动]
+            </li>
+            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115310.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115310.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:28
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115309.html"
+                      target="_blank">郭声琨会见泰国副总理威沙努</a></b></li>
+            <li>[
+                本报<font color='red'>北京</font>5月31日电（记者张洋）中共中央政治局委员、中央政法委书记郭声琨31日在京会见泰国副总理威沙努。
+
+                郭声琨指出，习近平主席在第二届“一带一路”国际合作高峰论坛期间同巴育总理举行了富有]
+            </li>
+            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115309.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115309.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:28
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://v.people.cn/n1/2019/0601/c39805-31115295.html" target="_blank">[<font color='red'>北京：男子到派出所送锦旗 </font>民警有意外收获]</a></b>
+            </li>
+            <li></li>
+            <li><a href="http://v.people.cn/n1/2019/0601/c39805-31115295.html" target="_blank">http://v.people.cn/n1/2019/0601/c39805-31115295.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:30:39
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://sports.people.com.cn/n1/2019/0601/c383223-31115276.html" target="_blank">2019环塔拉力赛落幕
+                韩魏巴吉赛车表现出色</a></b></li>
+            <li>[
+                人民网<font color='red'>北京</font>6月1日电（记者李长云）5月31日，2019环塔拉力赛进入最后一个短赛段的SS9表演时间。这条赛道虽然只有30公里，但是设置在了海拔3000多米的雪山之下，堪称昆仑迷情。成绩排名基本上]
+            </li>
+            <li><a href="http://sports.people.com.cn/n1/2019/0601/c383223-31115276.html" target="_blank">http://sports.people.com.cn/n1/2019/0601/c383223-31115276.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:26:42
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115270.html" target="_blank">以青春之声向祖国致敬——2019华语辩论世界杯总决赛暨首届环球青年思想对话大会在京举办</a></b>
+            </li>
+            <li>[
+
+
+                5月31日下午，2019华语辩论世界杯总决赛暨首届环球青年思想对话大会在<font color='red'>北京</font>举办。人民日报社副总编辑方江山致辞，国际关系学院党委书记韦春江、《环球人物》杂志社总编辑谢湘等出席。《环球时报》]
+            </li>
+            <li><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115270.html" target="_blank">http://edu.people.com.cn/n1/2019/0601/c1006-31115270.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:23:30
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115242.html" target="_blank">人民日报社副总编辑方江山：为现实关切思辨
+                为时代议题发声</a></b></li>
+            <li>[
+
+
+                人民日报社副总编辑 方江山
+
+                5月31日下午，2019华语辩论世界杯总决赛暨首届环球青年思想对话大会在<font color='red'>北京</font>举办。本次大会由国际关系学院和人民日报《环球人物》杂志社共同主办，主题是“以青春]
+            </li>
+            <li><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115242.html" target="_blank">http://edu.people.com.cn/n1/2019/0601/c1006-31115242.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:12:46
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://society.people.com.cn/n1/2019/0601/c1008-31115240.html" target="_blank">预计年降费9.4亿元
+                铁路部门实施普惠降费举措</a></b></li>
+            <li>[
+                人民网<font color='red'>北京</font>6月1日电
+                （记者孝金波）记者从中国铁路总公司获悉，继4月1日铁路货运降价降费、让利60亿元后，自5月31日起，铁路部门将降低铁路专用线（含专用铁路）代运营代维护（以下简称代运代维）、]
+            </li>
+            <li><a href="http://society.people.com.cn/n1/2019/0601/c1008-31115240.html" target="_blank">http://society.people.com.cn/n1/2019/0601/c1008-31115240.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:09:54
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115239.html" target="_blank">电子烟也有二手烟：尼古丁含量甚至高于普通香烟</a></b>
+            </li>
+            <li>[…在<font color='red'>北京</font>一家电子烟实体店内，不少年轻人聚集在各式各样的电子烟面前。
+
+                正在选购电子烟的刘硕告诉记者，在网上看到有人玩电子烟，他“觉得酷，好玩”，试了一口后“就入坑了”。另外一位顾客王晓说，“电子烟]
+            </li>
+            <li><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115239.html" target="_blank">http://health.people.com.cn/n1/2019/0601/c14739-31115239.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:06:57
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://sports.people.com.cn/n1/2019/0601/c382934-31115238.html" target="_blank">“无篮球 不童年”
+                中国男篮与小学生亲密互动庆六一</a></b></li>
+            <li>[
+                人民网<font color='red'>北京</font>6月1日电（赵欣悦） 5月31日，由中国篮球协会主办的“无篮球
+                不童年”六一儿童节中国男篮校园行活动正式开启。中国篮球协会秘书长白喜林、中国男篮主教练李楠携中国男篮国家集训队10位球员]
+            </li>
+            <li><a href="http://sports.people.com.cn/n1/2019/0601/c382934-31115238.html" target="_blank">http://sports.people.com.cn/n1/2019/0601/c382934-31115238.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:04:56
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115229.html" target="_blank">高考倒计时
+                专家提醒家长你的平静从容胜过千言万语</a></b></li>
+            <li>[
+                高考将至。考场中，考生们比拼的是实力；考场外，比拼的是心理。<font color='red'>北京</font>儿童医院顺义妇儿医院精神心理中心主任崔永华提醒，此时考生心理压力很大，家长和老师要想办法给孩子们做好心理“减负”。
+
+                崔永华说，]
+            </li>
+            <li><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115229.html" target="_blank">http://health.people.com.cn/n1/2019/0601/c14739-31115229.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:51:00
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://society.people.com.cn/n1/2019/0601/c1008-31115220.html" target="_blank">机票超售成为航空业隐形惯例
+                统一补偿标准降低负面影响</a></b></li>
+            <li>[用户造成的损失和影响。服务协议中并没有涉及机票超售的相关内容。
+
+                　　在另一家网络平台中,记者搜索某月某日<font color='red'>北京</font>飞往某地的机票时,售价为1080元的机票用小字标注“最后一组登机”和“不可提前选座”,并且]
+            </li>
+            <li><a href="http://society.people.com.cn/n1/2019/0601/c1008-31115220.html" target="_blank">http://society.people.com.cn/n1/2019/0601/c1008-31115220.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:41:57
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115217.html" target="_blank">我国将建立国家级真菌病监测网</a></b>
+            </li>
+            <li>[超级真菌”时，需将信息实时上报至国家中心。
+
+                据悉，该监测网将由符合一定条件的三级医疗机构组成，采用分级运行管理机制，包括国家中心、省级中心和监测单位。<font color='red'>北京</font>协和医院被指定为监测网国家中心，负责监测网的]
+            </li>
+            <li><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115217.html" target="_blank">http://health.people.com.cn/n1/2019/0601/c14739-31115217.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:38:06
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://politics.people.com.cn/n1/2019/0601/c1024-31115213.html" target="_blank">把乡村振兴战略作为新时代“三农”工作总抓手</a></b>
+            </li>
+            <li>[
+                　　把乡村振兴战略作为新时代“三农”工作总抓手
+
+                　　习近平
+
+
+                　　2017年12月28日至29日，中央农村工作会议在<font color='red'>北京</font>举行。中共中央总书记、国家主席、中央军委主席习近平在会上发表]
+            </li>
+            <li><a href="http://politics.people.com.cn/n1/2019/0601/c1024-31115213.html" target="_blank">http://politics.people.com.cn/n1/2019/0601/c1024-31115213.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:34:37
+            </li>
+            <br>
+        </ul>
+
+        <ul>
+            <li><b><a href="http://legal.people.com.cn/n1/2019/0601/c42510-31115212.html" target="_blank">中央宣传部等部署开展第十六届全国法治动漫微视频作品征集展示活动</a></b>
+            </li>
+            <li>[
+                　　新华社<font color='red'>北京</font>5月30日电
+                近日，中央宣传部、中央网信办、司法部、全国普法办公室联合印发通知，决定以“法治新时代”为主题，在全社会组织开展第十六届全国法治动漫微视频作品征集展示活动。]
+            </li>
+            <li><a href="http://legal.people.com.cn/n1/2019/0601/c42510-31115212.html" target="_blank">http://legal.people.com.cn/n1/2019/0601/c42510-31115212.html</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:32:40
+            </li>
+            <br>
+        </ul>
+
+
+        <div class="show_nav_bar">
+
+
+            1
+
+            <a href="/cnpeople/search.do?pageNum=2&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">2</a>
+
+            <a href="/cnpeople/search.do?pageNum=3&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">3</a>
+
+            <a href="/cnpeople/search.do?pageNum=4&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">4</a>
+
+            <a href="/cnpeople/search.do?pageNum=5&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">5</a>
+
+            <a href="/cnpeople/search.do?pageNum=6&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">6</a>
+
+            <a href="/cnpeople/search.do?pageNum=7&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">7</a>
+
+            <a href="/cnpeople/search.do?pageNum=8&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">8</a>
+
+            <a href="/cnpeople/search.do?pageNum=9&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">9</a>
+
+            <a href="/cnpeople/search.do?pageNum=10&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">10</a>
+
+
+            <a href="/cnpeople/search.do?pageNum=2&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">下一页</a>
+
+        </div>
+
+    </div>
+</div>
+
+<!--copyright-->
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="gbk">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=gbk"/>
+    <meta http-equiv="content-language" content="gbk"/>
+    <meta name="robots" content="all"/>
+    <meta name="author" content=""/>
+    <meta name="copyright" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <title>人民网搜索</title></head>
+<body>
+<center>
+    <iframe width="1003" height="160" frameborder="0" scrolling="no"
+            src="http://www.people.com.cn/GB/120508/120510/index.html"></iframe>
+</center>
+</body>
+</html>
+<!--copyright-->
+</body>
+</html>
