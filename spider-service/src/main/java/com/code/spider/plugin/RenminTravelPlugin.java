@@ -1,7 +1,7 @@
 package com.code.spider.plugin;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RenminTravelPlugin extends ClientPlugin {
-    private static String indexUrl = "http://travel.people.com.cn";
+    private static String indexUrl = "http://travel.people.com.cn/";
     private static WebClient client = WebClient.buildDefaultClient().buildRouteAndCount(50, 100).build();
     private Logger logger = LoggerFactory.getLogger(RenminTravelPlugin.class);
     private static final Charset defaultCharset = Charset.forName("GB2312");
@@ -54,41 +54,48 @@ public class RenminTravelPlugin extends ClientPlugin {
         List<String> newestTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "div.jsnew_line a", "href");
         List<String> historyTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "div.headingNews div.hdNews div.on h5 a", "href");
         List<String> topTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.ph_list li a", "href");
-        if (!CollectionUtils.isEmpty(newestTravelUrlList)) {
-            List<RawData> newestTravelList = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                String newestTravelUrl = indexUrl + newestTravelUrlList.get(i);
-                System.out.println("-----" + newestTravelUrl);
-                request = new WebRequest(newestTravelUrl);
-                response = client.execute(request);
-                newestTravelList.add(new RawData(newestTravelUrl, response.getRespText(defaultCharset)));
-            }
-            spiderData.put("newestTravelList", newestTravelList);
+        List<String> hotTravelList = JsoupUtils.getElementsHtml(response.getRespText(), "div#focus_list ul li");
+
+//        if (!CollectionUtils.isEmpty(newestTravelUrlList)) {
+//            List<RawData> newestTravelList = new ArrayList<>();
+//            for (int i = 0; i < 3; i++) {
+//                String newestTravelUrl = indexUrl + newestTravelUrlList.get(i);
+//                System.out.println("-----" + newestTravelUrl);
+//                request = new WebRequest(newestTravelUrl);
+//                response = client.execute(request);
+//                newestTravelList.add(new RawData(newestTravelUrl, response.getRespText(defaultCharset)));
+//            }
+//            spiderData.put("newestTravelList", newestTravelList);
+//        }
+//        //新闻历史
+//        if (!CollectionUtils.isEmpty(historyTravelUrlList)) {
+//            List<RawData> historyTravelList = new ArrayList<>();
+//            for (int i = 0; i < 3; i++) {
+//                String historyTravelUrl = indexUrl + historyTravelUrlList.get(i);
+//                System.out.println("--" + historyTravelUrl);
+//                request = new WebRequest(historyTravelUrl);
+//                response = client.execute(request);
+//                historyTravelList.add(new RawData(historyTravelUrl, response.getRespText(defaultCharset)));
+//            }
+//            spiderData.put("historyTravelList", historyTravelList);
+//        }
+//        //排行新闻
+//        if (!CollectionUtils.isEmpty(topTravelUrlList)) {
+//            List<RawData> topTravelList = new ArrayList<>();
+//            for (int i = 0; i < 3; i++) {
+//                String topTravelUrl = indexUrl + topTravelUrlList.get(i);
+//                System.out.println(topTravelUrl);
+//                request = new WebRequest(topTravelUrl);
+//                response = client.execute(request);
+//                topTravelList.add(new RawData(topTravelUrl, response.getRespText(defaultCharset)));
+//            }
+//            spiderData.put("topTravelList", topTravelList);
+//        }
+        //新闻热点
+        if (!CollectionUtils.isEmpty(hotTravelList)) {
+            spiderData.put("hotTravelList", hotTravelList);
         }
-        //新闻历史
-        if (!CollectionUtils.isEmpty(historyTravelUrlList)) {
-            List<RawData> historyTravelList = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                String historyTravelUrl = indexUrl + historyTravelUrlList.get(i);
-                System.out.println("--" + historyTravelUrl);
-                request = new WebRequest(historyTravelUrl);
-                response = client.execute(request);
-                historyTravelList.add(new RawData(historyTravelUrl, response.getRespText(defaultCharset)));
-            }
-            spiderData.put("historyTravelList", historyTravelList);
-        }
-        //排行新闻
-        if (!CollectionUtils.isEmpty(topTravelUrlList)) {
-            List<RawData> topTravelList = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                String topTravelUrl = indexUrl + topTravelUrlList.get(i);
-                System.out.println(topTravelUrl);
-                request = new WebRequest(topTravelUrl);
-                response = client.execute(request);
-                topTravelList.add(new RawData(topTravelUrl, response.getRespText(defaultCharset)));
-            }
-            spiderData.put("topTravelList", topTravelList);
-        }
+
 
         return spiderData;
     }
@@ -99,20 +106,29 @@ public class RenminTravelPlugin extends ClientPlugin {
         try {
             for (String key : spiderData.keySet()) {
                 logger.info("handler {} data", key);
-                List<News> newsList = new ArrayList<>();
-                List<RawData> results = (List<RawData>) spiderData.get(key);
-                if (CollectionUtils.isEmpty(results)) {
-                    continue;
-                }
-                for (RawData result : results) {
-                    String page = result.getPage();
-                    if (page.contains("next_page.jpg")) {
-                        newsList.add(handleMultiPage(page, result.getUrl()));
-                    } else {
-                        newsList.add(handleSinglePage(page, result.getUrl()));
+                if (!key.contains("hot")) {
+                    List<News> newsList = new ArrayList<>();
+                    List<RawData> results = (List<RawData>) spiderData.get(key);
+                    if (CollectionUtils.isEmpty(results)) {
+                        continue;
                     }
+                    for (RawData result : results) {
+                        String page = result.getPage();
+                        if (page.contains("next_page.jpg")) {
+                            newsList.add(handleMultiPage(page, result.getUrl()));
+                        } else {
+                            newsList.add(handleSinglePage(page, result.getUrl()));
+                        }
+                    }
+                    resultMap.put(key, newsList);
+                } else {
+                    List<HotNews> hotNewsListList = new ArrayList<>();
+                    List<String> pages = (List<String>) spiderData.get(key);
+                    for (String page : pages) {
+                        hotNewsListList.add(ExtractorUtils.extractRenminHot(page, indexUrl));
+                    }
+                    resultMap.put(key, hotNewsListList);
                 }
-                resultMap.put(key, newsList);
             }
         } catch (Exception e) {
         }

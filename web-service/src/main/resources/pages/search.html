@@ -46,8 +46,7 @@
                 <div class="col-sm-8">
                     <p th:utext="${news.description}">............</p>
                     <div style="position: relative;left: 0px;bottom: 0px">
-                        发布时间：<span th:utext="${news.pubTime}"></span>&nbsp;&nbsp;&nbsp;
-                        <!--发布时间：<span th:utext="${#dates.format(news.pubTime, 'yyyy-MM-dd')}"></span>&nbsp;&nbsp;&nbsp;-->
+                        发布时间：<span th:utext="${#strings.replace(news.pubTime, 'T', ' ')}"></span>&nbsp;&nbsp;&nbsp;
                         来源：<span th:text="${#strings.equals(news.spiderWeb,'Xinhua')?'新华网':'人民网'}"></span>
                     </div>
                 </div>

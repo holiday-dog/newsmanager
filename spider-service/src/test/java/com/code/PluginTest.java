@@ -5,9 +5,7 @@ import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
-import com.code.spider.plugin.ClientPlugin;
-import com.code.spider.plugin.RenminTravelPlugin;
-import com.code.spider.plugin.XinhuaTravelPlugin;
+import com.code.spider.plugin.*;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -17,10 +15,10 @@ public class PluginTest {
     @Test
     public void testt() {
         ClientPlugin plugin = null;
-//        plugin = new XinhuaEduPlugin();
-//        plugin = new XinhuaTravelPlugin();
-//        plugin = new XinhuaSciencePlugin();
-//        plugin = new RenminEduPlugin();
+        plugin = new XinhuaEduPlugin();
+        plugin = new XinhuaTravelPlugin();
+        plugin = new XinhuaSciencePlugin();
+        plugin = new RenminEduPlugin();
         plugin = new RenminTravelPlugin();
 //        System.out.println(plugin.genHostPrex("http://education.news.cn/2019-05/28/c_1210145273.htm"));
         System.out.println(plugin.spiderProcess(null));

@@ -1,12 +1,12 @@
 package com.code.spider.plugin;
 
 import com.alibaba.fastjson.JSON;
+import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
-import com.code.common.utils.DateUtils;
 import com.code.common.utils.JsoupUtils;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class XinhuaSciencePlugin extends ClientPlugin {
-    private static String indexUrl = "http://education.news.cn/";
+    private static String indexUrl = "http://www.news.cn/tech";
     private static WebClient client = WebClient.buildDefaultClient().buildRouteAndCount(50, 100).build();
     private Logger logger = LoggerFactory.getLogger(XinhuaSciencePlugin.class);
 
@@ -49,11 +49,13 @@ public class XinhuaSciencePlugin extends ClientPlugin {
         response = client.execute(request);
 
         if (StringUtils.isNotEmpty(response.getRespText())) {
-            //今日新闻
+
             List<String> newestScienceUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
             List<String> historyScienceUrlList = JsoupUtils.getAttr(response.getRespText(), "ul#showData0 + div#hideData3 ul li  h3 a", "href");
-            List<String> hotTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "div.impNews div.textList ul li a", "href");
+            List<String> topScienceUrlList = JsoupUtils.getAttr(response.getRespText(), "div.impNews div.textList ul li a", "href");
+            List<String> hotScienceList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
 
+            //今日新闻
 //            if (!CollectionUtils.isEmpty(newestScienceUrlList)) {
 //                List<RawData> newestSciencelList = new ArrayList<>();
 //                for (int i = 0; i < 3; i++) {
@@ -67,30 +69,34 @@ public class XinhuaSciencePlugin extends ClientPlugin {
 //            }
 
             //新闻历史
-            if (!CollectionUtils.isEmpty(historyScienceUrlList)) {
-                List<RawData> historyScienceList = new ArrayList<>();
-                long ts = DateUtils.nowTimeStamp();
-                for (int i = 0; i < 3; i++) {
-                    System.out.println(historyScienceUrlList.get(i));
+//            if (!CollectionUtils.isEmpty(historyScienceUrlList)) {
+//                List<RawData> historyScienceList = new ArrayList<>();
+//                long ts = DateUtils.nowTimeStamp();
+//                for (int i = 0; i < 3; i++) {
 //                    request = new WebRequest(historyScienceUrlList.get(i));
 //                    response = client.execute(request);
 //                    historyScienceList.add(new RawData(historyScienceUrlList.get(i), response.getRespText()));
-                }
+//                }
 //                spiderData.put("historySciencelList", historyScienceList);
-            }
+//            }
 
-            ////热点新闻
-//            if (!CollectionUtils.isEmpty(hotTravelUrlList)) {
-//                List<RawData> hotSciencelList = new ArrayList<>();
+            ////新闻排名
+//            if (!CollectionUtils.isEmpty(topScienceUrlList)) {
+//                List<RawData> topSciencelList = new ArrayList<>();
 //                for (int i = 0; i < 3; i++) {
-//                    String hotSciencelUrl = hotTravelUrlList.get(i);
+//                    String hotSciencelUrl = topScienceUrlList.get(i);
 //                    System.out.println("--" + hotSciencelUrl);
 //                    request = new WebRequest(hotSciencelUrl);
 //                    response = client.execute(request);
-//                    hotSciencelList.add(new RawData(hotSciencelUrl, response.getRespText()));
+//                    topSciencelList.add(new RawData(hotSciencelUrl, response.getRespText()));
 //                }
-//                spiderData.put("hotSciencelList", hotSciencelList);
+//                spiderData.put("topSciencelList", topSciencelList);
 //            }
+
+            //新闻热点
+            if (!CollectionUtils.isEmpty(hotScienceList)) {
+                spiderData.put("hotScienceList", hotScienceList);
+            }
         }
 
         return spiderData;
@@ -102,20 +108,29 @@ public class XinhuaSciencePlugin extends ClientPlugin {
         try {
             for (String key : spiderData.keySet()) {
                 logger.info("handler {} data", key);
-                List<News> newsList = new ArrayList<>();
-                List<RawData> results = (List<RawData>) spiderData.get(key);
-                if (CollectionUtils.isEmpty(results)) {
-                    continue;
-                }
-                for (RawData result : results) {
-                    String page = result.getPage();
-                    if (page.contains("下一页") && page.contains("div_currpage")) {
-                        newsList.add(handleMultiPage(page, result.getUrl()));
-                    } else {
-                        newsList.add(handleSinglePage(page, result.getUrl()));
+                if (!key.contains("hot")) {
+                    List<News> newsList = new ArrayList<>();
+                    List<RawData> results = (List<RawData>) spiderData.get(key);
+                    if (CollectionUtils.isEmpty(results)) {
+                        continue;
                     }
+                    for (RawData result : results) {
+                        String page = result.getPage();
+                        if (page.contains("下一页") && page.contains("div_currpage")) {
+                            newsList.add(handleMultiPage(page, result.getUrl()));
+                        } else {
+                            newsList.add(handleSinglePage(page, result.getUrl()));
+                        }
+                    }
+                    resultMap.put(key, newsList);
+                } else {
+                    List<HotNews> hotNewsListList = new ArrayList<>();
+                    List<String> pages = (List<String>) spiderData.get(key);
+                    for (String page : pages) {
+                        hotNewsListList.add(ExtractorUtils.extractXinhuaHot(page, indexUrl));
+                    }
+                    resultMap.put(key, hotNewsListList);
                 }
-                resultMap.put(key, newsList);
             }
         } catch (Exception e) {
         }

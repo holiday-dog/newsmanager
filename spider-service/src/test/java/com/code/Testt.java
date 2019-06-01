@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Testt {
     @Test
@@ -117,14 +118,23 @@ public class Testt {
 
     @Test
     public void test5() throws IOException {
-        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page2.html");
-        String page = IOUtils.getStringByInputStream(inputStream, Charset.forName("GB2312"));
+//        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page1.html");
+        String page = IOUtils.stringByResource("test/page.html", null);
 
+//        System.out.println(JsoupUtils.getElementsHtml(page, "div[class~=swiper-container] div.swiper-wrapper div.swiper-slide"));
+        List<String> pages = JsoupUtils.getElementsHtml(page, "div#focus_list ul li");
+        for (String s : pages) {//http://edu.people.com.cn/
+            System.out.println(s);
+            System.out.println(ExtractorUtils.extractRenminHot(s, "http://www.news.cn/tech"));
+//            System.out.println(JsoupUtils.getText(s, "div.show a"));
+//            System.out.println(JsoupUtils.getAttr(s, "a img", "src").get(0));
+//            System.out.println(JsoupUtils.getAttr(s, "a", "href").get(0));
+        }
         //JsoupUtils.removeElement(content, "table:has(img[src~=prev_page]")
-        String msg = JsoupUtils.getElementsHtmlPage(page, "table:has(img[src~=prev_page])");
+//        String msg = JsoupUtils.getElementsHtmlPage(page, "table:has(img[src~=prev_page])");
 //        String ss = JsoupUtils.replaceAttrAppendValue(msg, "img", "src", "http://");
-        System.out.println(msg);
-        System.out.println(ExtractorUtils.extractRenmin(page));
+//        System.out.println(msg);
+//        System.out.println(ExtractorUtils.extractRenmin(page));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.code.spider.plugin;
 
+import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.utils.DateUtils;
 import com.code.common.utils.JsoupUtils;
@@ -37,6 +38,14 @@ public class ExtractorUtils {
 
         News news = new News(title, description, keyword, author, dateTime, source);
         return news;
+    }
+
+    public static HotNews extractXinhuaHot(String page, String hostPrex) {
+        String title = JsoupUtils.getText(page, "p.name");
+        String referUrl = JsoupUtils.getAttr(page, "a:eq(0)", "href").get(0);
+        String img = hostPrex + "/" + JsoupUtils.getAttr(page, "a img", "src").get(0);
+        HotNews hotNews = new HotNews(title, img, referUrl);
+        return hotNews;
     }
 
     public static String extractorXinhuaContent(String page, String url) {
@@ -77,6 +86,14 @@ public class ExtractorUtils {
         return news;
     }
 
+    public static HotNews extractRenminHot(String page, String hostPrex) {
+        String title = JsoupUtils.getText(page, "div.show a");
+        String img = hostPrex + JsoupUtils.getAttr(page, "a img", "src").get(0);
+        String referUrl = JsoupUtils.getAttr(page, "a", "href").get(0);
+        HotNews hotNews = new HotNews(title, img, referUrl);
+        return hotNews;
+    }
+
     public static String extractRenminContent(String page, String url) {
         String content = JsoupUtils.getElementsHtmlPage(page, "div#rwb_zw");
         if (StringUtils.isNotEmpty(content)) {
@@ -92,5 +109,9 @@ public class ExtractorUtils {
 
     public static String genHostPrex(String url) {
         return StringUtils.substringBeforeLast(url, "/");
+    }
+
+    public static String genPrex(String url) {
+        return StringUtils.substring(url, StringUtils.indexOf(url, "/", StringUtils.indexOf(url, "://")));
     }
 }

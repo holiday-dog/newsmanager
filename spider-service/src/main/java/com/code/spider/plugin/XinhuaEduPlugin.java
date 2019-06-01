@@ -1,16 +1,13 @@
 package com.code.spider.plugin;
 
 import com.alibaba.fastjson.JSON;
+import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
-import com.code.common.utils.DateUtils;
-import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.JsoupUtils;
-import com.code.common.utils.PatternUtils;
-import com.code.spider.bean.Constants;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -54,40 +51,43 @@ public class XinhuaEduPlugin extends ClientPlugin {
         response = client.execute(request);
 
         if (StringUtils.isNotEmpty(response.getRespText())) {
-
             List<String> newestEduUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
-            if (!CollectionUtils.isEmpty(newestEduUrlList)) {
-                List<RawData> newestEduList = new ArrayList<>();
-//                for (String newestEduUrl : newestEduUrlList) {
-                for (int i = 0; i < 1; i++) {
-                    String newestEduUrl = newestEduUrlList.get(i);
-                    request = new WebRequest(newestEduUrl);
-                    response = client.execute(request);
-                    newestEduList.add(new RawData(newestEduUrl, response.getRespText()));
-                }
-                spiderData.put("newestEduList", newestEduList);
+            List<String> hotEduList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
+//            if (!CollectionUtils.isEmpty(newestEduUrlList)) {
+//                List<RawData> newestEduList = new ArrayList<>();
+////                for (String newestEduUrl : newestEduUrlList) {
+//                for (int i = 0; i < 3; i++) {
+//                    String newestEduUrl = newestEduUrlList.get(i);
+//                    request = new WebRequest(newestEduUrl);
+//                    response = client.execute(request);
+//                    newestEduList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
+//                }
+//                spiderData.put("newestEduList", newestEduList);
+//            }
+            //新闻热点
+            if (!CollectionUtils.isEmpty(hotEduList)) {
+                spiderData.put("hotEduList", hotEduList);
             }
         }
         //新闻历史
-
-        long ts = DateUtils.nowTimeStamp();
-        for (int i = 1; i <= 1; i++) {
-            String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
-            request = new WebRequest(spiderUrl);
-            response = client.execute(request);
-
-            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+_\\d+\\(([^\\(\\)]+)\\)", 1);
-            List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
-            if (!CollectionUtils.isEmpty(linkUrls)) {
-                List<RawData> eduPageList = new ArrayList<>();
-                for (int j = 0; j < 2; j++) {
-                    request = new WebRequest(linkUrls.get(j));
-                    response = client.execute(request);
-                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText()));
-                }
-                spiderData.put("historyEduList", eduPageList);
-            }
-        }
+//        long ts = DateUtils.nowTimeStamp();
+//        for (int i = 1; i <= 1; i++) {
+//            String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
+//            request = new WebRequest(spiderUrl);
+//            response = client.execute(request);
+//
+//            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+_\\d+\\(([^\\(\\)]+)\\)", 1);
+//            List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
+//            if (!CollectionUtils.isEmpty(linkUrls)) {
+//                List<RawData> eduPageList = new ArrayList<>();
+//                for (int j = 0; j < 3; j++) {
+//                    request = new WebRequest(linkUrls.get(j));
+//                    response = client.execute(request);
+//                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY));
+//                }
+//                spiderData.put("historyEduList", eduPageList);
+//            }
+//        }
 
         return spiderData;
     }
@@ -97,20 +97,29 @@ public class XinhuaEduPlugin extends ClientPlugin {
         Map<String, Object> resultMap = new HashMap<>();
         for (String key : spiderData.keySet()) {
             logger.info("handler {} data", key);
-            List<News> newsList = new ArrayList<>();
-            List<RawData> results = (List<RawData>) spiderData.get(key);
-            if (CollectionUtils.isEmpty(results)) {
-                continue;
-            }
-            for (RawData result : results) {
-                String page = result.getPage();
-                News news = ExtractorUtils.extractXinhua(page);
-                news.setContent(ExtractorUtils.extractorXinhuaContent(page, result.getUrl()));
-                news.setReferUrl(result.getUrl());
+            if (!key.contains("hot")) {
+                List<News> newsList = new ArrayList<>();
+                List<RawData> results = (List<RawData>) spiderData.get(key);
+                if (CollectionUtils.isEmpty(results)) {
+                    continue;
+                }
+                for (RawData result : results) {
+                    String page = result.getPage();
+                    News news = ExtractorUtils.extractXinhua(page);
+                    news.setContent(ExtractorUtils.extractorXinhuaContent(page, result.getUrl()));
+                    news.setReferUrl(result.getUrl());
 
-                newsList.add(news);
+                    newsList.add(news);
+                }
+                resultMap.put(key, newsList);
+            } else {
+                List<HotNews> hotNewsList = new ArrayList<>();
+                List<String> hotNewPageList = (List<String>) spiderData.get(key);
+                for (String hotNewsPage : hotNewPageList) {
+                    hotNewsList.add(ExtractorUtils.extractXinhuaHot(hotNewsPage, indexUrl));
+                }
+                resultMap.put(key, hotNewsList);
             }
-            resultMap.put(key, newsList);
         }
         System.out.println(JSON.toJSONString(resultMap));
 
