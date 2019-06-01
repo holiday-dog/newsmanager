@@ -67,7 +67,7 @@ public class WanDouProxyPlugin extends TrialProxyPlugin {
             if (StringUtils.isNotEmpty(response.getRespText())) {
                 String proxys = response.getRespText().trim();
                 String proxyHost = (String) JsonPathUtils.getValue(proxys, "$.data[0].ip");
-                Integer proxyPort = (Integer) JsonPathUtils.getValue(proxys, "$.data[0].port");
+                Integer proxyPort = JsonPathUtils.getObj(proxys, "$.data[0].port", Integer.class);
                 obj = new ProxyObj(proxyHost, proxyPort);
             } else {
                 logger.error("{} request proxy fail, page:{}", getProxyPluginName(), response.getRespText());

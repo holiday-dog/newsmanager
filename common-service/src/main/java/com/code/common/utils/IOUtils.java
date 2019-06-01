@@ -33,4 +33,9 @@ public class IOUtils {
     public static String getStringByInputStream(InputStream inputStream) throws IOException {
         return getStringByInputStream(inputStream, Charset.defaultCharset());
     }
+
+    public static String stringByResource(String path, Charset charset) throws IOException {
+        InputStream inputStream = IOUtils.class.getClassLoader().getResourceAsStream(path);
+        return getStringByInputStream(inputStream, charset);
+    }
 }

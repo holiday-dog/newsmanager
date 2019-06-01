@@ -1,7 +1,6 @@
 package com.code.test;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.code.common.bean.News;
 import com.code.common.enums.Modules;
 import com.code.common.enums.NewsType;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DataApplication.class})

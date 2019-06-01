@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public class JsonPathUtils {
-    public static Object getValue(String content, String jsonpath) {
+    public static String getValue(String content, String jsonpath) {
         DocumentContext context = (JsonContext) JsonPath.parse(content);
 
-        Object val = context.read(jsonpath);
+        String val = context.read(jsonpath);
         return val;
     }
 
