@@ -1,5 +1,6 @@
 package com.code.analyse.service;
 
+import com.code.analyse.handler.KeyWordExtractor;
 import com.code.analyse.handler.SearchExtractor;
 import com.code.common.bean.News;
 import com.code.common.bean.ResponseData;
@@ -28,17 +29,18 @@ public class AnalyseService {
         }
         return responseData.toString();
     }
-//    @RequestMapping(value = "search")
-//    public String keyword(@RequestParam("keyword") String keyWord) {
-//        SearchExtractor searchExtractor = new SearchExtractor();
-//        ResponseData responseData = new ResponseData();
-//        try {
-//            List<News> newsList = searchExtractor.searchKeyWord(keyWord);
-//            responseData.setResultData(newsList);
-//            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
-//        } catch (IOException e) {
-//            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
-//        }
-//        return responseData.toString();
-//    }
+
+    @RequestMapping(value = "pickup")
+    public String pickup(@RequestParam("content") String content) {
+        KeyWordExtractor keyWordExtractor = new KeyWordExtractor();
+        ResponseData responseData = new ResponseData();
+        try {
+            List keyWordList = keyWordExtractor.analyse(content);
+            responseData.setResultData(keyWordList);
+            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
+        } catch (Exception e) {
+            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
+        }
+        return responseData.toString();
+    }
 }

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -135,6 +136,11 @@ public class JsoupUtils {
         }
 
         return document.body().html();
+    }
+
+    public static String cleanText(String html) {
+        String content = Jsoup.clean(html, new Whitelist().addTags("span", "font", "p").addAttributes("font", "color"));
+        return content;
     }
 
 }

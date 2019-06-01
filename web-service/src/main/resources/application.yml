@@ -33,3 +33,7 @@ spring:
 feign:
   hystrix:
     enabled: true
+
+
+resources:
+  static-locations: ["/templates/","/resources/","/static/","/public/"]

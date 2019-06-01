@@ -3,6 +3,7 @@ package com.code.web.service;
 import com.alibaba.fastjson.JSON;
 import com.code.common.bean.News;
 import com.code.common.bean.ResponseData;
+import com.code.common.utils.JsonPathUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.codec.CodecException;
@@ -67,4 +68,14 @@ public class TestControllerService {
         return new ModelAndView("index", "newList", newsList);
     }
 
+    @RequestMapping("/search")
+    public ModelAndView search(@RequestParam("keyword") String keyword) {
+        List<News> newsList = new ArrayList<>();
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/search?keyword=" + keyword, String.class);
+
+        newsList = JsonPathUtils.getObjList(responseEntity.getBody(), "$.resultData", News.class);
+        System.out.println(JSON.toJSONString(newsList));
+
+        return new ModelAndView("search", "searchList", newsList);
+    }
 }

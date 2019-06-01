@@ -36,18 +36,19 @@ public class SearchExtractor {
         WebRequest request = new WebRequest(searchUrl);
         WebResponse response = client.execute(request);
         String page = response.getRespText();
-        System.out.println(response.getCharset());
 
         if (page != null && StringUtils.isNotEmpty(page)) {
             List<Map<String, Object>> maps = JsonPathUtils.getMapList(page, "$.content.results[*]");
             for (Map<String, Object> map : maps) {
                 News news = new News();
                 news.setTitle((String) map.get("title"));
-                news.setImg(preImg + (String) map.get("imgUrl"));
+                news.setImg(map.get("imgUrl") == null ? null : preImg + (String) map.get("imgUrl"));
                 news.setDescription((String) map.get("des"));
                 news.setKeywords((String) map.get("keyword"));
                 news.setPubTime(DateUtils.parseDateTime((String) map.get("pubtime")));
                 news.setReferUrl((String) map.get("url"));
+                news.setSpiderWeb("Xinhua");
+
                 newsList.add(news);
             }
         }
@@ -61,7 +62,6 @@ public class SearchExtractor {
         request.setRequestBodyString("siteName=news&pageNum=1&keyword=" + URLEncoder.encode(keyWord, Charset.forName("gbk").toString()) + "&facetFlag=true&nodeType=belongsId&nodeId=0&pageCode=&originName=");
         WebResponse response = client.execute(request);
         String page = response.getRespText();
-        System.out.println("code" + response.getCharset());
 
         if (page != null && StringUtils.isNotEmpty(page)) {
             List<String> searchList = JsoupUtils.getElementsHtml(page, "div[class~=w800] ul");
@@ -69,10 +69,12 @@ public class SearchExtractor {
                 News news = new News();
                 news.setTitle(JsoupUtils.getText(search, "ul li:eq(0) a"));
                 news.setReferUrl(JsoupUtils.getAttr(search, "ul li:eq(0) a", "href").get(0));
-                news.setDescription(PatternUtils.groupOne(JsoupUtils.getText(search, "ul li:eq(1)"), "\\[(.+)\\]", 1));
+                String desc = JsoupUtils.cleanText(JsoupUtils.getElementsHtmlPage(search, "ul li:eq(1)"));
+                news.setDescription(desc.replace("\n", ""));
                 String pubTime = JsoupUtils.getText(search, "ul li:eq(2)");
                 pubTime = PatternUtils.groupOne(pubTime, "(\\d{4}-?\\d{2}-?\\d{2}\\s\\d{2}:?\\d{2}:?\\d{2})", 1);
                 news.setPubTime(DateUtils.parseDateTime(pubTime));
+                news.setSpiderWeb("Renmin");
 
                 newsList.add(news);
             }

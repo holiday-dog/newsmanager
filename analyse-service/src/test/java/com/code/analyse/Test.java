@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.code.analyse.handler.KeyWordExtractor;
 import com.code.analyse.handler.SearchExtractor;
 import com.code.analyse.utils.IndexerUtils;
-import com.code.common.utils.IOUtils;
-import com.code.common.utils.JsonPathUtils;
+import com.code.common.bean.News;
+import com.code.common.utils.*;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -76,19 +76,17 @@ public class Test {
 
         SearchExtractor se = new SearchExtractor();
         System.out.println(JSON.toJSONString(se.searchKeyWord("大会")));
-        System.out.println(URLEncoder.encode("美国", Charset.forName("gbk").toString()));
+//        System.out.println(URLEncoder.encode("美国", Charset.forName("gbk").toString()));
 
 //        String page = IOUtils.stringByResource("test/page.html", Charset.forName("gbk"));
-//
-//        if (page != null && StringUtils.isNotEmpty(page)) {
-//            List<String> searchList = JsoupUtils.getElementsHtml(page, "div[class~=w800] ul");
+////
+//       List<String> searchList = JsoupUtils.getElementsHtml(page, "div[class~=w800] ul");
 //            for (String search : searchList) {
-////                System.out.println(search);
-//                System.out.println(JsoupUtils.getText(search, "ul li:eq(0) a"));
-//                System.out.println(JsoupUtils.getText(search, "ul li:eq(1)"));
-//                System.out.println(JsoupUtils.getText(search, "ul li:eq(2)"));
+//                String ss=JsoupUtils.getElementsHtmlPage(search, "ul li:eq(1)");
+//                System.out.println(ss);
+//                System.out.println(JsoupUtils.cleanText(ss).trim());
+//
 //            }
-//        }
 
 
     }
