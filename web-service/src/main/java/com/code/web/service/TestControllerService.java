@@ -73,7 +73,7 @@ public class TestControllerService {
         List<News> newsList = new ArrayList<>();
         ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/search?keyword=" + keyword, String.class);
 
-        newsList = JsonPathUtils.getObjList(responseEntity.getBody(), "$.resultData", News.class);
+        newsList = JsonPathUtils.getObjList(responseEntity.getBody(), "$.resultData[*]", News.class);
         System.out.println(JSON.toJSONString(newsList));
 
         return new ModelAndView("search", "searchList", newsList);

@@ -3,6 +3,7 @@ package com.code.analyse;
 import com.alibaba.fastjson.JSON;
 import com.code.analyse.handler.KeyWordExtractor;
 import com.code.analyse.handler.SearchExtractor;
+import com.code.analyse.service.AnalyseService;
 import com.code.analyse.utils.IndexerUtils;
 import com.code.common.bean.News;
 import com.code.common.utils.*;
@@ -76,6 +77,9 @@ public class Test {
 
         SearchExtractor se = new SearchExtractor();
         System.out.println(JSON.toJSONString(se.searchKeyWord("大会")));
+
+        AnalyseService analyseService = new AnalyseService();
+        System.out.println(analyseService.keyword("大会"));
 //        System.out.println(URLEncoder.encode("美国", Charset.forName("gbk").toString()));
 
 //        String page = IOUtils.stringByResource("test/page.html", Charset.forName("gbk"));

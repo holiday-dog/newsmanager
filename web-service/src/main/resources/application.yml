@@ -28,6 +28,10 @@ spring:
     cache: false
     servlet:
       content-type: text/html
+  mvc:
+    date-format: yyyy-MM-dd
+
+
 
 
 feign:
