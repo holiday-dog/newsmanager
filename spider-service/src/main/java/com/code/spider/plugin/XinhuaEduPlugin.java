@@ -58,17 +58,17 @@ public class XinhuaEduPlugin extends ClientPlugin {
             if (!CollectionUtils.isEmpty(newestEduUrlList)) {
                 List<RawData> newestEduList = new ArrayList<>();
 //                for (String newestEduUrl : newestEduUrlList) {
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 1; i++) {
                     String newestEduUrl = newestEduUrlList.get(i);
                     request = new WebRequest(newestEduUrl);
                     response = client.execute(request);
                     newestEduList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
                 }
-                spiderData.put("newestEduList", newestEduList);
+                spiderData.put("lastestList", newestEduList);
             }
             //新闻热点
             if (!CollectionUtils.isEmpty(hotEduList)) {
-                spiderData.put("hotEduList", hotEduList);
+                spiderData.put("hotList", hotEduList);
             }
         }
         //新闻历史
@@ -77,17 +77,18 @@ public class XinhuaEduPlugin extends ClientPlugin {
             String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
             request = new WebRequest(spiderUrl);
             response = client.execute(request);
+            System.out.println(response.getRespText());
 
             String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+\\_\\d+\\((.*)", 1);
             List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
             if (!CollectionUtils.isEmpty(linkUrls)) {
                 List<RawData> eduPageList = new ArrayList<>();
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 5; j++) {
                     request = new WebRequest(linkUrls.get(j));
                     response = client.execute(request);
                     eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY));
                 }
-                spiderData.put("historyEduList", eduPageList);
+                spiderData.put("historyList", eduPageList);
             }
         }
 

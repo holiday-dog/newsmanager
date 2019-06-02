@@ -33,7 +33,7 @@ public class News {
 
     private String referUrl;
 
-    private String img;
+    private String images;
 
     private NewsType newsType;
 
