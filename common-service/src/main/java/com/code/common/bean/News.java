@@ -1,9 +1,9 @@
 package com.code.common.bean;
 
 import com.code.common.enums.Modules;
+import com.code.common.enums.NewsType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +34,8 @@ public class News {
     private String referUrl;
 
     private String img;
+
+    private NewsType newsType;
 
     private List<String> relationUrls;
 

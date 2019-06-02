@@ -7,7 +7,12 @@ import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
+import com.code.common.enums.NewsType;
+import com.code.common.utils.DateUtils;
+import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.JsoupUtils;
+import com.code.common.utils.PatternUtils;
+import com.code.spider.bean.Constants;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -70,24 +75,24 @@ public class XinhuaEduPlugin extends ClientPlugin {
             }
         }
         //新闻历史
-//        long ts = DateUtils.nowTimeStamp();
-//        for (int i = 1; i <= 1; i++) {
-//            String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
-//            request = new WebRequest(spiderUrl);
-//            response = client.execute(request);
-//
-//            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+_\\d+\\(([^\\(\\)]+)\\)", 1);
-//            List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
-//            if (!CollectionUtils.isEmpty(linkUrls)) {
-//                List<RawData> eduPageList = new ArrayList<>();
-//                for (int j = 0; j < 3; j++) {
-//                    request = new WebRequest(linkUrls.get(j));
-//                    response = client.execute(request);
-//                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY));
-//                }
-//                spiderData.put("historyEduList", eduPageList);
-//            }
-//        }
+        long ts = DateUtils.nowTimeStamp();
+        for (int i = 1; i <= 1; i++) {
+            String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
+            request = new WebRequest(spiderUrl);
+            response = client.execute(request);
+
+            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+_\\d+\\(([^\\(\\)]+)\\)", 1);
+            List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
+            if (!CollectionUtils.isEmpty(linkUrls)) {
+                List<RawData> eduPageList = new ArrayList<>();
+                for (int j = 0; j < 3; j++) {
+                    request = new WebRequest(linkUrls.get(j));
+                    response = client.execute(request);
+                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY));
+                }
+                spiderData.put("historyEduList", eduPageList);
+            }
+        }
 
         return spiderData;
     }
@@ -108,6 +113,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
                     News news = ExtractorUtils.extractXinhua(page);
                     news.setContent(ExtractorUtils.extractorXinhuaContent(page, result.getUrl()));
                     news.setReferUrl(result.getUrl());
+                    news.setNewsType(result.getNewsType());
 
                     newsList.add(news);
                 }

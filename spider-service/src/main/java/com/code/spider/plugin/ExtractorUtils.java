@@ -100,6 +100,14 @@ public class ExtractorUtils {
             content = JsoupUtils.removeElement(content, "div.edit");
             content = JsoupUtils.removeElement(content, "div.zdfy");
             content = JsoupUtils.removeElement(content, "center:has(table)");
+            List<String> images = JsoupUtils.getAttr(content, "img", "src");
+            if (!CollectionUtils.isEmpty(images)) {
+                for (String image : images) {
+                    if (!image.contains("http://")) {
+                        content = JsoupUtils.replaceAttrAppendValue(content, "img[src=" + image + "]", "src", genPrex(url));
+                    }
+                }
+            }
 //            content = JsoupUtils.removeElement(content, "table:has(img[src~=next_page])");
 //            content = JsoupUtils.removeElement(content, "table:has(img[src~=prev_page])");
         }
@@ -112,6 +120,6 @@ public class ExtractorUtils {
     }
 
     public static String genPrex(String url) {
-        return StringUtils.substring(url, StringUtils.indexOf(url, "/", StringUtils.indexOf(url, "://")));
+        return StringUtils.substring(url, 0, StringUtils.indexOf(url, "/", 8));
     }
 }

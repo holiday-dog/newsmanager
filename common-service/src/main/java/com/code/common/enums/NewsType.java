@@ -3,7 +3,7 @@ package com.code.common.enums;
 import org.apache.commons.lang3.StringUtils;
 
 public enum NewsType {
-    LATEST((byte) 1, "最新的"), TOP((byte) 2, "排行"), HOT((byte) 3, "最热"), HISTORY((byte) 3, "历史");
+    LATEST((byte) 1, "最新的"), TOP((byte) 2, "排行"), HOT((byte) 3, "最热"), HISTORY((byte) 4, "历史"), RECOMMEND((byte) 5, "推荐");
 
     private Byte val;
 

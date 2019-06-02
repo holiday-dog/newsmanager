@@ -16,10 +16,12 @@ public class PluginTest {
     public void testt() {
         ClientPlugin plugin = null;
         plugin = new XinhuaEduPlugin();
-        plugin = new XinhuaTravelPlugin();
-        plugin = new XinhuaSciencePlugin();
-        plugin = new RenminEduPlugin();
-        plugin = new RenminTravelPlugin();
+//        plugin = new XinhuaTravelPlugin();
+//        plugin = new XinhuaSciencePlugin();
+//        plugin = new RenminEduPlugin();
+//        plugin = new RenminTravelPlugin();
+//        plugin = new RenminRecommendPlugin();
+//        plugin = new XinhuaRecommendPlugin();
 //        System.out.println(plugin.genHostPrex("http://education.news.cn/2019-05/28/c_1210145273.htm"));
         System.out.println(plugin.spiderProcess(null));
     }
@@ -28,9 +30,10 @@ public class PluginTest {
     public void test1() throws IOException {
         ClientPlugin plugin = new RenminTravelPlugin();
 
-        WebRequest req = new WebRequest("http://travel.people.com.cn/n1/2019/0527/c41570-31103664.html");
+        WebRequest req = new WebRequest("http://politics.people.com.cn/n1/2019/0601/c1001-31114974.html");
         WebResponse resp = WebClient.buildDefaultClient().build().execute(req);
-        News news = ((RenminTravelPlugin) plugin).handleSinglePage(resp.getRespText(Charset.forName("GB2312")), "http://travel.people.com.cn/n1/2019/0527/c41570-31103948.html");
-        System.out.println(JSON.toJSONString(news));
+        System.out.println(resp.getRespText(Charset.forName("GB2312")));
+//        News news = ((RenminTravelPlugin) plugin).handleSinglePage(resp.getRespText(Charset.forName("GB2312")), "http://travel.people.com.cn/n1/2019/0527/c41570-31103948.html");
+//        System.out.println(JSON.toJSONString(news));
     }
 }
