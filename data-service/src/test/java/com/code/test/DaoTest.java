@@ -49,7 +49,7 @@ public class DaoTest {
 
     @Test
     public void testa() {
-        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.TRAVEL, 2)));
+        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));
     }
 
     public void test() {

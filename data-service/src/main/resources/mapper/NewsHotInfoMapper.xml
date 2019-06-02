@@ -11,7 +11,7 @@
         <result column="last_update_date" property="lastUpdateDate" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, title, image, refer_url, create_date, last_update_date
+    id, title, image, refer_url, modules_type, create_date, last_update_date
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select

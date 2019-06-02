@@ -41,13 +41,13 @@ public class TestControllerService {
         return "test";
     }
 
-    @RequestMapping("/modules")
-    public String modules(@RequestParam(value = "msg", required = false) String msg) {
-        if (StringUtils.isNotEmpty(msg)) {
-            throw new CodecException("系统异常");
-        }
-        return "modules";
-    }
+//    @RequestMapping("/modules")
+//    public String modules(@RequestParam(value = "msg", required = false) String msg) {
+//        if (StringUtils.isNotEmpty(msg)) {
+//            throw new CodecException("系统异常");
+//        }
+//        return "modules";
+//    }
 
     @RequestMapping("/content")
     public String content(@RequestParam(value = "msg", required = false) String msg) {
@@ -57,26 +57,30 @@ public class TestControllerService {
         return "content";
     }
 
-    @RequestMapping("/newList")
+    @RequestMapping("/modules")
     public ModelAndView queryNewsList(@RequestParam("modules") String modules) {
         List<News> newsList = null;
         List<HotNews> hotNewsList = null;
 
-        ModelAndView mv = new ModelAndView("index");
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.LATEST, String.class);
-
+        ModelAndView mv = new ModelAndView("modules");
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.LATEST.getMsg() + "&limit=2", String.class);
+        System.out.println(responseEntity.getBody());
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         newsList = JSON.parseArray((String) responseData.getResultData(), News.class);
         System.out.println(JSON.toJSONString(newsList));
         mv.addObject("newList", newsList);
 
-        responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY, String.class);
-        newsList = JSON.parseArray((String) responseData.getResultData(), News.class);
-        System.out.println(JSON.toJSONString(newsList));
-        mv.addObject("historyList", newsList);
+        responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY.getMsg() + "&limit=2", String.class);
+        System.out.println(responseEntity.getBody());
+         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        List<News> hisList = JSON.parseArray((String) responseData.getResultData(), News.class);
+        System.out.println(JSON.toJSONString(hisList));
+        mv.addObject("historyList", hisList);
 
 
-        responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/hotnews/queryList?limit=3" + modules + "&newsMsg=" + NewsType.HISTORY, String.class);
+        responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/hotnews/queryList?modules=" + modules + "&limit=3", String.class);
+        System.out.println(responseEntity.getBody());
+         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         hotNewsList = JSON.parseArray((String) responseData.getResultData(), HotNews.class);
         System.out.println(JSON.toJSONString(hotNewsList));
         mv.addObject("hotList", hotNewsList);

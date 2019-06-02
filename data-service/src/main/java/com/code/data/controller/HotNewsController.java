@@ -1,5 +1,6 @@
 package com.code.data.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
 import com.code.common.bean.ResponseData;
 import com.code.common.enums.Modules;
@@ -26,7 +27,7 @@ public class HotNewsController {
         ResponseData responseData = new ResponseData();
         try {
             List<HotNews> hotNewsList = hotInfoService.queryHotNewsList(Modules.parse(modules), limit);
-            responseData.setResultData(hotNewsList);
+            responseData.setResultData(JSON.toJSONString(hotNewsList));
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
         } catch (Exception e) {
             ResponseUtils.setStatus(responseData, ResultStatus.SYSTEM_ERROR);
