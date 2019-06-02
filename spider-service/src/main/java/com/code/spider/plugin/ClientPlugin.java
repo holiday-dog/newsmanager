@@ -2,7 +2,6 @@ package com.code.spider.plugin;
 
 import com.code.common.enums.ProcessStatus;
 import com.code.common.exception.CodeException;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,9 +51,10 @@ public abstract class ClientPlugin {
                     break;
                 } catch (Exception e) {
                     if (e instanceof CodeException) {
-                        logger.error("happen spiderException, spider end..");
+                        logger.error("happen spiderException, spider end.., error:{}", e);
                         return ProcessStatus.SPIDER_FAIL;
                     }
+                    logger.error("has error, msg:{}", e);
                 }
             }
             logger.info("execute handleData method");

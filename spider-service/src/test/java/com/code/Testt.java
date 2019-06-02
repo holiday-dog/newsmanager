@@ -158,7 +158,7 @@ public class Testt {
         System.out.println(PatternUtils.groupOne(s, "jQuery\\d+\\_\\d+\\((.*)", 1));
         String ss = PatternUtils.groupOne(s, "jQuery\\d+\\_\\d+\\((.*)", 1);
         System.out.println(ss);
-        System.out.println(JsonPathUtils.getObj(ss, "$.data.list[*].LinkUrl", String.class));
+        System.out.println(JsonPathUtils.getValueList(ss, "$.data.list[*].LinkUrl"));
     }
 
     @Test

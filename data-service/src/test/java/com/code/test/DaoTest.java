@@ -12,6 +12,7 @@ import com.code.data.beans.NewsInfo;
 import com.code.data.dao.NewsContentInfoMapper;
 import com.code.data.dao.NewsHotInfoMapper;
 import com.code.data.dao.NewsInfoMapper;
+import com.code.data.mq.SpiderDataHandler;
 import com.code.data.service.NewsHotInfoService;
 import com.code.data.service.NewsInfoService;
 import org.junit.Before;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DataApplication.class})
@@ -43,13 +45,16 @@ public class DaoTest {
 
     @Resource
     private NewsHotInfoMapper hotInfoMapper;
+    @Autowired
+    private SpiderDataHandler dataHandler;
 
     String page;
 
 
     @Test
-    public void testa() {
-        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));
+    public void testa() throws ExecutionException, InterruptedException {
+//        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));
+        System.out.println(dataHandler.handler(page));
     }
 
     public void test() {

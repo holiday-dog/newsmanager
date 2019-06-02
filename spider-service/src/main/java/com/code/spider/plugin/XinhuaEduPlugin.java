@@ -26,7 +26,7 @@ import java.util.Map;
 public class XinhuaEduPlugin extends ClientPlugin {
     private static String indexUrl = "http://education.news.cn/";
     private static final String eduListUrl = "http://qc.wa.news.cn/nodeart/list?nid=11109063&pgnum=%s&cnt=%s&tp=1&orderby=1?callback=jQuery112409162368214565164_%s&_=%s";
-    private static WebClient client = WebClient.buildDefaultClient().build();
+    private static WebClient client = WebClient.buildDefaultClient().buildRouteAndCount(30, 50).build();
     private Logger logger = LoggerFactory.getLogger(XinhuaEduPlugin.class);
 
     @Override
@@ -57,9 +57,8 @@ public class XinhuaEduPlugin extends ClientPlugin {
             List<String> hotEduList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
             if (!CollectionUtils.isEmpty(newestEduUrlList)) {
                 List<RawData> newestEduList = new ArrayList<>();
-//                for (String newestEduUrl : newestEduUrlList) {
-                for (int i = 0; i < 1; i++) {
-                    String newestEduUrl = newestEduUrlList.get(i);
+                for (String newestEduUrl : newestEduUrlList) {
+//                    String newestEduUrl = newestEduUrlList.get(i);
                     request = new WebRequest(newestEduUrl);
                     response = client.execute(request);
                     newestEduList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
@@ -77,13 +76,12 @@ public class XinhuaEduPlugin extends ClientPlugin {
             String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
             request = new WebRequest(spiderUrl);
             response = client.execute(request);
-            System.out.println(response.getRespText());
 
             String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+\\_\\d+\\((.*)", 1);
             List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
             if (!CollectionUtils.isEmpty(linkUrls)) {
                 List<RawData> eduPageList = new ArrayList<>();
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < 7; j++) {
                     request = new WebRequest(linkUrls.get(j));
                     response = client.execute(request);
                     eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY));

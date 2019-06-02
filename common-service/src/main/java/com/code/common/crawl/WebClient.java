@@ -54,8 +54,8 @@ public class WebClient {
     private Integer routeCount = 10;
     private Integer maxCount = 100;
     private static final Integer requestConnectTime = 500;
-    private Integer buildConnectTime = 2000;
-    private Integer socketTime = 4000;
+    private Integer buildConnectTime = 5000;
+    private Integer socketTime = 7000;
 
     //线程安全
     private HttpClient client = null;
