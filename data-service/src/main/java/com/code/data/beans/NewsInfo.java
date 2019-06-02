@@ -1,6 +1,5 @@
 package com.code.data.beans;
 
-import com.code.common.enums.NewsType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,6 +12,8 @@ public class NewsInfo {
     private String title;
 
     private String sign;
+
+    private String keywords;
 
     private String description;
 

@@ -58,6 +58,12 @@
             <version>4.1.36.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>${rocketmq.version}</version>
+        </dependency>
+
 
     </dependencies>
 

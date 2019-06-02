@@ -49,6 +49,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
             BeanUtils.copyProperties(news, newsInfo);
             newsInfo.setSpiderWeb(spiderWeb);
             newsInfo.setModulesType(moduleType.getValue());
+            newsInfo.setNewsType(news.getNewsType().getVal());
             newsInfoList.add(newsInfo);
         }
         if (!CollectionUtils.isEmpty(newsInfoList)) {

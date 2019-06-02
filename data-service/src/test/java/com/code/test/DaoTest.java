@@ -1,14 +1,17 @@
 package com.code.test;
 
 import com.alibaba.fastjson.JSON;
+import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.enums.Modules;
-import com.code.common.enums.NewsType;
-import com.code.common.utils.*;
+import com.code.common.utils.IOUtils;
+import com.code.common.utils.JsonPathUtils;
+import com.code.common.utils.RandomUtils;
 import com.code.data.DataApplication;
 import com.code.data.beans.NewsInfo;
 import com.code.data.dao.NewsContentInfoMapper;
 import com.code.data.dao.NewsInfoMapper;
+import com.code.data.service.NewsHotInfoService;
 import com.code.data.service.NewsInfoService;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,21 +37,28 @@ public class DaoTest {
     private NewsContentInfoMapper contentInfoMapper;
     @Autowired
     private NewsInfoService newsInfoService;
+    @Autowired
+    private NewsHotInfoService hotInfoService;
 
     String page;
 
 
     @Test
     public void test() {
-//        List<News> newsList = JsonPathUtils.getObjList(page, "$.historyTravelList[*]", News.class);
+//        List<News> newsList = JsonPathUtils.getObjList(page, "$.newestEduList[*]", News.class);
+        page = JsonPathUtils.jsonArray(page, "$.hotEduList[*]");
+        System.out.println(page);
+        List<HotNews> newsList = JSON.parseArray(page, HotNews.class);
+        System.out.println(JSON.toJSONString(newsList));
+
 //        News news = JSON.parseObject(JSON.toJSONString(map), News.class);
 //        System.out.println(JSON.toJSONString(newsList));
 
-//        newsInfoService.buildAneSaveList(newsList, Modules.TRAVEL, "Renmin");
+        hotInfoService.buildAndSave(newsList, Modules.EDUCATION);
 
-        List<News> newsList = newsInfoService.queryList(Modules.TRAVEL, NewsType.HISTORY);
-        System.out.println(JSON.toJSONString(newsList));
-        System.out.println(JSON.toJSONString(newsInfoService.queryNews(newsList.get(0).getSign())));
+//        List<News> newsList = newsInfoService.queryList(Modules.TRAVEL, NewsType.HISTORY);
+//        System.out.println(JSON.toJSONString(newsList));
+//        System.out.println(JSON.toJSONString(newsInfoService.queryNews(newsList.get(0).getSign())));
 
 //        NewsInfo newsInfo = new NewsInfo();
 //        BeanUtils.copyProperties(news, newsInfo);

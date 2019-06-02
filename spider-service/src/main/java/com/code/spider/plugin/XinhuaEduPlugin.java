@@ -8,10 +8,7 @@ import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
 import com.code.common.enums.NewsType;
-import com.code.common.utils.DateUtils;
-import com.code.common.utils.JsonPathUtils;
-import com.code.common.utils.JsoupUtils;
-import com.code.common.utils.PatternUtils;
+import com.code.common.utils.*;
 import com.code.spider.bean.Constants;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
@@ -58,17 +55,17 @@ public class XinhuaEduPlugin extends ClientPlugin {
         if (StringUtils.isNotEmpty(response.getRespText())) {
             List<String> newestEduUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
             List<String> hotEduList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
-//            if (!CollectionUtils.isEmpty(newestEduUrlList)) {
-//                List<RawData> newestEduList = new ArrayList<>();
-////                for (String newestEduUrl : newestEduUrlList) {
-//                for (int i = 0; i < 3; i++) {
-//                    String newestEduUrl = newestEduUrlList.get(i);
-//                    request = new WebRequest(newestEduUrl);
-//                    response = client.execute(request);
-//                    newestEduList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
-//                }
-//                spiderData.put("newestEduList", newestEduList);
-//            }
+            if (!CollectionUtils.isEmpty(newestEduUrlList)) {
+                List<RawData> newestEduList = new ArrayList<>();
+//                for (String newestEduUrl : newestEduUrlList) {
+                for (int i = 0; i < 3; i++) {
+                    String newestEduUrl = newestEduUrlList.get(i);
+                    request = new WebRequest(newestEduUrl);
+                    response = client.execute(request);
+                    newestEduList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
+                }
+                spiderData.put("newestEduList", newestEduList);
+            }
             //新闻热点
             if (!CollectionUtils.isEmpty(hotEduList)) {
                 spiderData.put("hotEduList", hotEduList);
@@ -81,7 +78,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
             request = new WebRequest(spiderUrl);
             response = client.execute(request);
 
-            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+_\\d+\\(([^\\(\\)]+)\\)", 1);
+            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+\\_\\d+\\((.*)", 1);
             List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
             if (!CollectionUtils.isEmpty(linkUrls)) {
                 List<RawData> eduPageList = new ArrayList<>();
@@ -114,6 +111,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
                     news.setContent(ExtractorUtils.extractorXinhuaContent(page, result.getUrl()));
                     news.setReferUrl(result.getUrl());
                     news.setNewsType(result.getNewsType());
+                    news.setSign(RandomUtils.nextString());
 
                     newsList.add(news);
                 }

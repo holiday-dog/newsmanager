@@ -6,6 +6,7 @@
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="sign" property="sign" jdbcType="CHAR"/>
         <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
         <result column="author" property="author" jdbcType="VARCHAR"/>
         <result column="modules_type" property="modulesType" jdbcType="TINYINT"/>
         <result column="images" property="images" jdbcType="VARCHAR"/>
@@ -31,7 +32,8 @@
         select
         <include refid="Base_Column_List"/>
         from tb_news_info
-        where modules_type=#{modulesType,jdbcType=TINYINT} and news_type=#{newsType,jdbcType=TINYINT} order by pub_time desc
+        where modules_type=#{modulesType,jdbcType=TINYINT} and news_type=#{newsType,jdbcType=TINYINT} order by pub_time
+        desc
     </select>
 
     <select id="selectWithSign" resultMap="BaseResultMap">
@@ -48,24 +50,25 @@
     <!-- myself:批量插入 -->
     <insert id="insertList" parameterType="java.util.List">
         insert into tb_news_info (id, title, sign, description,
-        author, modules_type, images,
+        author, keywords, modules_type, images,
         pub_time, spider_web, article_source,
         refer_url, news_type) values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.id,jdbcType=BIGINT}, #{item.title,jdbcType=VARCHAR},
             #{item.sign,jdbcType=CHAR},#{item.description,jdbcType=VARCHAR},
-            #{item.author,jdbcType=VARCHAR}, #{item.modulesType,jdbcType=TINYINT}, #{item.images,jdbcType=VARCHAR},
+            #{item.author,jdbcType=VARCHAR}, #{item.keywords,jdbcType=VARCHAR}, #{item.modulesType,jdbcType=TINYINT},
+            #{item.images,jdbcType=VARCHAR},
             #{item.pubTime,jdbcType=TIMESTAMP}, #{item.spiderWeb,jdbcType=VARCHAR},
             #{item.articleSource,jdbcType=VARCHAR},#{item.referUrl,jdbcType=VARCHAR},#{item.newsType,jdbcType=TINYINT})
         </foreach>
     </insert>
     <insert id="insert" parameterType="com.code.data.beans.NewsInfo">
     insert into tb_news_info (id, title, sign, description,
-      author, modules_type, images, 
+      author, keywords, modules_type, images,
       pub_time, spider_web, article_source, 
       refer_url, news_type)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{sign,jdbcType=CHAR},#{description,jdbcType=VARCHAR},
-      #{author,jdbcType=VARCHAR}, #{modulesType,jdbcType=TINYINT}, #{images,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR},#{keywords,jdbcType=VARCHAR}, #{modulesType,jdbcType=TINYINT}, #{images,jdbcType=VARCHAR},
       #{pubTime,jdbcType=TIMESTAMP}, #{spiderWeb,jdbcType=VARCHAR}, #{articleSource,jdbcType=VARCHAR}, 
       #{referUrl,jdbcType=VARCHAR}, #{newsType,jdbcType=TINYINT})
   </insert>

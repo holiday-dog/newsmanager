@@ -7,7 +7,9 @@ public class NewsHotInfo {
 
     private String title;
 
-    private String images;
+    private Byte modulesType;
+
+    private String image;
 
     private String referUrl;
 
@@ -29,14 +31,6 @@ public class NewsHotInfo {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images == null ? null : images.trim();
     }
 
     public String getReferUrl() {
@@ -61,5 +55,21 @@ public class NewsHotInfo {
 
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Byte getModulesType() {
+        return modulesType;
+    }
+
+    public void setModulesType(Byte modulesType) {
+        this.modulesType = modulesType;
     }
 }
