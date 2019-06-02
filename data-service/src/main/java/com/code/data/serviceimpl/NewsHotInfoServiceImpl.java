@@ -53,8 +53,11 @@ public class NewsHotInfoServiceImpl implements NewsHotInfoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<HotNews> queryHotNewsList() {
-        List<NewsHotInfo> newsHotInfoList = null;
+    public List<HotNews> queryHotNewsList(Modules modules, Integer limit) {
+        if (limit == null) {
+            limit = 5;
+        }
+        List<NewsHotInfo> newsHotInfoList = newsHotInfoMapper.selectListBylimit(modules.getValue(), limit);
 
         List<HotNews> hotNewsList = null;
         if (!CollectionUtils.isEmpty(newsHotInfoList)) {

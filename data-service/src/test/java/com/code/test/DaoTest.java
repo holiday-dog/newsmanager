@@ -2,14 +2,15 @@ package com.code.test;
 
 import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
-import com.code.common.bean.News;
 import com.code.common.enums.Modules;
+import com.code.common.enums.NewsType;
 import com.code.common.utils.IOUtils;
 import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.RandomUtils;
 import com.code.data.DataApplication;
 import com.code.data.beans.NewsInfo;
 import com.code.data.dao.NewsContentInfoMapper;
+import com.code.data.dao.NewsHotInfoMapper;
 import com.code.data.dao.NewsInfoMapper;
 import com.code.data.service.NewsHotInfoService;
 import com.code.data.service.NewsInfoService;
@@ -40,10 +41,17 @@ public class DaoTest {
     @Autowired
     private NewsHotInfoService hotInfoService;
 
+    @Resource
+    private NewsHotInfoMapper hotInfoMapper;
+
     String page;
 
 
     @Test
+    public void testa() {
+        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.TRAVEL, 2)));
+    }
+
     public void test() {
 //        List<News> newsList = JsonPathUtils.getObjList(page, "$.newestEduList[*]", News.class);
         page = JsonPathUtils.jsonArray(page, "$.hotEduList[*]");

@@ -33,7 +33,7 @@
         <include refid="Base_Column_List"/>
         from tb_news_info
         where modules_type=#{modulesType,jdbcType=TINYINT} and news_type=#{newsType,jdbcType=TINYINT} order by pub_time
-        desc
+        desc limit 0, #{limit}
     </select>
 
     <select id="selectWithSign" resultMap="BaseResultMap">

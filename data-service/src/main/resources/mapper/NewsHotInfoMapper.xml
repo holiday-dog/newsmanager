@@ -19,6 +19,12 @@
         from tb_news_hot_info
         where id = #{id,jdbcType=BIGINT}
     </select>
+    <select id="selectListBylimit" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_news_hot_info where modules_type = #{modules, jdbcType=TINYINT} order by create_date desc limit 0,
+        #{limit}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from tb_news_hot_info
     where id = #{id,jdbcType=BIGINT}

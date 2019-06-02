@@ -84,8 +84,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<News> queryList(Modules moduleType, NewsType newsType) {
-        List<NewsInfo> newsInfoList = newsInfoMapper.selectListWithNewType(moduleType.getValue(), newsType.getVal());
+    public List<News> queryList(Modules moduleType, NewsType newsType, Integer limit) {
+        if (limit == null || limit == 0) {
+            limit = 5;
+        }
+        List<NewsInfo> newsInfoList = newsInfoMapper.selectListWithNewType(moduleType.getValue(), newsType.getVal(), limit);
 
         List<News> newsList = null;
         if (!CollectionUtils.isEmpty(newsInfoList)) {

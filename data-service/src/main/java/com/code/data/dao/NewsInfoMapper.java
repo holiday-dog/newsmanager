@@ -20,7 +20,7 @@ public interface NewsInfoMapper {
 
     NewsInfo selectWithSign(String sign);
 
-    List<NewsInfo> selectListWithNewType(@Param("modulesType") Byte moduleType, @Param("newsType") Byte newsType);
+    List<NewsInfo> selectListWithNewType(@Param("modulesType") Byte moduleType, @Param("newsType") Byte newsType, @Param("limit") Integer limit);
 
     int updateByPrimaryKeySelective(NewsInfo record);
 }

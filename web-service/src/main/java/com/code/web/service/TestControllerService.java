@@ -1,8 +1,10 @@
 package com.code.web.service;
 
 import com.alibaba.fastjson.JSON;
+import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.bean.ResponseData;
+import com.code.common.enums.NewsType;
 import com.code.common.utils.JsonPathUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,16 +58,30 @@ public class TestControllerService {
     }
 
     @RequestMapping("/newList")
-    public ModelAndView queryNewsList(@RequestParam("modules") String modules, @RequestParam("type") String type) {
+    public ModelAndView queryNewsList(@RequestParam("modules") String modules) {
+        List<News> newsList = null;
+        List<HotNews> hotNewsList = null;
 
-        List<News> newsList = new ArrayList<>();
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + type, String.class);
+        ModelAndView mv = new ModelAndView("index");
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.LATEST, String.class);
 
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         newsList = JSON.parseArray((String) responseData.getResultData(), News.class);
         System.out.println(JSON.toJSONString(newsList));
+        mv.addObject("newList", newsList);
 
-        return new ModelAndView("index", "newList", newsList);
+        responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY, String.class);
+        newsList = JSON.parseArray((String) responseData.getResultData(), News.class);
+        System.out.println(JSON.toJSONString(newsList));
+        mv.addObject("historyList", newsList);
+
+
+        responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/hotnews/queryList?limit=3" + modules + "&newsMsg=" + NewsType.HISTORY, String.class);
+        hotNewsList = JSON.parseArray((String) responseData.getResultData(), HotNews.class);
+        System.out.println(JSON.toJSONString(hotNewsList));
+        mv.addObject("hotList", hotNewsList);
+
+        return mv;
     }
 
     @RequestMapping("/search")

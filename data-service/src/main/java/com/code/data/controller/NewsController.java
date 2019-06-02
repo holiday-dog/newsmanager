@@ -26,7 +26,7 @@ public class NewsController {
     private Logger logger = LoggerFactory.getLogger(NewsController.class);
 
     @RequestMapping("/queryNewsList")
-    public String queryNewsList(@RequestParam("modulesMsg") String modulesMsg, @RequestParam("newsMsg") String newsMsg) {
+    public String queryNewsList(@RequestParam("modulesMsg") String modulesMsg, @RequestParam("newsMsg") String newsMsg, @RequestParam(value = "limit", required = false) int limit) {
         ResponseData responseData = new ResponseData();
 
         logger.info("msg:{}, {}", modulesMsg, newsMsg);
@@ -36,7 +36,7 @@ public class NewsController {
                 ResponseUtils.setStatus(responseData, ResultStatus.NOT_ENOUGH_PARAMS);
                 return responseData.toString();
             }
-            List<News> newsList = newsInfoService.queryList(Modules.parse(modulesMsg), NewsType.parse(newsMsg));
+            List<News> newsList = newsInfoService.queryList(Modules.parse(modulesMsg), NewsType.parse(newsMsg), limit);
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
             responseData.setResultData(JSON.toJSONString(newsList));
         } catch (Exception e) {

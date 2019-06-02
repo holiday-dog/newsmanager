@@ -2,7 +2,6 @@ package com.code.data.service;
 
 import com.code.common.bean.HotNews;
 import com.code.common.enums.Modules;
-import com.code.data.beans.NewsHotInfo;
 
 import java.util.List;
 
@@ -11,5 +10,5 @@ public interface NewsHotInfoService {
 
     HotNews queryHotNew(String id);
 
-    List<HotNews> queryHotNewsList();
+    List<HotNews> queryHotNewsList(Modules modules, Integer limit);
 }
