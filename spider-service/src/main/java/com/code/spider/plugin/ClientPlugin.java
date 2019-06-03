@@ -128,7 +128,7 @@ public abstract class ClientPlugin {
     }
 
     private void setStatus(Map<String, Object> resultMap, ProcessStatus status, Exception remark) {
-        resultMap.put(Constants.STAGE, status);
+        resultMap.put(Constants.STAGE, status.getVal());
         if (remark != null) {
             resultMap.put(Constants.PROCESS_REMARK, remark.toString());
         }

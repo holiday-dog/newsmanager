@@ -36,7 +36,7 @@ public class RenminEduPlugin extends ClientPlugin {
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
-        resultMap.put("moduleType", Modules.EDUCATION);
+        resultMap.put("moduleType", Modules.EDUCATION.getValue());
         resultMap.put("spiderWebsite", "Renmin");
         resultMap.put("pluginName", getClientPluginName());
 

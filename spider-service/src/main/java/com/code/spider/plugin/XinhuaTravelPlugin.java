@@ -37,8 +37,8 @@ public class XinhuaTravelPlugin extends ClientPlugin {
 
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
-        resultMap.put("spiderDate", LocalDateTime.now());
-        resultMap.put("moduleType", Modules.TRAVEL);
+        resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
+        resultMap.put("moduleType", Modules.TRAVEL.getValue());
         resultMap.put("spiderWebsite", "XinHua");
         resultMap.put("pluginName", getClientPluginName());
 

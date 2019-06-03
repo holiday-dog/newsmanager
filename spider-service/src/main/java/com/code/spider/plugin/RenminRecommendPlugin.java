@@ -7,6 +7,7 @@ import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
 import com.code.common.enums.NewsType;
+import com.code.common.utils.DateUtils;
 import com.code.common.utils.JsoupUtils;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
@@ -35,8 +36,8 @@ public class RenminRecommendPlugin extends ClientPlugin {
 
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
-        resultMap.put("spiderDate", LocalDateTime.now());
-        resultMap.put("moduleType", Modules.RECOMMEND);
+        resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
+        resultMap.put("moduleType", Modules.RECOMMEND.getValue());
         resultMap.put("spiderWebsite", "Renmin");
         resultMap.put("pluginName", getClientPluginName());
 
