@@ -36,7 +36,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
-        resultMap.put("moduleType", Modules.EDUCATION.getValue());
+        resultMap.put("moduleType", Modules.EDUCATION.getMsg());
         resultMap.put("spiderWebsite", "XinHua");
         resultMap.put("pluginName", getClientPluginName());
 

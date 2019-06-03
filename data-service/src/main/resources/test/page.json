@@ -9,7 +9,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T18:31:07",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210150567.htm",
-      "sign": "3751dfe88ef14f59b8984ccd4d257b7d",
+      "sign": "55c7a8b67fd34058af934e7be5fa6e09",
       "title": "中国矿大开启创建能源资源特色世界一流大学新征程"
     },
     {
@@ -21,7 +21,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T17:31:51",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210150538.htm",
-      "sign": "ad499be7df4a449a80d2ef4d0fa776ae",
+      "sign": "cf762cea115b4633a5e22b0ce8df3c8d",
       "title": "我国首个普通本科院校教师教学发展指数预发布"
     },
     {
@@ -33,7 +33,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T17:22:32",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210150158.htm",
-      "sign": "1cee5a2da1ae4d8bac411d461c847fa8",
+      "sign": "298f835f3cce4f248861c569b9be8c34",
       "title": "【高考情报局】华东理工大学：“以学生为本”注重人才培养多元化"
     },
     {
@@ -45,7 +45,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T16:32:02",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210150473.htm",
-      "sign": "e27cfb882b68480ebde8a10191b04759",
+      "sign": "6a5c249155e744589ed0c13692a92c4c",
       "title": "［考动力］山西：建立教师全员培训管理体系"
     },
     {
@@ -57,7 +57,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T13:23:04",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210150259.htm",
-      "sign": "e3f243f2dbae4924bfa6a476b6598cea",
+      "sign": "bd76ffa340ed44f7948646b467d0b0a1",
       "title": "东南大学：实施“14+5”跨学院大类招生 创新“三制五化”人才培养模式"
     },
     {
@@ -69,7 +69,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T08:54:36",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210149883.htm",
-      "sign": "8b763800208747bbaa82616b96b031d5",
+      "sign": "318ec237bc0e48558dbfafcc457748c3",
       "title": "让“课间十分钟”热闹起来"
     },
     {
@@ -81,7 +81,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T08:49:29",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210149840.htm",
-      "sign": "ea796cf4552744ffac40df19cb4dc1a7",
+      "sign": "8183720bbcc74240ab8b830a4d3b5e9e",
       "title": "《我们的矿大》校园延时摄影带你走进魅力校园"
     },
     {
@@ -93,7 +93,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T08:45:55",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210149838.htm",
-      "sign": "256cf9e6b8e849679b5dd307a48ba807",
+      "sign": "32aa5cb35f0749dc92304ad86cb313fb",
       "title": "大学学子唱出青春和活力 争做“青春追梦人”"
     },
     {
@@ -105,7 +105,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T08:44:02",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210149867.htm",
-      "sign": "e0a1a738429a41398cbb528cdebbb5bb",
+      "sign": "d433c085dbc34bcababa9520ee0ebdf3",
       "title": "高职扩招的另类思考 怎样呵护学生的兴趣"
     },
     {
@@ -117,7 +117,7 @@
       "newsType": "LATEST",
       "pubTime": "2019-06-03T08:41:28",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210149862.htm",
-      "sign": "1dc3393738e74b4eae2f55eb25d2533d",
+      "sign": "a59c5291f9a14d0e88e99d0a0dd8d293",
       "title": "控辍保学，托起希望"
     }
   ],
@@ -144,7 +144,7 @@
     }
   ],
   "moduleType": "教育",
-  "stage": "2",
+  "stage": 3,
   "pluginName": "XinhuaEduPlugin",
   "historyList": [
     {
@@ -156,7 +156,7 @@
       "newsType": "HISTORY",
       "pubTime": "2019-06-03T08:31:04",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210149836.htm",
-      "sign": "bb982a4d3f8b43b29342cd74e8e9f262",
+      "sign": "9867a1ad963b464eac587ab252f817fc",
       "title": "游戏成瘾之殇，家庭教育之失？专家：宜疏不宜堵"
     },
     {
@@ -168,10 +168,10 @@
       "newsType": "HISTORY",
       "pubTime": "2019-06-03T08:28:53",
       "referUrl": "http://education.news.cn/2019-06/03/c_1210149825.htm",
-      "sign": "0bcfdd8a57b5473eb3fbf7aed1a27fcd",
+      "sign": "2fc561a280824f01ba0c9203f115b0de",
       "title": "2019年江苏试点20所高职院校面向社会人员招生"
     }
   ],
-  "spiderDate": "2019-06-04 01:02:53",
+  "spiderDate": "2019-06-04 02:39:47",
   "spiderWebsite": "XinHua"
 }

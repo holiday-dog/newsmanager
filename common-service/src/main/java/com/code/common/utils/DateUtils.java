@@ -12,11 +12,11 @@ public class DateUtils {
     private static final String CONVERT_JSON_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
     public static String formatDateTime(LocalDateTime dateTime) {
-        return formatDateTime(dateTime, YEARMONTHDAY_PATTERN);
+        return formatDateTime(dateTime, FULLTIME_PATTERN);
     }
 
-    public static String formatFullTime(LocalDateTime dateTime) {
-        return formatDateTime(dateTime, FULLTIME_PATTERN);
+    public static String formatDate(LocalDateTime dateTime) {
+        return formatDateTime(dateTime, YEARMONTHDAY_PATTERN);
     }
 
     public static String formatDateTime(LocalDateTime dateTime, String format) {

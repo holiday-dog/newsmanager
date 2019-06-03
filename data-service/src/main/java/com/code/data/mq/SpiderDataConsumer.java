@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
-//@Component
+@Component
 public class SpiderDataConsumer {
     private static String nameAddr = "localhost:9876";
     private static String consumeGroup = "spider_consumer";

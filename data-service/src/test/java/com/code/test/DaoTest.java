@@ -63,8 +63,8 @@ public class DaoTest {
     @Test
     public void testa() throws ExecutionException, InterruptedException {
 //        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));
-//        System.out.println(dataHandler.handler(page));
-        System.out.println(processInfoService.buildAneSave(page));
+        System.out.println(dataHandler.handler(page));
+//        System.out.println(JSON.toJSONString(processInfoService.selectListOrderSpiderTime(0, 3)));
 //        System.out.println(JSON.toJSONString(processInfoMapper.selectListOrderSpiderTime(0, 2)));
 //        ProcessInfo info  = new ProcessInfo();
 //        info.setPluginName(JsonPathUtils.getValue(page, "$.pluginName"));

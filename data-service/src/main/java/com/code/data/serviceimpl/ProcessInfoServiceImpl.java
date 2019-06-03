@@ -32,7 +32,8 @@ public class ProcessInfoServiceImpl implements ProcessInfoService {
         }
         ProcessInfo info = new ProcessInfo();
 
-        info.setStage(Byte.parseByte(JsonPathUtils.getValue(json, "$.stage")));
+        byte val = (byte) JsonPathUtils.getObj(json, "$.stage", Integer.class).intValue();
+        info.setStage(val);
         info.setSpiderDate(DateUtils.parseDateTime(JsonPathUtils.getValue(json, "$.spiderDate")));
         info.setSpiderWebsite(JsonPathUtils.getValue(json, "$.spiderWebsite"));
         info.setPluginName(JsonPathUtils.getValue(json, "$.pluginName"));

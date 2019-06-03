@@ -7,6 +7,7 @@ import com.code.common.enums.Modules;
 import com.code.common.utils.JsonPathUtils;
 import com.code.data.service.NewsHotInfoService;
 import com.code.data.service.NewsInfoService;
+import com.code.data.service.ProcessInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ public class SpiderDataHandler {
     private NewsInfoService newsInfoService;
     @Autowired
     private NewsHotInfoService hotInfoService;
+    @Autowired
+    private ProcessInfoService processInfoService;
     private ExecutorService executorService = Executors.newFixedThreadPool(2);
     private Logger logger = LoggerFactory.getLogger(SpiderDataHandler.class);
 
@@ -31,6 +34,20 @@ public class SpiderDataHandler {
         Modules modules = Modules.parse(JsonPathUtils.getValue(spiderData, "$.moduleType"));
         String spiderWeb = JsonPathUtils.getValue(spiderData, "$.spiderWebsite");
         logger.info("web:{}, modules:{}", spiderWeb, modules.getMsg());
+
+        Callable<Integer> statusCallable = new Callable() {
+            @Override
+            public Object call() throws Exception {
+                try {
+                    processInfoService.buildAneSave(spiderData);
+                    return 1;
+                } catch (Exception e) {
+                    logger.error("hotCallable error, msg:{}", e);
+                    return 0;
+                }
+            }
+        };
+
         Callable<Integer> hotCallable = new Callable() {
             @Override
             public Object call() throws Exception {
@@ -47,6 +64,7 @@ public class SpiderDataHandler {
                 }
             }
         };
+
         Callable<Integer> newsCallable = new Callable() {
             @Override
             public Object call() throws Exception {
@@ -82,7 +100,8 @@ public class SpiderDataHandler {
 //
         Future<Integer> future1 = executorService.submit(hotCallable);
         Future<Integer> future2 = executorService.submit(newsCallable);
-        if (future1.get() != 1 || future2.get() != 1) {
+        Future<Integer> future3 = executorService.submit(statusCallable);
+        if (future1.get() != 1 || future2.get() != 1 || future3.get() != 1) {
             logger.error("sotre data error");
             return false;
         }
