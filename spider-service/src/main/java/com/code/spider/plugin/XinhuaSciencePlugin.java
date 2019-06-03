@@ -1,12 +1,13 @@
 package com.code.spider.plugin;
 
-import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
+import com.code.common.enums.NewsType;
+import com.code.common.utils.DateUtils;
 import com.code.common.utils.JsoupUtils;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
@@ -56,47 +57,45 @@ public class XinhuaSciencePlugin extends ClientPlugin {
             List<String> hotScienceList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
 
             //今日新闻
-//            if (!CollectionUtils.isEmpty(newestScienceUrlList)) {
-//                List<RawData> newestSciencelList = new ArrayList<>();
-//                for (int i = 0; i < 3; i++) {
-//                    String newestScienceUrl = newestScienceUrlList.get(i);
-//                    System.out.println("-----" + newestScienceUrl);
-//                    request = new WebRequest(newestScienceUrl);
-//                    response = client.execute(request);
-//                    newestSciencelList.add(new RawData(newestScienceUrl, response.getRespText()));
-//                }
-//                spiderData.put("newestScienceList", newestSciencelList);
-//            }
+            if (!CollectionUtils.isEmpty(newestScienceUrlList)) {
+                List<RawData> newestSciencelList = new ArrayList<>();
+                for (int i = 0; i < 2; i++) {
+                    String newestScienceUrl = newestScienceUrlList.get(i);
+                    request = new WebRequest(newestScienceUrl);
+                    response = client.execute(request);
+                    newestSciencelList.add(new RawData(newestScienceUrl, response.getRespText(), NewsType.LATEST));
+                }
+                spiderData.put("lastestList", newestSciencelList);
+            }
 
-            //新闻历史
-//            if (!CollectionUtils.isEmpty(historyScienceUrlList)) {
-//                List<RawData> historyScienceList = new ArrayList<>();
-//                long ts = DateUtils.nowTimeStamp();
-//                for (int i = 0; i < 3; i++) {
-//                    request = new WebRequest(historyScienceUrlList.get(i));
-//                    response = client.execute(request);
-//                    historyScienceList.add(new RawData(historyScienceUrlList.get(i), response.getRespText()));
-//                }
-//                spiderData.put("historySciencelList", historyScienceList);
-//            }
+//            新闻历史
+            if (!CollectionUtils.isEmpty(historyScienceUrlList)) {
+                List<RawData> historyScienceList = new ArrayList<>();
+                long ts = DateUtils.nowTimeStamp();
+                for (int i = 0; i < 3; i++) {
+                    request = new WebRequest(historyScienceUrlList.get(i));
+                    response = client.execute(request);
+                    historyScienceList.add(new RawData(historyScienceUrlList.get(i), response.getRespText(), NewsType.HISTORY));
+                }
+                spiderData.put("historyList", historyScienceList);
+            }
 
-            ////新闻排名
-//            if (!CollectionUtils.isEmpty(topScienceUrlList)) {
-//                List<RawData> topSciencelList = new ArrayList<>();
-//                for (int i = 0; i < 3; i++) {
-//                    String hotSciencelUrl = topScienceUrlList.get(i);
-//                    System.out.println("--" + hotSciencelUrl);
-//                    request = new WebRequest(hotSciencelUrl);
-//                    response = client.execute(request);
-//                    topSciencelList.add(new RawData(hotSciencelUrl, response.getRespText()));
-//                }
-//                spiderData.put("topSciencelList", topSciencelList);
-//            }
+            //新闻排名
+            if (!CollectionUtils.isEmpty(topScienceUrlList)) {
+                List<RawData> topSciencelList = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    String hotSciencelUrl = topScienceUrlList.get(i);
+                    request = new WebRequest(hotSciencelUrl);
+                    response = client.execute(request);
+                    topSciencelList.add(new RawData(hotSciencelUrl, response.getRespText(), NewsType.TOP));
+                }
+                spiderData.put("topList", topSciencelList);
+            }
 
-            //新闻热点
-//            if (!CollectionUtils.isEmpty(hotScienceList)) {
-//                spiderData.put("hotScienceList", hotScienceList);
-//            }
+//            新闻热点
+            if (!CollectionUtils.isEmpty(hotScienceList)) {
+                spiderData.put("hotList", hotScienceList);
+            }
         }
 
         return spiderData;
@@ -134,7 +133,6 @@ public class XinhuaSciencePlugin extends ClientPlugin {
             }
         } catch (Exception e) {
         }
-        System.out.println(JSON.toJSONString(resultMap));
 
         return resultMap;
     }
@@ -174,4 +172,9 @@ public class XinhuaSciencePlugin extends ClientPlugin {
         return news;
     }
 
+    @Override
+    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
+        client = client;
+        return process(resultMap);
+    }
 }

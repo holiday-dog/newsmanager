@@ -25,7 +25,7 @@ public class MainExecutor implements ApplicationRunner {
     private static ThreadFactory threadFactory = new NameThreadFactory();
     private ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(10, threadFactory);
     private static final int period = 24 * 3600;
-    private static final String timedExpression = "18:05:00";
+    private static final String timedExpression = "20:27:00";
     private Logger logger = LoggerFactory.getLogger(MainExecutor.class);
 
     public void executor() {
@@ -48,7 +48,7 @@ public class MainExecutor implements ApplicationRunner {
                 public void run() {
                     clientPlugin.spiderProcess(null);
                 }
-            }, initDelay, 10, TimeUnit.SECONDS);
+            }, initDelay, period, TimeUnit.SECONDS);
         }
     }
 
@@ -74,7 +74,6 @@ public class MainExecutor implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        logger.info("---------------");
         executor();
     }
 }

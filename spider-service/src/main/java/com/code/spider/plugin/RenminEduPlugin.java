@@ -7,6 +7,7 @@ import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
+import com.code.common.enums.NewsType;
 import com.code.common.utils.JsoupUtils;
 import com.code.spider.bean.RawData;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ import java.util.Map;
 public class RenminEduPlugin extends ClientPlugin {
     private static String indexUrl = "http://edu.people.com.cn/";
     private static WebClient client = WebClient.buildDefaultClient().buildRouteAndCount(50, 100).build();
+    private static Charset charset = Charset.forName("GB2312");
     private Logger logger = LoggerFactory.getLogger(RenminEduPlugin.class);
 
     @Override
@@ -53,43 +56,43 @@ public class RenminEduPlugin extends ClientPlugin {
         List<String> hotEduList = JsoupUtils.getElementsHtml(response.getRespText(), "div#focus_list ul li");
 
         //即时新闻
-//        if (!CollectionUtils.isEmpty(newestEduUrlList)) {
-//            List<RawData> newestEduList = new ArrayList<>();
-//            for (int i = 0; i < 3; i++) {
-//                String newestEduUrl = indexUrl + newestEduUrlList.get(i);
-//                System.out.println(newestEduUrl);
-//                request = new WebRequest(newestEduUrl);
-//                response = client.execute(request);
-//                newestEduList.add(new RawData(newestEduUrl, response.getRespText(Charset.forName("GB2312"))));
-//            }
-//            spiderData.put("newestEduList", newestEduList);
-//        }
-//        //新闻历史
-//        if (!CollectionUtils.isEmpty(historyEduUrlList)) {
-//            List<RawData> historyEduList = new ArrayList<>();
-//            for (int i = 0; i < 3; i++) {
-//                String historyEduUrl = indexUrl + historyEduUrlList.get(i);
-//                System.out.println("------" + historyEduUrl);
-//                request = new WebRequest(historyEduUrl);
-//                response = client.execute(request);
-//                historyEduList.add(new RawData(historyEduUrl, response.getRespText(Charset.forName("GB2312"))));
-//            }
-//            spiderData.put("historyEduList", historyEduList);
-//        }
-//        //新闻排名
-//        if (!CollectionUtils.isEmpty(topEduUrlList)) {
-//            List<RawData> topEduList = new ArrayList<>();
-//            for (int i = 0; i < 3; i++) {
-//                String hotEduUrl = indexUrl + topEduUrlList.get(i);
-//                request = new WebRequest(hotEduUrl);
-//                response = client.execute(request);
-//                topEduList.add(new RawData(hotEduUrl, response.getRespText(Charset.forName("GB2312"))));
-//            }
-//            spiderData.put("topEduList", topEduList);
-//        }
+        if (!CollectionUtils.isEmpty(newestEduUrlList)) {
+            List<RawData> newestEduList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                String newestEduUrl = indexUrl + newestEduUrlList.get(i);
+                System.out.println(newestEduUrl);
+                request = new WebRequest(newestEduUrl);
+                response = client.execute(request);
+                newestEduList.add(new RawData(newestEduUrl, response.getRespText(charset), NewsType.LATEST));
+            }
+            spiderData.put("lastestList", newestEduList);
+        }
+        //新闻历史
+        if (!CollectionUtils.isEmpty(historyEduUrlList)) {
+            List<RawData> historyEduList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                String historyEduUrl = indexUrl + historyEduUrlList.get(i);
+                System.out.println("------" + historyEduUrl);
+                request = new WebRequest(historyEduUrl);
+                response = client.execute(request);
+                historyEduList.add(new RawData(historyEduUrl, response.getRespText(charset), NewsType.HISTORY));
+            }
+            spiderData.put("historyList", historyEduList);
+        }
+        //新闻排名
+        if (!CollectionUtils.isEmpty(topEduUrlList)) {
+            List<RawData> topEduList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                String hotEduUrl = indexUrl + topEduUrlList.get(i);
+                request = new WebRequest(hotEduUrl);
+                response = client.execute(request);
+                topEduList.add(new RawData(hotEduUrl, response.getRespText(charset), NewsType.TOP));
+            }
+            spiderData.put("topList", topEduList);
+        }
         //新闻热点
         if (!CollectionUtils.isEmpty(hotEduList)) {
-            spiderData.put("hotEduList", hotEduList);
+            spiderData.put("hotList", hotEduList);
         }
 
         return spiderData;
@@ -123,7 +126,6 @@ public class RenminEduPlugin extends ClientPlugin {
             }
         } catch (Exception e) {
         }
-        System.out.println(JSON.toJSONString(resultMap));
 
         return resultMap;
     }
@@ -135,4 +137,8 @@ public class RenminEduPlugin extends ClientPlugin {
         return news;
     }
 
+    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
+        client = client;
+        return this.process(resultMap);
+    }
 }

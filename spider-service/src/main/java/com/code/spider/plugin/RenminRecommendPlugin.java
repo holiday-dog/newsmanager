@@ -1,12 +1,12 @@
 package com.code.spider.plugin;
 
-import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
+import com.code.common.enums.NewsType;
 import com.code.common.utils.JsoupUtils;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
@@ -57,33 +57,32 @@ public class RenminRecommendPlugin extends ClientPlugin {
             List<String> hotList = JsoupUtils.getElementsHtml(response.getRespText(), "div#focus_list ul li:has(a)");
 
             //特别推荐
-//            if (!CollectionUtils.isEmpty(especialUrlList)) {
-//                List<RawData> newestTravelList = new ArrayList<>();
-//                for (int i = 0; i < 3; i++) {
-//                    String especialUrl = especialUrlList.get(i);
-//                    request = new WebRequest(especialUrl);
-//                    response = client.execute(request);
-//                    newestTravelList.add(new RawData(especialUrl, response.getRespText(charset)));
-//                }
-//                spiderData.put("recommendList", newestTravelList);
-//                spiderData.put("newsType", NewsType.RECOMMEND);
-//            }
-            //排名新闻
-//            if (!CollectionUtils.isEmpty(topUrlList)) {
-//                List<RawData> topList = new ArrayList<>();
-//                for (int i = 0; i < 3; i++) {
-//                    System.out.println(topUrlList.get(i));
-//                    request = new WebRequest(topUrlList.get(i));
-//                    response = client.execute(request);
-//                    topList.add(new RawData(topUrlList.get(i), response.getRespText(charset)));
-//                }
-//                spiderData.put("topList", topList);
-//            }
+            if (!CollectionUtils.isEmpty(especialUrlList)) {
+                List<RawData> newestTravelList = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    String especialUrl = especialUrlList.get(i);
+                    request = new WebRequest(especialUrl);
+                    response = client.execute(request);
+                    newestTravelList.add(new RawData(especialUrl, response.getRespText(charset), NewsType.RECOMMEND));
+                }
+                spiderData.put("recommendList", newestTravelList);
+            }
+//            排名新闻
+            if (!CollectionUtils.isEmpty(topUrlList)) {
+                List<RawData> topList = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    System.out.println(topUrlList.get(i));
+                    request = new WebRequest(topUrlList.get(i));
+                    response = client.execute(request);
+                    topList.add(new RawData(topUrlList.get(i), response.getRespText(charset), NewsType.TOP));
+                }
+                spiderData.put("topList", topList);
+            }
 
 //            新闻热点
-//            if (!CollectionUtils.isEmpty(hotList)) {
-//                spiderData.put("hotList", hotList);
-//            }
+            if (!CollectionUtils.isEmpty(hotList)) {
+                spiderData.put("hotList", hotList);
+            }
         }
         return spiderData;
     }
@@ -119,10 +118,13 @@ public class RenminRecommendPlugin extends ClientPlugin {
             }
         } catch (Exception e) {
         }
-        System.out.println(JSON.toJSONString(resultMap));
 
         return resultMap;
     }
 
+    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
+        client = client;
+        return this.process(resultMap);
+    }
 }
 

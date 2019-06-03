@@ -1,6 +1,5 @@
 package com.code.spider.plugin;
 
-import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
@@ -129,8 +128,13 @@ public class XinhuaRecommendPlugin extends ClientPlugin {
             }
         } catch (Exception e) {
         }
-        System.out.println(JSON.toJSONString(resultMap));
 
         return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
+        client = client;
+        return process(resultMap);
     }
 }
