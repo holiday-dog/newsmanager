@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#myCarousel').carousel({
+                pause: true,
+                interval: false
+            });
+        })
+    </script>
+    <style type="text/css">
+        ul li {
+            list-style-type: none;
+        }
+
+        a {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="head :: header"></div>
+<div class="container">
+    <div class="row">
+        <div class="jumbotron">
+            <table class="table table-bordered">
+                <!--<thead>-->
+                <tr>
+                    <th>#</th>
+                    <th>插件名</th>
+                    <th>爬取网站</th>
+                    <th>爬取模块</th>
+                    <th>时间</th>
+                    <th>状态</th>
+                    <th>描述信息</th>
+                </tr>
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr>-->
+                    <!--<td>fasfdasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfa</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>fasfdasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfasd</td>-->
+                    <!--<td>fasdfa</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="foot :: footer"></div>
+</body>
+</html>

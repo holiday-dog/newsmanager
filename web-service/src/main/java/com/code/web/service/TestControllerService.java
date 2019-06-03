@@ -57,6 +57,14 @@ public class TestControllerService {
         return "content";
     }
 
+    @RequestMapping("/admin")
+    public String admin(@RequestParam(value = "msg", required = false) String msg) {
+        if (StringUtils.isNotEmpty(msg)) {
+            throw new CodecException("系统异常");
+        }
+        return "admin";
+    }
+
     @RequestMapping("/modules")
     public ModelAndView queryNewsList(@RequestParam("modules") String modules) {
         List<News> newsList = null;
@@ -72,7 +80,7 @@ public class TestControllerService {
 
         responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY.getMsg() + "&limit=2", String.class);
         System.out.println(responseEntity.getBody());
-         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         List<News> hisList = JSON.parseArray((String) responseData.getResultData(), News.class);
         System.out.println(JSON.toJSONString(hisList));
         mv.addObject("historyList", hisList);
@@ -80,7 +88,7 @@ public class TestControllerService {
 
         responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/hotnews/queryList?modules=" + modules + "&limit=3", String.class);
         System.out.println(responseEntity.getBody());
-         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         hotNewsList = JSON.parseArray((String) responseData.getResultData(), HotNews.class);
         System.out.println(JSON.toJSONString(hotNewsList));
         mv.addObject("hotList", hotNewsList);
