@@ -30,7 +30,7 @@ public class RenminRecommendPlugin extends ClientPlugin {
 
     @Override
     public String getClientPluginName() {
-        return "Renmin_Recommend_Plugin";
+        return "RenminRecommendPlugin";
     }
 
     @Override
@@ -38,6 +38,7 @@ public class RenminRecommendPlugin extends ClientPlugin {
         resultMap.put("spiderDate", LocalDateTime.now());
         resultMap.put("moduleType", Modules.RECOMMEND);
         resultMap.put("spiderWebsite", "Renmin");
+        resultMap.put("pluginName", getClientPluginName());
 
         return resultMap;
     }
@@ -88,43 +89,40 @@ public class RenminRecommendPlugin extends ClientPlugin {
     }
 
     @Override
-    Map<String, Object> handleData(Map<String, Object> spiderData) {
+    Map<String, Object> handleData(Map<String, Object> spiderData) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
-        try {
-            for (String key : spiderData.keySet()) {
-                logger.info("handler {} data", key);
-                if (!key.contains("hot")) {
-                    List<News> newsList = new ArrayList<>();
-                    List<RawData> results = (List<RawData>) spiderData.get(key);
-                    if (CollectionUtils.isEmpty(results)) {
-                        continue;
-                    }
-                    for (RawData result : results) {
-                        String page = result.getPage();
-                        News news = ExtractorUtils.extractRenmin(page);
-                        news.setContent(ExtractorUtils.extractRenminContent(page, result.getUrl()));
-                        news.setReferUrl(result.getUrl());
-                        newsList.add(news);
-                    }
-                    resultMap.put(key, newsList);
-                } else {
-                    List<HotNews> hotNewsList = new ArrayList<>();
-                    List<String> pages = (List<String>) spiderData.get(key);
-                    for (String page : pages) {
-                        hotNewsList.add(ExtractorUtils.extractRenminHot(page, indexUrl));
-                    }
-                    resultMap.put(key, hotNewsList);
+        for (String key : spiderData.keySet()) {
+            logger.info("handler {} data", key);
+            if (!key.contains("hot")) {
+                List<News> newsList = new ArrayList<>();
+                List<RawData> results = (List<RawData>) spiderData.get(key);
+                if (CollectionUtils.isEmpty(results)) {
+                    continue;
                 }
+                for (RawData result : results) {
+                    String page = result.getPage();
+                    News news = ExtractorUtils.extractRenmin(page);
+                    news.setContent(ExtractorUtils.extractRenminContent(page, result.getUrl()));
+                    news.setReferUrl(result.getUrl());
+                    newsList.add(news);
+                }
+                resultMap.put(key, newsList);
+            } else {
+                List<HotNews> hotNewsList = new ArrayList<>();
+                List<String> pages = (List<String>) spiderData.get(key);
+                for (String page : pages) {
+                    hotNewsList.add(ExtractorUtils.extractRenminHot(page, indexUrl));
+                }
+                resultMap.put(key, hotNewsList);
             }
-        } catch (Exception e) {
         }
 
         return resultMap;
     }
 
-    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
+    @Override
+    public void retrySetClient(WebClient client) {
         client = client;
-        return this.process(resultMap);
     }
 }
 

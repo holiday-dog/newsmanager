@@ -1,11 +1,29 @@
 package com.code.common.enums;
 
 public enum ProcessStatus {
-    SPIDER_INIT, SPIDER_PROCESS, SPIDER_HANDLERDATA,
+    SPIDER_FAIL((byte) 0, "爬取失败"), SPIDER_SUCCESS((byte) 1, "爬取成功"),
 
-    SPIDER_FAIL, SPIDER_SUCCESS,
+    HANDLE_FAIL((byte) 2, "解析失败"), HANDLE_SUCCESS((byte) 3, "解析成功"),
 
-    HANDLE_FAIL, HANDLE_SUCCESS, STORE_FAIL, STORE_SUCCESS,
+    FINISH_SUCCESS((byte) 4, "成功");
 
-    ANALY_FAIL, ANALY_SUCCESS;
+    private String msg;
+    private Byte val;
+
+    ProcessStatus(Byte val, String msg) {
+        this.msg = msg;
+        this.val = val;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public Byte getVal() {
+        return val;
+    }
+
+    //    STORE_FAIL, STORE_SUCCESS,
+//
+//    ANALY_FAIL, ANALY_SUCCESS;
 }

@@ -2,6 +2,7 @@ package com.code.common.utils;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.JsonContext;
 import net.minidev.json.JSONArray;
 
@@ -56,8 +57,15 @@ public class JsonPathUtils {
     public static String jsonArray(String content, String jsonpath) {
         DocumentContext context = (JsonContext) JsonPath.parse(content);
 
-        JSONArray jsonArray = context.read(jsonpath);
-        return jsonArray.toJSONString();
+        try {
+            JSONArray jsonArray = context.read(jsonpath);
+            if (jsonArray == null) {
+                return null;
+            }
+            return jsonArray.toJSONString();
+        } catch (PathNotFoundException e) {
+            return null;
+        }
     }
 
 }

@@ -30,14 +30,15 @@ public class XinhuaEduPlugin extends ClientPlugin {
 
     @Override
     public String getClientPluginName() {
-        return "Xinhua_Edu_Plugin";
+        return "XinhuaEduPlugin";
     }
 
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", LocalDateTime.now());
-        resultMap.put("moduleType", Modules.EDUCATION);
+        resultMap.put("moduleType", Modules.EDUCATION.getMsg());
         resultMap.put("spiderWebsite", "XinHua");
+        resultMap.put("pluginName", getClientPluginName());
 
         return resultMap;
     }
@@ -56,9 +57,9 @@ public class XinhuaEduPlugin extends ClientPlugin {
             List<String> hotEduList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
             if (!CollectionUtils.isEmpty(newestEduUrlList)) {
                 List<RawData> newestEduList = new ArrayList<>();
-//                for (String newestEduUrl : newestEduUrlList) {
-                for (int i = 0; i < 2; i++) {
-                    String newestEduUrl = newestEduUrlList.get(i);
+                for (String newestEduUrl : newestEduUrlList) {
+//                for (int i = 0; i < 2; i++) {
+//                    String newestEduUrl = newestEduUrlList.get(i);
                     request = new WebRequest(newestEduUrl);
                     response = client.execute(request);
                     newestEduList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
@@ -124,12 +125,13 @@ public class XinhuaEduPlugin extends ClientPlugin {
                 resultMap.put(key, hotNewsList);
             }
         }
+//        int a = 1 / 0;
 
         return resultMap;
     }
 
-    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
+    @Override
+    public void retrySetClient(WebClient client) {
         client = client;
-        return this.process(resultMap);
     }
 }

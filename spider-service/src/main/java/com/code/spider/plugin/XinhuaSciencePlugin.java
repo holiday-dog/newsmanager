@@ -29,7 +29,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
 
     @Override
     public String getClientPluginName() {
-        return "Xinhua_Travel_Plugin";
+        return "XinhuaSciencePlugin";
     }
 
     @Override
@@ -37,6 +37,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
         resultMap.put("spiderDate", LocalDateTime.now());
         resultMap.put("moduleType", Modules.SCIENCE);
         resultMap.put("spiderWebsite", "XinHua");
+        resultMap.put("pluginName", getClientPluginName());
 
         return resultMap;
     }
@@ -102,36 +103,33 @@ public class XinhuaSciencePlugin extends ClientPlugin {
     }
 
     @Override
-    Map<String, Object> handleData(Map<String, Object> spiderData) {
+    Map<String, Object> handleData(Map<String, Object> spiderData) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
-        try {
-            for (String key : spiderData.keySet()) {
-                logger.info("handler {} data", key);
-                if (!key.contains("hot")) {
-                    List<News> newsList = new ArrayList<>();
-                    List<RawData> results = (List<RawData>) spiderData.get(key);
-                    if (CollectionUtils.isEmpty(results)) {
-                        continue;
-                    }
-                    for (RawData result : results) {
-                        String page = result.getPage();
-                        if (page.contains("下一页") && page.contains("div_currpage")) {
-                            newsList.add(handleMultiPage(page, result.getUrl()));
-                        } else {
-                            newsList.add(handleSinglePage(page, result.getUrl()));
-                        }
-                    }
-                    resultMap.put(key, newsList);
-                } else {
-                    List<HotNews> hotNewsListList = new ArrayList<>();
-                    List<String> pages = (List<String>) spiderData.get(key);
-                    for (String page : pages) {
-                        hotNewsListList.add(ExtractorUtils.extractXinhuaHot(page, indexUrl));
-                    }
-                    resultMap.put(key, hotNewsListList);
+        for (String key : spiderData.keySet()) {
+            logger.info("handler {} data", key);
+            if (!key.contains("hot")) {
+                List<News> newsList = new ArrayList<>();
+                List<RawData> results = (List<RawData>) spiderData.get(key);
+                if (CollectionUtils.isEmpty(results)) {
+                    continue;
                 }
+                for (RawData result : results) {
+                    String page = result.getPage();
+                    if (page.contains("下一页") && page.contains("div_currpage")) {
+                        newsList.add(handleMultiPage(page, result.getUrl()));
+                    } else {
+                        newsList.add(handleSinglePage(page, result.getUrl()));
+                    }
+                }
+                resultMap.put(key, newsList);
+            } else {
+                List<HotNews> hotNewsListList = new ArrayList<>();
+                List<String> pages = (List<String>) spiderData.get(key);
+                for (String page : pages) {
+                    hotNewsListList.add(ExtractorUtils.extractXinhuaHot(page, indexUrl));
+                }
+                resultMap.put(key, hotNewsListList);
             }
-        } catch (Exception e) {
         }
 
         return resultMap;
@@ -173,8 +171,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
     }
 
     @Override
-    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
+    public void retrySetClient(WebClient client) {
         client = client;
-        return process(resultMap);
     }
 }

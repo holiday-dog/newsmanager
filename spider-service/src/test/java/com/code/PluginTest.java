@@ -1,17 +1,16 @@
 package com.code;
 
-import com.alibaba.fastjson.JSON;
-import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.spider.executors.MainExecutor;
-import com.code.spider.plugin.*;
+import com.code.spider.plugin.ClientPlugin;
+import com.code.spider.plugin.RenminTravelPlugin;
+import com.code.spider.plugin.XinhuaEduPlugin;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class PluginTest {
@@ -39,6 +38,7 @@ public class PluginTest {
 //        News news = ((RenminTravelPlugin) plugin).handleSinglePage(resp.getRespText(Charset.forName("GB2312")), "http://travel.people.com.cn/n1/2019/0527/c41570-31103948.html");
 //        System.out.println(JSON.toJSONString(news));
     }
+
     @Test
     public void test() throws InterruptedException {
         MainExecutor mainExecutor = new MainExecutor();

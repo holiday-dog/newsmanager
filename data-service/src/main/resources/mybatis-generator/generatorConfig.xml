@@ -27,22 +27,26 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.code.data.dao"-->
-        <!--targetProject="/Users/chancelee/Applications/newsmanager/data-service/src/main/java">-->
-        <!--<property name="enableSubPackages" value="true"/>-->
-        <!--</javaClientGenerator>-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.code.data.dao"
+        targetProject="/Users/chancelee/Applications/newsmanager/data-service/src/main/java">
+        <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
 
         <!--<table tableName="tb_news_info" domainObjectName="NewsInfo" enableSelectByExample="false"-->
                <!--enableDeleteByExample="false"-->
                <!--enableUpdateByExample="false" enableCountByExample="false">-->
         <!--</table>-->
-        <table tableName="tb_news_content_info" domainObjectName="NewsContentInfo" enableSelectByExample="false"
-               enableDeleteByExample="false" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true"
-               enableUpdateByExample="false" enableCountByExample="false" >
-        </table>
+        <!--<table tableName="tb_news_content_info" domainObjectName="NewsContentInfo" enableSelectByExample="false"-->
+               <!--enableDeleteByExample="false" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true"-->
+               <!--enableUpdateByExample="false" enableCountByExample="false" >-->
+        <!--</table>-->
         <!--<table tableName="tb_news_hot_info" domainObjectName="NewsHotInfo" enableSelectByExample="false"-->
                <!--enableDeleteByExample="false"-->
                <!--enableUpdateByExample="false" enableCountByExample="false">-->
         <!--</table>-->
+        <table tableName="tb_process_info" domainObjectName="ProcessInfo" enableSelectByExample="false"
+               enableDeleteByExample="false" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true"
+               enableUpdateByExample="false" enableCountByExample="false" >
+        </table>
     </context>
 </generatorConfiguration>

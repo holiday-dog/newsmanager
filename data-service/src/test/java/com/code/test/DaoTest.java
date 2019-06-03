@@ -3,17 +3,21 @@ package com.code.test;
 import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
 import com.code.common.enums.Modules;
+import com.code.common.utils.DateUtils;
 import com.code.common.utils.IOUtils;
 import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.RandomUtils;
 import com.code.data.DataApplication;
 import com.code.data.beans.NewsInfo;
+import com.code.data.beans.ProcessInfo;
 import com.code.data.dao.NewsContentInfoMapper;
 import com.code.data.dao.NewsHotInfoMapper;
 import com.code.data.dao.NewsInfoMapper;
+import com.code.data.dao.ProcessInfoMapper;
 import com.code.data.mq.SpiderDataHandler;
 import com.code.data.service.NewsHotInfoService;
 import com.code.data.service.NewsInfoService;
+import com.code.data.service.ProcessInfoService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +51,11 @@ public class DaoTest {
     @Autowired
     private SpiderDataHandler dataHandler;
 
+    @Resource
+    private ProcessInfoMapper processInfoMapper;
+    @Autowired
+    private ProcessInfoService processInfoService;
+
     String page;
 
 
@@ -54,7 +63,17 @@ public class DaoTest {
     @Test
     public void testa() throws ExecutionException, InterruptedException {
 //        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));
-        System.out.println(dataHandler.handler(page));
+//        System.out.println(dataHandler.handler(page));
+        System.out.println(processInfoService.buildAneSave(page));
+//        System.out.println(JSON.toJSONString(processInfoMapper.selectListOrderSpiderTime(0, 2)));
+//        ProcessInfo info  = new ProcessInfo();
+//        info.setPluginName(JsonPathUtils.getValue(page, "$.pluginName"));
+//        info.setModulesType(Modules.parse(JsonPathUtils.getValue(page, "$.moduleType")).getValue());
+//        info.setSpiderDate(DateUtils.parseDateTime(JsonPathUtils.getValue(page, "$.spiderDate")));
+//        info.setSpiderWebsite(JsonPathUtils.getValue(page, "$.spiderWebsite"));
+//        info.setStage(Byte.parseByte(JsonPathUtils.getValue(page, "$.stage")));
+//        System.out.println(JSON.toJSONString(info));
+//        processInfoMapper.insert(info);
     }
 
     public void test() {

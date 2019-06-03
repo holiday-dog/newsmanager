@@ -6,12 +6,14 @@ import com.code.common.crawl.WebClient;
 import com.code.common.enums.ProcessStatus;
 import com.code.common.exception.CodeException;
 import com.code.common.proxy.ProxyUtils;
+import com.code.spider.bean.Constants;
+import com.code.spider.config.SingleProducer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.rocketmq.common.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -39,10 +41,14 @@ public abstract class ClientPlugin {
 
     abstract Map<String, Object> process(Map<String, Object> resultMap) throws Exception;
 
-    abstract Map<String, Object> handleData(Map<String, Object> resultMap);
+    abstract Map<String, Object> handleData(Map<String, Object> resultMap) throws Exception;
 
-    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
-        return null;
+    public void retrySetClient(WebClient client) {
+        return;
+    }
+
+    public Map<String, Object> postProcess(Map<String, Object> resultMap) {
+        return resultMap;
     }
 
     public ProcessStatus spiderProcess(Map<String, Object> params) {
@@ -57,13 +63,16 @@ public abstract class ClientPlugin {
             logger.info("execute preProcess method");
             resultMap = preProcess(resultMap);
 
-            for (int i = 0; i < executorCount; i++) {
+            int i = 0;
+            for (; i < executorCount; i++) {
                 try {
                     logger.info("retry {} times execute process method", i);
                     spiderData = process(resultMap);
+                    resultMap.put(Constants.STAGE, ProcessStatus.SPIDER_SUCCESS);
                     break;
                 } catch (Exception e) {
                     if (e instanceof CodeException) {
+                        setStatus(resultMap, ProcessStatus.SPIDER_FAIL, e);
                         logger.error("happen spiderException, spider end.., error:{}", e);
                         return ProcessStatus.SPIDER_FAIL;
                     } else if (e instanceof ConnectException || e instanceof ConnectTimeoutException || e instanceof UnknownHostException) {
@@ -71,34 +80,57 @@ public abstract class ClientPlugin {
                         ProxyObj obj = ProxyUtils.getProxy();
                         if (obj != null) {
                             WebClient client = WebClient.buildDefaultClient().buildRouteAndCount(50, 100).buildProxy(WebClient.ProxyType.PROXY_ADDRESS, obj.getProxyHost(), obj.getProxyPort()).build();
-                            spiderData = retryProcess(resultMap, client);
+                            retrySetClient(client);
+                            continue;
                         }
+                        setStatus(resultMap, ProcessStatus.SPIDER_FAIL, e);
+                    } else {
+                        logger.error("has error, msg:{}", e);
+                        setStatus(resultMap, ProcessStatus.SPIDER_FAIL, e);
                     }
-                    logger.error("has error, msg:{}", e);
                 }
             }
-            logger.info("execute handleData method,body:{}", JSON.toJSONString(resultMap));
-            resultMap.putAll(handleData(spiderData));
+            if (i == 2 || (ProcessStatus) resultMap.get(Constants.STAGE) != ProcessStatus.SPIDER_SUCCESS) {
+                sendToMQ(resultMap);
+                return (ProcessStatus) resultMap.get(Constants.STAGE);
+            }
+            try {
+                logger.info("execute handleData method");
+                resultMap.putAll(handleData(spiderData));
+                setStatus(resultMap, ProcessStatus.HANDLE_SUCCESS, null);
+            } catch (Exception e) {
+                setStatus(resultMap, ProcessStatus.HANDLE_FAIL, e);
+            }
+            postProcess(resultMap);
 
+            logger.info("{}", JSON.toJSONString(resultMap));
             logger.info("execute sendToMQ");
-            if (StringUtils.isEmpty(sendToMQ(resultMap))) {
-
+            String errorMsg = sendToMQ(resultMap);
+            if (StringUtils.isEmpty(errorMsg)) {
+                return ProcessStatus.SPIDER_SUCCESS;
             }
         } catch (Exception e) {
             logger.error("happen exception, msg:{}", e);
         }
 
         logger.info("{} plugin spider success..", getClientPluginName());
-        return ProcessStatus.SPIDER_SUCCESS;
+        return ProcessStatus.SPIDER_FAIL;
     }
 
     private String sendToMQ(Map<String, Object> resultMap) {
         try {
-
+            SingleProducer.producer().send(new Message(SingleProducer.topic, SingleProducer.tag, JSON.toJSONBytes(resultMap)));
         } catch (Exception e) {
-            logger.error("");
+            logger.error("send error, msg:{}", e);
+            return e.toString();
         }
         return StringUtils.EMPTY;
     }
 
+    private void setStatus(Map<String, Object> resultMap, ProcessStatus status, Exception remark) {
+        resultMap.put(Constants.STAGE, status);
+        if (remark != null) {
+            resultMap.put(Constants.PROCESS_REMARK, remark.toString());
+        }
+    }
 }

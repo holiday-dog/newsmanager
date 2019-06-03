@@ -33,4 +33,16 @@ public enum NewsType {
         }
         return LATEST;
     }
+
+    public static NewsType parseString(String obj) {
+        if (StringUtils.isEmpty(obj)) {
+            return LATEST;
+        }
+        for (NewsType newsType : values()) {
+            if (newsType.toString().equalsIgnoreCase(obj.toString())) {
+                return newsType;
+            }
+        }
+        return LATEST;
+    }
 }

@@ -1,6 +1,5 @@
 package com.code.spider.plugin;
 
-import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
 import com.code.common.bean.News;
 import com.code.common.crawl.WebClient;
@@ -8,6 +7,7 @@ import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.common.enums.Modules;
 import com.code.common.enums.NewsType;
+import com.code.common.utils.DateUtils;
 import com.code.common.utils.JsoupUtils;
 import com.code.spider.bean.RawData;
 import org.slf4j.Logger;
@@ -30,14 +30,15 @@ public class RenminEduPlugin extends ClientPlugin {
 
     @Override
     public String getClientPluginName() {
-        return "Xinhua_Travel_Plugin";
+        return "RenminEduPlugin";
     }
 
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
-        resultMap.put("spiderDate", LocalDateTime.now());
+        resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
         resultMap.put("moduleType", Modules.EDUCATION);
         resultMap.put("spiderWebsite", "Renmin");
+        resultMap.put("pluginName", getClientPluginName());
 
         return resultMap;
     }
@@ -137,8 +138,8 @@ public class RenminEduPlugin extends ClientPlugin {
         return news;
     }
 
-    public Map<String, Object> retryProcess(Map<String, Object> resultMap, WebClient client) throws IOException {
+    @Override
+    public void retrySetClient(WebClient client) {
         client = client;
-        return this.process(resultMap);
     }
 }
