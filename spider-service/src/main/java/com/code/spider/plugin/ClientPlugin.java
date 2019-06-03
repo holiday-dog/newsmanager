@@ -2,6 +2,7 @@ package com.code.spider.plugin;
 
 import com.code.common.enums.ProcessStatus;
 import com.code.common.exception.CodeException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +48,7 @@ public abstract class ClientPlugin {
             for (int i = 0; i < executorCount; i++) {
                 try {
                     logger.info("retry {} times execute process method", i);
-                    spiderData = process(resultMap);
+//                    spiderData = process(resultMap);
                     break;
                 } catch (Exception e) {
                     if (e instanceof CodeException) {
@@ -58,10 +59,12 @@ public abstract class ClientPlugin {
                 }
             }
             logger.info("execute handleData method");
-            resultMap.putAll(handleData(spiderData));
+//            resultMap.putAll(handleData(spiderData));
 
             logger.info("execute sendToMQ");
-            sendToMQ(resultMap);
+            if (StringUtils.isEmpty(sendToMQ(resultMap))) {
+
+            }
         } catch (Exception e) {
             logger.error("happen exception, msg:{}", e);
         }
@@ -71,7 +74,12 @@ public abstract class ClientPlugin {
     }
 
     private String sendToMQ(Map<String, Object> resultMap) {
-        return null;
+        try {
+
+        } catch (Exception e) {
+            logger.error("");
+        }
+        return StringUtils.EMPTY;
     }
 
 }

@@ -1,10 +1,6 @@
 server:
-  port: 8082  # 服务端口
+  port: 8088  # 服务端口
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
 spring:
   application:
     name: spider-service

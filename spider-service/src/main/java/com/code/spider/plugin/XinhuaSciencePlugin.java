@@ -94,9 +94,9 @@ public class XinhuaSciencePlugin extends ClientPlugin {
 //            }
 
             //新闻热点
-            if (!CollectionUtils.isEmpty(hotScienceList)) {
-                spiderData.put("hotScienceList", hotScienceList);
-            }
+//            if (!CollectionUtils.isEmpty(hotScienceList)) {
+//                spiderData.put("hotScienceList", hotScienceList);
+//            }
         }
 
         return spiderData;

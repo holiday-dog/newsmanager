@@ -30,20 +30,20 @@ public class SpiderMqConfiguration {
     @Value("${rocketmq.consume.group}")
     private String consumeGroup;
 
-    @Bean
-    public DefaultMQProducer producer() throws MQClientException {
-        DefaultMQProducer producer = null;
-        try {
-            producer = new DefaultMQProducer(produceGroup);
-            producer.setNamesrvAddr(nameaddr);
-
-            producer.start();
-            logger.info("spider-producer init success");
-        } catch (Exception e) {
-            logger.info("spider-producer init error:{}", e);
-        }
-        return producer;
-    }
+//    @Bean
+//    public DefaultMQProducer producer() throws MQClientException {
+//        DefaultMQProducer producer = null;
+//        try {
+//            producer = new DefaultMQProducer(produceGroup);
+//            producer.setNamesrvAddr(nameaddr);
+//
+//            producer.start();
+//            logger.info("spider-producer init success");
+//        } catch (Exception e) {
+//            logger.info("spider-producer init error:{}", e);
+//        }
+//        return producer;
+//    }
 
     @Bean
     public String spiderTopic() {

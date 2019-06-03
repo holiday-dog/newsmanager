@@ -52,43 +52,43 @@ public class XinhuaEduPlugin extends ClientPlugin {
         request = new WebRequest("http://education.news.cn/");
         response = client.execute(request);
 
-        if (StringUtils.isNotEmpty(response.getRespText())) {
-            List<String> newestEduUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
-            List<String> hotEduList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
-            if (!CollectionUtils.isEmpty(newestEduUrlList)) {
-                List<RawData> newestEduList = new ArrayList<>();
-                for (String newestEduUrl : newestEduUrlList) {
-//                    String newestEduUrl = newestEduUrlList.get(i);
-                    request = new WebRequest(newestEduUrl);
-                    response = client.execute(request);
-                    newestEduList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
-                }
-                spiderData.put("lastestList", newestEduList);
-            }
-            //新闻热点
-            if (!CollectionUtils.isEmpty(hotEduList)) {
-                spiderData.put("hotList", hotEduList);
-            }
-        }
-        //新闻历史
-        long ts = DateUtils.nowTimeStamp();
-        for (int i = 1; i <= 1; i++) {
-            String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
-            request = new WebRequest(spiderUrl);
-            response = client.execute(request);
-
-            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+\\_\\d+\\((.*)", 1);
-            List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
-            if (!CollectionUtils.isEmpty(linkUrls)) {
-                List<RawData> eduPageList = new ArrayList<>();
-                for (int j = 0; j < 7; j++) {
-                    request = new WebRequest(linkUrls.get(j));
-                    response = client.execute(request);
-                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY));
-                }
-                spiderData.put("historyList", eduPageList);
-            }
-        }
+//        if (StringUtils.isNotEmpty(response.getRespText())) {
+//            List<String> newestEduUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
+//            List<String> hotEduList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
+//            if (!CollectionUtils.isEmpty(newestEduUrlList)) {
+//                List<RawData> newestEduList = new ArrayList<>();
+//                for (String newestEduUrl : newestEduUrlList) {
+////                    String newestEduUrl = newestEduUrlList.get(i);
+//                    request = new WebRequest(newestEduUrl);
+//                    response = client.execute(request);
+//                    newestEduList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
+//                }
+//                spiderData.put("lastestList", newestEduList);
+//            }
+//            //新闻热点
+//            if (!CollectionUtils.isEmpty(hotEduList)) {
+//                spiderData.put("hotList", hotEduList);
+//            }
+//        }
+//        //新闻历史
+//        long ts = DateUtils.nowTimeStamp();
+//        for (int i = 1; i <= 1; i++) {
+//            String spiderUrl = String.format(eduListUrl, i, Constants.spiderPageNum, ts, ts);
+//            request = new WebRequest(spiderUrl);
+//            response = client.execute(request);
+//
+//            String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+\\_\\d+\\((.*)", 1);
+//            List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
+//            if (!CollectionUtils.isEmpty(linkUrls)) {
+//                List<RawData> eduPageList = new ArrayList<>();
+//                for (int j = 0; j < 7; j++) {
+//                    request = new WebRequest(linkUrls.get(j));
+//                    response = client.execute(request);
+//                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY));
+//                }
+//                spiderData.put("historyList", eduPageList);
+//            }
+//        }
 
         return spiderData;
     }

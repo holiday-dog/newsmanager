@@ -1,10 +1,14 @@
 package com.code.spider.executors;
 
-import com.code.spider.plugin.*;
+import com.code.spider.plugin.ClientPlugin;
+import com.code.spider.plugin.XinhuaEduPlugin;
+import com.code.spider.plugin.XinhuaSciencePlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,14 +20,14 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-public class MainExecutor {
+@Component
+public class MainExecutor implements ApplicationRunner {
     private static ThreadFactory threadFactory = new NameThreadFactory();
     private ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(10, threadFactory);
     private static final int period = 24 * 3600;
-    private static final String timedExpression = "01:00:00";
+    private static final String timedExpression = "18:05:00";
     private Logger logger = LoggerFactory.getLogger(MainExecutor.class);
 
-    @PostConstruct
     public void executor() {
         Long initDelay = 0L;
         initDelay = initDelayTime() / 1000;
@@ -32,11 +36,11 @@ public class MainExecutor {
         List<ClientPlugin> clientPlugins = new ArrayList<>();
         clientPlugins.add(new XinhuaEduPlugin());
         clientPlugins.add(new XinhuaSciencePlugin());
-        clientPlugins.add(new XinhuaRecommendPlugin());
-        clientPlugins.add(new XinhuaTravelPlugin());
-        clientPlugins.add(new RenminRecommendPlugin());
-        clientPlugins.add(new RenminTravelPlugin());
-        clientPlugins.add(new RenminEduPlugin());
+//        clientPlugins.add(new XinhuaRecommendPlugin());
+//        clientPlugins.add(new XinhuaTravelPlugin());
+//        clientPlugins.add(new RenminRecommendPlugin());
+//        clientPlugins.add(new RenminTravelPlugin());
+//        clientPlugins.add(new RenminEduPlugin());
 
         for (ClientPlugin clientPlugin : clientPlugins) {
             executorService.scheduleAtFixedRate(new Runnable() {
@@ -44,7 +48,7 @@ public class MainExecutor {
                 public void run() {
                     clientPlugin.spiderProcess(null);
                 }
-            }, initDelay, period, TimeUnit.SECONDS);
+            }, initDelay, 10, TimeUnit.SECONDS);
         }
     }
 
@@ -66,5 +70,11 @@ public class MainExecutor {
         } else {
             return 0L;
         }
+    }
+
+    @Override
+    public void run(ApplicationArguments args) {
+        logger.info("---------------");
+        executor();
     }
 }
