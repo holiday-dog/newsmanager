@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.code.data.dao.ProcessInfoMapper">
+    <resultMap id="BaseResultMap" type="com.code.data.beans.ProcessInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="plugin_name" property="pluginName" jdbcType="VARCHAR"/>
+        <result column="modules_type" property="modulesType" jdbcType="TINYINT"/>
+        <result column="spider_website" property="spiderWebsite" jdbcType="VARCHAR"/>
+        <result column="spider_date" property="spiderDate" jdbcType="TIMESTAMP"/>
+        <result column="stage" property="stage" jdbcType="TINYINT"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, plugin_name, modules_type, spider_website, spider_date, stage, create_date, last_update_date
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_process_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_process_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.code.data.beans.ProcessInfo">
+    insert into tb_process_info (id, plugin_name, modules_type, 
+      spider_website, spider_date, stage)
+    values (#{id,jdbcType=BIGINT}, #{pluginName,jdbcType=VARCHAR}, #{modulesType,jdbcType=TINYINT}, 
+      #{spiderWebsite,jdbcType=VARCHAR}, #{spiderDate,jdbcType=TIMESTAMP}, #{stage,jdbcType=TINYINT})
+  </insert>
+
+    <select id="selectListOrderSpiderTime" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_process_info order by spider_date desc limit #{start}, #{limit}
+    </select>
+
+</mapper>
