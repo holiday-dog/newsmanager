@@ -42,7 +42,7 @@ public class SearchExtractor {
             for (Map<String, Object> map : maps) {
                 News news = new News();
                 news.setTitle((String) map.get("title"));
-                news.setImg(map.get("imgUrl") == null ? null : preImg + (String) map.get("imgUrl"));
+                news.setImages(map.get("imgUrl") == null ? null : preImg + (String) map.get("imgUrl"));
                 news.setDescription((String) map.get("des"));
                 news.setKeywords((String) map.get("keyword"));
                 news.setPubTime(DateUtils.parseDateTime((String) map.get("pubtime")));

@@ -63,7 +63,7 @@ public class TestControllerService {
         List<HotNews> hotNewsList = null;
 
         ModelAndView mv = new ModelAndView("modules");
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.LATEST.getMsg() + "&limit=2", String.class);
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.LATEST.getMsg() + "&limit=5", String.class);
         System.out.println(responseEntity.getBody());
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         newsList = JSON.parseArray((String) responseData.getResultData(), News.class);

@@ -21,6 +21,10 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 新闻信息服务类，提供对统一对象转换为javabean对象，将数据服务添加到msql数据库中
+ * 对外提供新闻信息查询服务
+ */
 @Service
 public class NewsInfoServiceImpl implements NewsInfoService {
     @Resource
@@ -30,6 +34,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
     private Logger logger = LoggerFactory.getLogger(NewsInfoServiceImpl.class);
 
     @Override
+    //添加事务支持
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, timeout = 10000)
     public void buildAneSave(News news) {
 
@@ -44,6 +49,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
         }
         List<NewsInfo> newsInfoList = new ArrayList<>();
         List<NewsContentInfo> newsContentInfoList = new ArrayList<>();
+        //转换新闻信息类
         for (News news : newsList) {
             NewsInfo newsInfo = new NewsInfo();
             BeanUtils.copyProperties(news, newsInfo);
@@ -55,6 +61,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
         if (!CollectionUtils.isEmpty(newsInfoList)) {
             newsInfoMapper.insertList(newsInfoList);
         }
+        //转换新闻内容类，通过sign进行映射
         for (int i = 0; i < newsInfoList.size(); i++) {
             NewsContentInfo newsContentInfo = new NewsContentInfo();
             newsContentInfo.setNewsSign(newsInfoList.get(i).getSign());
@@ -85,6 +92,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
     @Override
     @Transactional(readOnly = true)
     public List<News> queryList(Modules moduleType, NewsType newsType, Integer limit) {
+        //设置默认的查询limit
         if (limit == null || limit == 0) {
             limit = 5;
         }

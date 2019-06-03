@@ -24,14 +24,12 @@ public abstract class TrialProxyPlugin {
     private final static String checkProxyUrl = "https://www.taobao.com/";
     private final static Integer proxyRetryCount = 1;
     private final static Integer loginRetryCount = 2;
-    public static final String NEED_LOGIN = "need_login";
 
     public abstract String getProxyPluginName();
 
     public abstract List<LoginParam> loginParamList();
 
     public abstract ProxyObj process(LoginParam param);
-
 
     public boolean needFreeIp() {
         return false;

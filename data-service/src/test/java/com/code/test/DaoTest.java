@@ -3,7 +3,6 @@ package com.code.test;
 import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
 import com.code.common.enums.Modules;
-import com.code.common.enums.NewsType;
 import com.code.common.utils.IOUtils;
 import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.RandomUtils;
@@ -51,6 +50,7 @@ public class DaoTest {
     String page;
 
 
+    //数据库大文本需要用text,mediumtext,fulltext,他们的存储大小分别为64k,16m,4g
     @Test
     public void testa() throws ExecutionException, InterruptedException {
 //        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));

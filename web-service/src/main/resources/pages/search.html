@@ -35,12 +35,12 @@
                 </h4>
                 <div class="col-sm-2">
                     <a th:href="${news.referUrl}" targrt="_blank">
-                        <img class="lazyload" th:src="${news.img}" style="display: block;width:150px;height: 100px"
-                             th:if="${news.img}!=null">
+                        <img class="lazyload" th:src="${news.images}" style="display: block;width:150px;height: 100px"
+                             th:if="${news.images}!=null">
                         <img class="lazyload"
                              th:src="@{https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559402029267&di=ab1623b48ac8ebd7902979c51a77d934&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201801%2F08%2F20180108170346_TPWik.thumb.224_0.jpeg}"
                              style="display: block;width:150px;height: 100px"
-                             th:if="${news.img}==null">
+                             th:if="${news.images}==null">
                     </a>
                 </div>
                 <div class="col-sm-8">
