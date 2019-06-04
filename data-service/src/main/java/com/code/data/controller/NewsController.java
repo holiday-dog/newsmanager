@@ -47,7 +47,7 @@ public class NewsController {
     }
 
     @RequestMapping("/queryNews")
-    public String queryNewsList(@RequestParam("sign") String newsSign) {
+    public String queryNews(@RequestParam("sign") String newsSign) {
         ResponseData responseData = new ResponseData();
 
         logger.info("msg:{}, {}", newsSign);

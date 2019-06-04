@@ -19,7 +19,7 @@
         <result column="last_update_date" property="lastUpdateDate" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, title, sign, description, author, modules_type, images, pub_time, spider_web, article_source,
+    id, title, sign, description, keywords, author, modules_type, images, pub_time, spider_web, article_source,
     refer_url, news_type, create_date, last_update_date
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">

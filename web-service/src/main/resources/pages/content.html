@@ -22,6 +22,9 @@
         a {
             color: black;
         }
+        span.label{
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
@@ -29,14 +32,14 @@
 <div class="container">
     <div class="row">
         <div class="jumbotron col-sm-9">
-            <h3 class="text-center">清华大学校内发现古墓 已发掘部分墓葬</h3>
+            <h3 class="text-center" th:text="${news.title}"></h3>
             <div class="col-sm-12 pull-left">
-                <span>发布时间:2019-06-01 07:57:15</span>&nbsp;&nbsp;
-                <span>文章来源：新京报</span>&nbsp;&nbsp;
-                <span>作者:夏添</span>
+                发布时间:<span th:text="${#strings.replace(news.pubTime, 'T', ' ')}">2019-06-01 07:57:15</span>&nbsp;&nbsp;
+                文章来源：<span th:text="${news.articleSource}">新京报</span>&nbsp;&nbsp;
+                作者:<span th:text="${news.author}">夏添</span>
             </div>
             <hr>
-            <div>
+            <div th:utext="${news.content}">
                 <p>　　清华大学校内发现古墓 已发掘部分墓葬</p>
                 <p>　　日前，清华大学在建设新土木馆大楼工程项目时发现古墓群。记者从清华大学处了解到，此次共发现95座墓葬。</p>
                 <p>
@@ -46,25 +49,26 @@
             </div>
             <div>
                 <h4>关键字：
-                    <span class="label label-default">清华大学</span>
-                    <span class="label label-default">中华人民共和国文物保护法</span>
-                    <span class="label label-default">考古发掘</span>
-                    <span class="label label-default">市文物</span>
+                    <span class="label label-default" th:each="key:${news.keys}" th:text="${key}">&nbsp;&nbsp;</span>
+                    <!--<span class="label label-default">清华大学</span>-->
+                    <!--<span class="label label-default">中华人民共和国文物保护法</span>-->
+                    <!--<span class="label label-default">考古发掘</span>-->
+                    <!--<span class="label label-default">市文物</span>-->
                 </h4>
             </div>
         </div>
-        <div class="col-sm-3">
-            <ul class="list-group">
-                <li class="list-group-item disabled">
-                    关联阅读
-                </li>
-                <li class="list-group-item">河南周口发现夏商遗址</li>
-                <li class="list-group-item">世界考古大会在北京召开</li>
-                <li class="list-group-item">考古爱好者前往甘肃探索</li>
-                <li class="list-group-item">国家文物局领导调研指导雄安新区考古工作</li>
-                <li class="list-group-item">河南南阳：考古发现史前大型玉器作坊</li>
-            </ul>
-        </div>
+        <!--<div class="col-sm-3">-->
+        <!--<ul class="list-group">-->
+        <!--<li class="list-group-item disabled">-->
+        <!--关联阅读-->
+        <!--</li>-->
+        <!--<li class="list-group-item">河南周口发现夏商遗址</li>-->
+        <!--<li class="list-group-item">世界考古大会在北京召开</li>-->
+        <!--<li class="list-group-item">考古爱好者前往甘肃探索</li>-->
+        <!--<li class="list-group-item">国家文物局领导调研指导雄安新区考古工作</li>-->
+        <!--<li class="list-group-item">河南南阳：考古发现史前大型玉器作坊</li>-->
+        <!--</ul>-->
+        <!--</div>-->
     </div>
 </div>
 <div th:replace="foot :: footer"></div>

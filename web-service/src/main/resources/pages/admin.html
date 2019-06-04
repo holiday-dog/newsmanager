@@ -52,7 +52,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="process,processStat:${processPageBean.infoList}">
+                <tr th:each="process,processStat:${processPageBean.infoList}" th:classappend="${#strings.isEmpty(process.get('remark'))?'':'danger'}">
                     <td th:text="${processStat.index+1}"></td>
                     <td th:text="${process.get('pluginName')}"></td>
                     <td th:text="${process.get('spiderWebsite')}"></td>

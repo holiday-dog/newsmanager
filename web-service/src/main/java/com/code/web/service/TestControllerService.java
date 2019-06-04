@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.code.common.bean.*;
 import com.code.common.enums.NewsType;
 import com.code.common.utils.JsonPathUtils;
+import com.code.web.bean.NewsAdaptor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.codec.CodecException;
@@ -48,11 +49,21 @@ public class TestControllerService {
 //    }
 
     @RequestMapping("/content")
-    public String content(@RequestParam(value = "msg", required = false) String msg) {
-        if (StringUtils.isNotEmpty(msg)) {
-            throw new CodecException("系统异常");
+    public ModelAndView content(@RequestParam(value = "sign", required = false) String sign) {
+        ModelAndView mv = new ModelAndView("content");
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNews?sign=" + sign, String.class);
+        System.out.println(responseEntity.getBody());
+        ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        NewsAdaptor news = JSON.parseObject((String) responseData.getResultData(), NewsAdaptor.class);
+        String keywords = news.getKeywords();
+        if (StringUtils.isEmpty(keywords)) {
+            keywords = ",";
         }
-        return "content";
+        news.setKeys(keywords.split(","));
+        System.out.println(JSON.toJSONString(news));
+
+        mv.addObject("news", news);
+        return mv;
     }
 
     @RequestMapping("/admin")

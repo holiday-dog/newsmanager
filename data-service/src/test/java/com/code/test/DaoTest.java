@@ -8,6 +8,7 @@ import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.RandomUtils;
 import com.code.data.DataApplication;
 import com.code.data.beans.NewsInfo;
+import com.code.data.controller.NewsController;
 import com.code.data.controller.ProcessInfoController;
 import com.code.data.dao.NewsContentInfoMapper;
 import com.code.data.dao.NewsHotInfoMapper;
@@ -57,6 +58,9 @@ public class DaoTest {
     @Autowired
     private ProcessInfoController processInfoController;
 
+    @Autowired
+    private NewsController newsController;
+
     String page;
 
 
@@ -69,7 +73,7 @@ public class DaoTest {
 //        System.out.println(JSON.toJSONString(processInfoService.selectListOrderSpiderTimeByPage(2, 2)));
 
 //        System.out.println(processInfoMapper.getTotalPage());
-        System.out.println(processInfoController.queryList(null, null));
+        System.out.println(newsController.queryNews("d0446aeee5bf4e23bb31c9c2f5bc09c1"));
 //        ProcessInfo info = new ProcessInfo();
 //        info.setPluginName(JsonPathUtils.getValue(page, "$.pluginName"));
 //        info.setModulesType(Modules.parse(JsonPathUtils.getValue(page, "$.moduleType")).getValue());

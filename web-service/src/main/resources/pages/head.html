@@ -19,19 +19,19 @@
                     <a href="#">推荐</a>
                 </li>
                 <li>
-                    <a href="#">教育</a>
+                    <a th:href="@{/index/modules(modules='教育')}">教育</a>
                 </li>
                 <li>
-                    <a href="#">旅游</a>
+                    <a th:href="@{/index/modules(modules='旅游')}">旅游</a>
                 </li>
                 <li>
-                    <a href="#">科技</a>
+                    <a th:href="@{/index/modules(modules='科技')}">科技</a>
                 </li>
                 <li>
-                    <a href="#">国际</a>
+                    <a href="javascript:void(0)">国际</a>
                 </li>
                 <li>
-                    <a href="#">食品</a>
+                    <a href="javascript:void(0)">食品</a>
                 </li>
             </ul>
             <!--<div class="form-group pull-right">-->
@@ -39,7 +39,7 @@
             <!--class="input-group-addon btn btn-primary">搜索</span>-->
             <!--</div>-->
             <div class="col-sm-3 pull-right">
-                <form class="navbar-from " th:action="@{/index/search}">
+                <form class="navbar-from" th:action="@{/index/search}">
                     <div class="input-group">
                         <input type="text" class="form-control input-lg" placeholder="热点查询" name="keyword"><span
                             class="input-group-addon btn btn-primary">搜索</span>
