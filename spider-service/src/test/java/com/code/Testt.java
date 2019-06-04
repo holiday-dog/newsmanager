@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Testt {
     @Test
@@ -119,27 +118,29 @@ public class Testt {
     @Test
     public void test5() throws IOException {
 //        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page1.html");
-        String page = IOUtils.stringByResource("test/page2.html", null);
+        String page = IOUtils.stringByResource("test/page2.html", Charset.forName("GB2312"));
+        System.out.println(ExtractorUtils.extractRenmin(page));
+        System.out.println(ExtractorUtils.extractRenminContent(page, ""));
 //        System.out.println(page);
-        System.out.println(ExtractorUtils.extractXinhua(page));
-        System.out.println(ExtractorUtils.extractorXinhuaContent(page, "http://www.xinhuanet.com/politics/leaders/2019-05/31/c_1124569696.htm"));
+//        System.out.println(ExtractorUtils.extractXinhua(page));
+//        System.out.println(ExtractorUtils.extractorXinhuaContent(page, "http://www.xinhuanet.com/politics/leaders/2019-05/31/c_1124569696.htm"));
 
 //        System.out.println(JsoupUtils.getElementsHtml(page, "div[class~=swiper-container] div.swiper-wrapper div.swiper-slide"));
-        List<String> pages = JsoupUtils.getElementsHtml(page, "div#focusBoxBody div.txt ul li");
+//        List<String> pages = JsoupUtils.getElementsHtml(page, "div#focusBoxBody div.txt ul li");
 //        List<String> pageImgs = JsoupUtils.getElementsHtml(page, "div#focusBoxBody div.focusBoxWrap ul li img");
 //        pages = JsoupUtils.getAttr(page, "ul#gd_content li a", "href");
 //        pages = JsoupUtils.getAttr(page, "div#hpart2L a", "href");
 //        pages = JsoupUtils.getAttr(page, "div#rmw_a ul.list14 li a", "href");
 //        System.out.println(JSON.toJSONString(pages));
-        for (int i = 0; i < pages.size(); i++) {//http://edu.people.com.cn/
-            String s = pages.get(i);
-            System.out.println(s);
+//        for (int i = 0; i < pages.size(); i++) {//http://edu.people.com.cn/
+//            String s = pages.get(i);
+//            System.out.println(s);
 //            System.out.println(JsoupUtils.getAttr(s, "a", "href"));
 //            System.out.println(ExtractorUtils.extractRenminHot(s, "http://www.people.com.cn/"));
 //            System.out.println(JsoupUtils.getText(s, "div.show a"));
 //            System.out.println(JsoupUtils.getAttr(s, "a img", "src").get(0));
 //            System.out.println(JsoupUtils.getAttr(s, "a", "href").get(0));
-        }
+//        }
         //JsoupUtils.removeElement(content, "table:has(img[src~=prev_page]")
 //        String msg = JsoupUtils.getElementsHtmlPage(page, "table:has(img[src~=prev_page])");
 //        String ss = JsoupUtils.replaceAttrAppendValue(msg, "img", "src", "http://");

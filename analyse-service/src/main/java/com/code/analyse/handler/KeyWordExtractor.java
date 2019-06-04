@@ -21,7 +21,7 @@ public class KeyWordExtractor {
         indexWriter.commit();
 
         IndexReader indexReader = IndexerUtils.getIndexReader();
-        Terms terms = indexReader.getTermVector(0, "content");
+        Terms terms = indexReader.getTermVector(indexReader.maxDoc() - 1, "content");
         TermsEnum termsEnum = terms.iterator();
         Map<String, Integer> map = new HashMap<String, Integer>();
         BytesRef br = null;

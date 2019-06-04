@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.codec.CodecException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +44,38 @@ public class TestControllerService {
         return "test";
     }
 
-//    @RequestMapping("/modules")
-//    public String modules(@RequestParam(value = "msg", required = false) String msg) {
-//        if (StringUtils.isNotEmpty(msg)) {
-//            throw new CodecException("系统异常");
-//        }
-//        return "modules";
-//    }
+
+    @RequestMapping("/relations")
+    public ModelAndView relations(@RequestParam(value = "referUrl", required = false) String referUrl, @RequestParam(value = "spiderWeb", required = false) String spiderWeb) {
+        ModelAndView mv = new ModelAndView("relations");
+        System.out.println(referUrl + ":" + spiderWeb);
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/searchcontent?referUrl=" + URLEncoder.encode(referUrl) + "&spiderWeb=" + spiderWeb, String.class);
+
+        System.out.println(responseEntity.getBody());
+        ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        NewsAdaptor news = JSON.parseObject((String) responseData.getResultData(), NewsAdaptor.class);
+        if (StringUtils.isNotEmpty(news.getKeywords())) {
+            news.setKeys(Arrays.asList(news.getKeywords().split("[,|\\s]")).stream().limit(5).toArray());
+        }
+        List<News> relations = null;
+        if (news.getKeys() != null) {
+            int i = 0;
+            while (CollectionUtils.isEmpty(relations) && i < news.getKeys().length - 1) {
+                String keyword = (String) news.getKeys()[i];
+                if (keyword.length() < 4) {
+                    keyword = keyword + news.getKeys()[i + 1];
+                }
+                responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/relation?keyword=" + keyword, String.class);
+                relations = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), News.class);
+                i++;
+            }
+            System.out.println(responseEntity.getBody());
+            mv.addObject("relations", relations);
+        }
+
+        mv.addObject("news", news);
+        return mv;
+    }
 
     @RequestMapping("/content")
     public ModelAndView content(@RequestParam(value = "sign", required = false) String sign) {
@@ -60,6 +88,7 @@ public class TestControllerService {
         if (StringUtils.isEmpty(keywords)) {
             responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/pickup?sign=" + sign, String.class);
             List<Map.Entry> entryList = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), Map.Entry.class);
+            System.out.println(JSON.toJSONString(entryList));
             String[] keys = new String[entryList.size()];
             for (int i = 0; i < entryList.size(); i++) {
                 Map.Entry entry = entryList.get(i);
@@ -67,7 +96,22 @@ public class TestControllerService {
             }
             news.setKeys(keys);
         } else {
-            news.setKeys(keywords.split(","));
+            news.setKeys(Arrays.asList(keywords.split("[,|\\s]")).stream().limit(5).toArray());
+        }
+        List<News> relations = null;
+        if (news.getKeys() != null) {
+            int i = 0;
+            while (CollectionUtils.isEmpty(relations) && i < news.getKeys().length - 1) {
+                String keyword = (String) news.getKeys()[i];
+                if (keyword.length() < 4) {
+                    keyword = keyword + news.getKeys()[i + 1];
+                }
+                responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/relation?keyword=" + keyword, String.class);
+                relations = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), News.class);
+                i++;
+            }
+            System.out.println(responseEntity.getBody());
+            mv.addObject("relations", relations);
         }
 
         mv.addObject("news", news);

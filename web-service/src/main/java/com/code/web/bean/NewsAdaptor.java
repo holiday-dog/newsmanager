@@ -34,6 +34,6 @@ public class NewsAdaptor {
 
     private NewsType newsType;
 
-    private String[] keys;
+    private Object[] keys;
 
 }

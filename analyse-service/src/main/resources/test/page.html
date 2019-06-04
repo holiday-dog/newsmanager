@@ -1,641 +1,416 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=gbk"/>
-    <meta http-equiv="Content-Language" content="gbk"/>
-    <meta name="robots" content="all"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
-    <meta name="filetype" content="1"/>
-    <meta name="publishedtype" content="1"/>
-    <meta name="pagetype" content="2"/>
-    <meta name="catalogs" content="F_202936"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
-    <script src="http://www.people.com.cn/img/2011people/jquery-1.4.3.min.js" type="text/javascript"></script>
-
-    <title>人民网--搜索</title>
-    <script type="text/javascript" src="../js/language.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            9999999999999999
-            $(document).keydown(function (e) {
-                var oC = $("#keyword").val();
-                var event = window.event || e;
-                var pressKey = event.keyCode;
-                if (pressKey == 13) {
-                    if (oC == "")
-                        emptyPrompt('news');
-                    else
-                        createParameter('/cnpeople/search.do', 'news');
-                }
-            })
-        })
-    </script>
-    <link href="css/news.css" type="text/css" rel="stylesheet" media="all"/>
+    <meta http-equiv="content-type" content="text/html;charset=GB2312"/>
+    <meta http-equiv="Content-Language" content="utf-8" />
+    <meta content="all" name="robots" />
+    <title>14地设纾困基金&nbsp;总规模超1330亿--人民创投--人民网 </title>
+    <meta name="keywords" content="中小企业板 民营经济发展 资金池 沪深 股权融资 上市公司 融资难 直接融资 创业板 民营企业发展" />
+    <meta name="description" content="自2018年10月31日的中央政治局会议提出“支持民营经济发展”之后，各地促进民营经济发展的相关举措不断出台，北京青年报记者梳理发现，目前至少已经有20个省（区市）出台了促进民营经济发展的相关意见。针" />
+    <meta name="copyright" content="人民网版权所有" />
+    <meta name="filetype" content="0">
+    <meta name="publishedtype" content="1">
+    <meta name="pagetype" content="1">
+    <meta name="catalogs" content="405954">
+    <meta name="contentid" content="30592632">
+    <meta name="publishdate" content="2019-01-28">
+    <meta name="author" content="619">
+    <meta name="editor" content="">
+    <meta name="source" content="来源：北京青年报">
+    <meta name="sourcetype" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+    <!-- 调用样式表 -->
+    <link rel="stylesheet"  href="/img/MAIN/2016/07/116565/page.css" type="text/css" media="all"  charset="utf-8" />
+    <script type="text/javascript" src="/img/MAIN/2016/07/116565/js/jquery-1.4.3.min.js"></script>
+    <script type="text/javascript" src="/img/MAIN/2016/07/116565/js/jcarousellite_1.0.1.min.js"></script>
+    <script type="text/javascript" src="/img/MAIN/2016/07/116565/js/ks.js"></script>
 </head>
-<body>
 
-
-<!--nav-->
-<div>
-
-    <html xmlns="http://www.w3.org/1999/xhtml" lang="gbk">
-    <head>
-        <meta http-equiv="content-type" content="text/html;charset=gbk"/>
-        <meta http-equiv="content-language" content="gbk"/>
-        <meta name="robots" content="all"/>
-        <meta name="author" content=""/>
-        <meta name="copyright" content=""/>
-        <meta name="description" content=""/>
-        <meta name="keywords" content=""/>
-        <title></title></head>
-    <body>
-    <center>
-        <iframe width="1003" height="110" frameborder="0" scrolling="no"
-                src="http://www.people.com.cn/GB/120508/120509/index.html"></iframe>
-    </center>
-    </body>
-    </html>
+<body class="wb">
+<!--top-->
+<div class="top01 clearfix w1000">
+    <em><a href="http://www.people.com.cn/" target="_blank"><img src="/img/MAIN/2016/07/116565/images/logo.gif" width="78" height="42" /></a></em>
+    <i></i>
 </div>
-<!-- nav -->
-<div class="nav mt10 clearfix">
-    <div class="nav_l"><a href="http://www.people.com.cn" target="_blank">
-        <img src="images/logo.gif"/></a>
+<div class="top02 clearfix">
+    <div class="w1000">
+        <div class="logo1"><a href="http://www.people.com.cn/" target="_blank"></a></div>
+        <div class="logo2"><a href="http://capital.people.com.cn/" target="_blank"></a></div>
+        <div class="text"></div>
     </div>
-    <form action="/cnpeople/search.do" name="searchForm" method="post">
-
-        <div class="t02">
-            <a href="#" onclick="createParameter('/cnpeople/search.do','news')">新闻</a>
-            <a href="#" onclick="createParameter('/cnpeople/newspapersearch.do','newspaper')">报刊</a>&nbsp;&nbsp;
-            <a href="#" onclick="setPicHref('news')">图片</a>
-            <a href="#" onclick="setVideoHref('news')">视频</a>
-            <!--
-            <a href="#" onclick="createParameter('/cnpeople/search.do','special')">专题</a>
-             -->
-        </div>
-
-        <div class="tt03">
-            <table width="100%">
-                <tr>
-                    <td width="90%">
-                        <input name="siteName" value="news" type="hidden"/>
-                        <input name="pageNum" value="1" type="hidden"/>
-                        <input name="keyword" id="keyword" size="60" type="text" value="北京"/>
-                        <input type="hidden" name="facetFlag" value="true"/>
-                        <input type="hidden" name="nodeType" value="belongsId"/>
-                        <input type="hidden" name="nodeId" value="0"/>
-                        <input type="hidden" name="pageCode" id="pageCode" value=""/>
-                        <input type="hidden" name="originName" value=""/>
-                    </td>
-                    <td width="10%"><img src="images/search.jpg" border="0"
-                                         onclick="createParameter('/cnpeople/search.do','news')"/>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </form>
 </div>
-<!--nav-->
+<div class="nav clearfix">
+    <div class="clearfix w1000">
+        <div class="fl nav_fl">
+            <ul id="nav">
+                <li><a href="/GB/406063/index.html">资讯</a>
+                    <ul>
+                        <li><a href="http://capital.people.com.cn/GB/406063/">滚动</a></li>
+                        <li><a href="/GB/407247/index.html">原创</a></li>
+                        <li><a href="/GB/406063/406077/index.html">地方</a></li>
+                        <li><a href="/GB/406063/406079/index.html">科技</a></li>
+                        <li><a href="/GB/406063/406080/index.html">金融</a></li>
+                        <li><a href="/GB/406063/406081/index.html">消费</a></li>
+                        <li><a href="/GB/406063/406082/index.html">文化</a></li>
+                        <li><a href="/GB/406063/406083/index.html">教育</a></li>
+                        <li><a href="/GB/406063/406084/index.html">医疗</a></li>
+                        <li><a href="/GB/406063/406085/index.html">体育</a></li>
+                    </ul>
+                </li>
+                <li><a href="http://blockchain.people.com.cn/" target="_blank">区块链</a>
+                </li>
+                <li><a href="/GB/422305/index.html" target="_blank">人工智能</a>
+                </li>
+                <li><a href="/GB/406091/index.html">人物</a>
+                    <ul>
+                        <li><a href="/GB/406091/406093/index.html">权威声音</a>
+                        <li><a href="/GB/406091/406096/index.html">投资人</a>
+                        <li><a href="/GB/406091/406097/index.html">创业者</a>
+                    </ul>
+                </li>
+                <li><a href="/GB/406098/index.html">深度</a>
+                    <ul>
+                        <li><a href="/GB/406098/406099/index.html">话题</a></li>
+                        <li><a href="/GB/406098/406100/index.html">报告</a></li>
+                        <li><a href="/GB/406098/406101/index.html">排行榜</a></li>
+                    </ul>
+                </li>
+                <li><a href="/GB/406086/index.html">资本</a>
+                    <ul>
+                        <li><a href="/GB/406086/406087/index.html">政策</a></li>
+                        <li><a href="/GB/406086/406088/index.html">机构</a></li>
+                        <li><a href="/GB/406086/406089/index.html">产业园</a></li>
+                        <li><a href="/GB/406086/406090/index.html">上市</a></li>
+                        <li><a href="http://capital.people.com.cn/GB/411739/index.html">牛融路演</a></li>
+                    </ul>
+                </li>
 
-<div class="w980">
-    <div class="fl w180">
-        <ul>
 
-            <b>搜索结果</b>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1004">
-                    财经(111673)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1001">
-                    时政(88418)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1008">
-                    社会(78027)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14820">
-                    体育(77473)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=164220">
-                    房产(55611)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1002">
-                    国际(53035)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1012">
-                    人民网娱乐频道(50814)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14677">
-                    传媒(41192)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=58278">
-                    地方领导(40018)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=41570">
-                    旅游频道_权威全面报道旅游(37329)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=42510">
-                    法治(36963)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1009">
-                    IT(35882)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1000">
-                    新闻中心(33996)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1003">
-                    观点(25186)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1007">
-                    科技(23504)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1005">
-                    人民网汽车(22003)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1011">
-                    军事(20820)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1010">
-                    环保(19347)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=357069">
-                    人物(18260)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1016">
-                    图片频道(17668)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=71661">
-                    能源(16979)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=132212">
-                    人民网卫生频道(16167)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1014">
-                    时尚(15858)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1006">
-                    教育(14587)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=141677">
-                    中国央企新闻网--权威发布中央企业，国资委，地方国企最新消息(14070)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=34948">
-                    中国政协新闻网(13737)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=1013">
-                    文化(13329)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=40130">
-                    人民网游戏_最权威中文游戏网站(12318)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14739">
-                    人民网健康卫生频道(11888)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=151132">
-                    公益(10863)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14576">
-                    中国人大新闻(9984)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=57922">
-                    节会频道(9467)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=42309">
-                    华人华侨(8611)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=209043">
-                    舆情频道(7882)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=41390">
-                    家电(7838)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=14657">
-                    台湾频道(7621)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=366510">
-                    中华慈善新闻网(6648)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=183008">
-                    人民网通信频道(6599)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=122366">
-                    动漫(6133)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=151264">
-                    家居(5426)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=136655">
-                    知识产权(5319)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=85914">
-                    食品频道(4971)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=54918">
-                    开发区(4839)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=42272">
-                    港澳(3758)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=31889">
-                    彩票(2169)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=22160">
-                    棋牌(1858)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=241376">
-                    美国频道(1776)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=186327">
-                    浙江频道(1610)</a></li>
-
-            <li>
-                <a href="/cnpeople/search.do?pageNum=1&keyword=%B1%B1%BE%A9&siteName=news&dateFlag=false&facetFlag=true&nodeType=belongsId&nodeId=68880">
-                    读书(1560)</a></li>
-
-        </ul>
+            </ul>
+        </div>
+        <div class="fr nav_fr">
+            <dl>
+                <dt class="gray"></dt>
+                <dd><a href="http://search.people.com.cn/rmw/GB/rmwsearch/dj_index.jsp" target="_blank"><img src="/img/MAIN/2016/07/116565/images/icon01.gif" width="70" height="70" /></a></dd>
+            </dl>
+        </div>
     </div>
-
-
-    <div class="fr w800">
-        <div class="searchbar_text">
-            本次检索为您找到 <b>2681183</b> 篇有关 <font color="red">北京</font> 的页面,用时 0.249秒.
+</div>
+<!--top end-->
+<!--p2-->
+<div class="clearfix w1000 p2_con">
+    <div class="p2j_text fl">
+        <h6><a href="http://www.people.com.cn/" class="clink">人民网</a>&gt;&gt;<a href="http://capital.people.com.cn/" class="clink">人民创投</a></h6>
+        <h3 class="pre"></h3>
+        <h1>14地设纾困基金&nbsp;总规模超1330亿</h1>
+        <h4 class="sub"></h4>
+        <p class="author">孟亚旭</p>
+        <h2>2019年01月28日08:12&nbsp;&nbsp;来源：<a href="http://epaper.ynet.com/html/2019-01/28/content_318365.htm?div=-1" target="_blank">北京青年报</a></h2>
+        <div class="gray box_text">
+            <div class="box_pic"></div>
+            <p style="text-indent: 2em;">
+                自2018年10月31日的中央政治局会议提出“支持民营经济发展”之后，各地促进民营经济发展的相关举措不断出台，北京青年报记者梳理发现，目前至少已经有20个省（区市）出台了促进民营经济发展的相关意见。</p>
+            <p style="text-indent: 2em;">
+                针对外界关注的“民营企业融资难融资贵”等问题，去年11月，北京市市长陈吉宁在接受媒体采访时提到，“市、区和社会资金基金共同建立总规模超过350亿元的纾困‘资金池’，支持上市企业开展股权融资。”北青报记者注意到，除北京外，上海等11地也提出要成立纾困基金，总规模达980亿元。</p>
+            <p style="text-indent: 2em;">
+                <strong>20地出台意见</strong></p>
+            <p style="text-indent: 2em;">
+                <strong>促进民营经济发展</strong></p>
+            <p style="text-indent: 2em;">
+                去年10月的中央政治局会议明确，支持民营经济发展，实施促进金融市场健康发展的一系列措施，提振了市场信心。要坚持“两个毫不动摇”，促进多种所有制经济共同发展，研究解决民营企业、中小企业发展中遇到的困难。</p>
+            <p style="text-indent: 2em;">
+                自那次会议之后，各省（区市）陆续出台了促进民营经济发展的政策。据北青报记者统计，截至目前，至少已经有20个地区出台了相关意见，分别是上海、广东、山东、四川、山西、宁夏、湖北、安徽、河北、内蒙古、吉林、湖南、辽宁、福建、天津、江西、陕西、广西、新疆和江苏。其中，上海最先推出相应政策。</p>
+            <p style="text-indent: 2em;">
+                北青报记者注意到，去年11月3日晚间，上海市委市政府发布了《关于全面提升民营经济活力大力促进民营经济健康发展的若干意见》，该意见从降低民营企业经营成本、营造公平的市场环境、缓解融资难融资贵等方面作出相关部署，4天后（11月7日），广东省政府对外发布《关于促进民营经济高质量发展的若干政策措施》，又过了7天（11月14日），山东省相关意见公布。</p>
+            <p style="text-indent: 2em;">
+                最近出台意见的是新疆和江苏。</p>
+            <p style="text-indent: 2em;">
+                1月24日，新疆《关于大力促进民营经济健康发展的若干意见》，提出28条相关措施。25日，江苏省出台《关于促进民营经济高质量发展的意见》，提出了促进民营企业发展的30条具体举措。</p>
+            <p style="text-indent: 2em;">
+                <strong>救助符合条件企业</strong></p>
+            <p style="text-indent: 2em;">
+                <strong>政府出资引导成立纾困基金</strong></p>
+            <p style="text-indent: 2em;">
+                就政策措施的内容来看，不少省份从解决民营企业融资难融资贵、减轻企业税费负担、着力优化营商环境、支持民营企业科技创新和转型升级以及完善政策执行方式等方面提出了相应举措。</p>
+            <p style="text-indent: 2em;">
+                其中，“解决民营企业融资难融资贵”的问题备受关注。去年11月召开的民营企业座谈会曾提到，省级政府和计划单列市可以自筹资金组建政策性救助基金，综合运用多种手段，在严格防止违规举债、严格防范国有资产流失前提下，帮助区域内产业龙头、就业大户、战略新兴行业等关键重点民营企业纾困。</p>
+            <p style="text-indent: 2em;">
+                那次会议之后，北京市市长陈吉宁在接受媒体采访时透露了北京市将要开展的工作，他说，北京市、区和社会资金基金共同建立总规模超过350亿元的纾困“资金池”，支持上市企业开展股权融资。鼓励北京地区符合条件的平台和机构，在沪深交易所发行纾困专项债，支持民营企业进行债券融资。</p>
+            <p style="text-indent: 2em;">
+                除北京外，至少有13个省份在相关意见中提到要设立纾困基金。</p>
+            <p style="text-indent: 2em;">
+                除河北、辽宁未提及具体数量外，其他11个省份提到要成立980亿的纾困基金，其中，福建的相关意见提到，省级分期设立和发行总规模150亿元的纾困基金，上海、山东、湖北、安徽、内蒙古、天津和江苏均提到要设立100亿纾困基金。</p>
+            <p style="text-indent: 2em;">
+                在纾困基金的来源方面，山东由政府出资引导，省级国有资本运营平台、证券公司等金融机构出资，吸引社会资本参与，解决上市公司股权质押平仓风险，对纾困名单内符合条件的企业及其控股股东予以必要救助。</p>
+            <p style="text-indent: 2em;">
+                宁夏则指出，纾困基金采取政府出资引导、社会资本和金融机构参与的方式，帮助有股权质押平仓风险的民营企业渡过难关，对符合经济结构优化升级方向、有发展前景一时遇到困难的民营企业进行必要的财务纾困。</p>
+            <p style="text-indent: 2em;">
+                陕西纾困基金则是通过政府投资引导基金参股10亿元，联合省内国资平台、券商、金融机构等共同发起设立的。</p>
+            <p style="text-indent: 2em;">
+                内蒙古方面还有相应的奖励措施，对参与企业纾困发展基金的各类社会资本，按资金实际使用额的0.5%给予奖励，单笔不超过50万元。</p>
+            <p style="text-indent: 2em;">
+                <strong>鼓励开展直接融资</strong></p>
+            <p style="text-indent: 2em;">
+                <strong>对困难企业不盲目抽贷、压贷</strong></p>
+            <p style="text-indent: 2em;">
+                除设立纾困基金外，不少省份都支持民营企业直接上市融资。</p>
+            <p style="text-indent: 2em;">
+                比如河北提到，对沪、深交易所和境外主板以及中小板、创业板首发上市企业，给予奖励300万元；对将外地上市公司迁至河北省，或通过借壳上市并将壳公司注册地迁至本省的，视同境内外首发上市给予奖励。对在“新三板”挂牌的企业，一次性奖励50万元，并按挂牌一年内首次融资额1‰进行奖励，最高不超过150万元；对转入高层次板块的企业，按照新转入市场奖励标准补奖差额。</p>
+            <p style="text-indent: 2em;">
+                四川也鼓励开展直接融资。支持股权融资，对在境内外主要资本市场首次公开发行股票上市融资的企业，给予100万元费用补助；对在新三板挂牌的企业给予50万元补助；对在天府（四川）联合股权交易中心挂牌且完成规范化公司制改制的规模以上企业给予50万元补助。</p>
+            <p style="text-indent: 2em;">
+                而山西的相关意见则提到，对在沪深两地主板、中小企业板、创业板、科创板上市的企业，由省级财政给予200万元的奖励。对在全国股转系统挂牌的企业，由省级财政奖励100万元。对在山西股权交易中心挂牌、进行股份制改造并融资成功的企业，由省级财政奖励20万元。</p>
+            <p style="text-indent: 2em;">
+                值得一提的是，去年11月的民营企业座谈会曾要求，要改革和完善金融机构监管考核和内部激励机制，把银行业绩考核同支持民营经济发展挂钩，解决不敢贷、不愿贷的问题。</p>
+            <p style="text-indent: 2em;">
+                加大对民营企业的信贷支持也是不少省份相关意见的关键内容。</p>
+            <p style="text-indent: 2em;">
+                河北方面提到，对民企和国企一视同仁，引导银行业金融机构合理确定民营企业贷款期限、还款方式，适当提高中长期贷款比例。改革和完善金融机构监管考核和内部激励机制，提高民营企业、小微企业金融服务在银行考核中的权重。</p>
+            <p style="text-indent: 2em;">
+                山西和山东等地要求“不盲目抽贷、压贷”。</p>
+            <p style="text-indent: 2em;">
+                比如山西提到，“对符合条件但暂时遇到经营困难的企业，要继续予以资金支持，不盲目抽贷、断贷。”</p>
+            <p style="text-indent: 2em;">
+                该省份还提到了授信目标，各银行机构要进一步加大对民营企业的授信支持，力争2019年新增授信800亿元、2020年新增授信900亿元以上。</p>
+            <p style="text-indent: 2em;">
+                山东方面要求，银行机构对不同所有制企业要一视同仁，对生产经营正常、暂时遇到困难的企业稳贷、续贷，不盲目抽贷、压贷。文/本报记者 孟亚旭</p>
+            <p style="text-indent: 2em;">
+                <strong>多地设立“纾困基金”</strong></p>
+            <p style="text-indent: 2em;">
+                北京</p>
+            <p style="text-indent: 2em;">
+                去年11月，北京市市长陈吉宁在接受媒体采访时提到，“市、区和社会资金基金共同建立总规模超过350亿元的纾困‘资金池’，支持上市企业开展股权融资。”</p>
+            <p style="text-indent: 2em;">
+                上海</p>
+            <p style="text-indent: 2em;">
+                《关于全面提升民营经济活力大力促进民营经济健康发展的若干意见》提出，成立100亿元上市公司纾困基金。</p>
+            <p style="text-indent: 2em;">
+                山东</p>
+            <p style="text-indent: 2em;">
+                《关于支持民营经济高质量发展的若干意见》提出，成立100亿元的纾困基金。</p>
+            <p style="text-indent: 2em;">
+                山西</p>
+            <p style="text-indent: 2em;">
+                《关于支持民营经济发展的若干意见》提出，筹资50亿元组建山西省民营企业政策性纾困救助基金。</p>
+            <p style="text-indent: 2em;">
+                宁夏</p>
+            <p style="text-indent: 2em;">
+                《关于促进民营经济健康发展的若干意见》提出，设立30亿元的自治区民营企业发展政策性纾困基金。</p>
+            <p style="text-indent: 2em;">
+                湖北</p>
+            <p style="text-indent: 2em;">
+                《关于大力促进民营经济发展的若干意见》提出，设立100亿元上市公司纾困基金。</p>
+            <p style="text-indent: 2em;">
+                安徽</p>
+            <p style="text-indent: 2em;">
+                《大力促进民营经济发展的若干意见》提出，设立规模100亿元以上的民营企业纾困救助基金。</p>
+            <p style="text-indent: 2em;">
+                河北</p>
+            <p style="text-indent: 2em;">
+                《关于大力促进民营经济高质量发展的若干意见》提出，联合金融机构发起设立纾困基金，对纾困名单内符合条件的企业及其控股股东予以必要救助。</p>
+            <p style="text-indent: 2em;">
+                内蒙古</p>
+            <p style="text-indent: 2em;">
+                《关于促进民营经济高质量发展若干措施》提出，设立100亿元企业纾困发展基金。</p>
+            <p style="text-indent: 2em;">
+                辽宁</p>
+            <p style="text-indent: 2em;">
+                《关于加快民营经济发展的若干意见》提出，支持有关市设立上市公司纾困基金。</p>
+            <p style="text-indent: 2em;">
+                福建</p>
+            <p style="text-indent: 2em;">
+                《关于加快民营企业发展的若干意见》提出，省级分期设立和发行总规模150亿元的纾困基金。</p>
+            <p style="text-indent: 2em;">
+                天津</p>
+            <p style="text-indent: 2em;">
+                《关于进一步促进民营经济发展的若干意见》提出，分期设立总规模为100亿元的民营企业纾困基金。</p>
+            <p style="text-indent: 2em;">
+                陕西</p>
+            <p style="text-indent: 2em;">
+                《关于推动民营经济高质量发展的若干意见》提出，设立规模50亿元的民营企业纾困基金。</p>
+            <p style="text-indent: 2em;">
+                江苏</p>
+            <p style="text-indent: 2em;">
+                《关于促进民营经济高质量发展的意见》提出，加快设立100亿元的省级纾困基金，各市设立相应基金。</p>
+            <div class="zdfy clearfix"></div><center><table border="0" align="center" width="40%"><tr></tr></table></center>
+            <div class="box_pic"></div>
+            <em>(责编：黄玲丽、张晨)</em>
         </div>
 
-        <ul>
-            <li><b><a href="http://military.people.com.cn/n1/2019/0601/c1011-31115335.html" target="_blank">海事局发布禁航公告称南海海域将进行军事训练</a></b>
-            </li>
-            <li>[
+        <div class="xg_news clearfix">
+            <h2>相关新闻</h2>
+            <ul class=" gray clearfix"><li><a href="http://capital.people.com.cn/n1/2016/0912/c405954-28708922.html" target="_blank">新规提门槛 分级基金加速优胜劣汰</a></li><li><a href="http://capital.people.com.cn/n1/2016/0912/c405954-28708746.html" target="_blank">公募FOF或迎东风：多家基金公司加紧储备人才</a></li><li><a href="http://capital.people.com.cn/n1/2016/0909/c405954-28704719.html" target="_blank">基金销售机构业绩分化 第三方销售规模大幅下降</a></li><li><a href="http://capital.people.com.cn/n1/2016/0907/c405954-28697972.html" target="_blank">十余只产品“排队”候审 公募基金抢滩定增市场</a></li><li><a href="http://capital.people.com.cn/n1/2016/0907/c405954-28697973.html" target="_blank">基金费率价格战愈演愈烈 价格战成为双刃剑</a></li><li><a href="http://capital.people.com.cn/n1/2016/0905/c405954-28690603.html" target="_blank">额度设限 公募打擦边球发类保本基金</a></li><li><a href="http://capital.people.com.cn/n1/2016/0901/c405954-28684365.html" target="_blank">盛世投资受托管理200亿规模南京江北新区发展基金</a></li><li><a href="http://capital.people.com.cn/n1/2016/0901/c405954-28683010.html" target="_blank">基金中报披露完毕 权益类和固收类业绩冰火两重天</a></li><li><a href="http://capital.people.com.cn/n1/2016/0830/c405954-28676767.html" target="_blank">国家中小企业发展基金首支实体基金规模达60亿元</a></li><li><a href="http://capital.people.com.cn/n1/2016/0829/c405954-28673548.html" target="_blank">管理费收入十甲基金9家亏损 富国基金巨亏263亿</a></li></ul>
+        </div>
 
 
-                中国海事局网站截图
-
-                据中国海事局网站5月31日公开发布信息【琼航警0059】的内容显示，因南海海域有军事训练，从<font color='red'>北京</font>时间6月2日6时30分至18时30分、6月4日6时30分至12时30]
-            </li>
-            <li><a href="http://military.people.com.cn/n1/2019/0601/c1011-31115335.html" target="_blank">http://military.people.com.cn/n1/2019/0601/c1011-31115335.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 11:47:51
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115320.html" target="_blank">习近平向第14届伊斯兰合作组织首脑会议致贺电</a></b>
-            </li>
-            <li>[
-                新华社<font color='red'>北京</font>6月1日电 国家主席习近平5月31日致电祝贺第14届伊斯兰合作组织首脑会议在麦加召开。
-
-                习近平指出，伊斯兰合作组织是伊斯兰国家团结的象征，成立50年来，为促进伊斯兰国家合作作出重要]
-            </li>
-            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115320.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115320.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 11:35:14
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115313.html" target="_blank">“与共和国同龄
-                我们共同成长”——北京市北海幼儿园开展70年历程暨六一儿童节活动</a></b></li>
-            <li>[
-                人民网<font color='red'>北京</font>6月1日电 “六一”儿童节前夕，北京市北海幼儿园开展“与共和国同龄 我们共同成长”70年历程暨六一儿童节活动。
-
-                成立于1949年的北京市北海幼儿园，与新中国一同迎来70岁的生日。]
-            </li>
-            <li><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115313.html" target="_blank">http://edu.people.com.cn/n1/2019/0601/c1006-31115313.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 11:00:03
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115312.html"
-                      target="_blank">传统文化融入学前教育</a></b></li>
-            <li>[
-                人民网<font color='red'>北京</font>6月1日电 “六一”儿童节前夕，北京市北海幼儿园举办“与共和国同龄 我们共同成长”70年历程暨六一儿童节活动。
-
-                幼儿园以此次主题活动为契机，培养孩子们对中国传统文化的兴趣和热爱，]
-            </li>
-            <li><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115312.html" target="_blank">http://edu.people.com.cn/n1/2019/0601/c1006-31115312.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:54
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115311.html"
-                      target="_blank">赵克志与泰国副总理威沙努举行会谈</a></b></li>
-            <li>[
-                本报<font color='red'>北京</font>5月31日电（记者张洋）国务委员、公安部部长赵克志31日在京与泰国副总理威沙努举行会谈。
-
-                赵克志表示，习近平主席与巴育总理在第二届“一带一路”国际合作高峰论坛期间举行会见，为两国关系]
-            </li>
-            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115311.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115311.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:28
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115308.html"
-                      target="_blank">王晨出席俄罗斯驻华使馆国庆招待会</a></b></li>
-            <li>[
-                新华社<font color='red'>北京</font>5月31日电（记者温馨）中共中央政治局委员、全国人大常委会副委员长王晨31日出席俄罗斯驻华使馆国庆招待会并致辞。
-
-                王晨表示，今年是中俄建交70周年，是两国人民共同的节日。在习近平]
-            </li>
-            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115308.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115308.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:28
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115310.html" target="_blank">王毅同柬埔寨副首相兼外交大臣举行会谈</a></b>
-            </li>
-            <li>[
-                新华社<font color='red'>北京</font>5月31日电（记者成欣、朱超）国务委员兼外交部长王毅31日在<font color='red'>北京</font>同柬埔寨副首相兼外交大臣布拉索昆举行会谈。
-
-                王毅表示，中柬有着传统友好，双方率先在双边层面签署建设中柬命运共同体行动]
-            </li>
-            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115310.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115310.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:28
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115309.html"
-                      target="_blank">郭声琨会见泰国副总理威沙努</a></b></li>
-            <li>[
-                本报<font color='red'>北京</font>5月31日电（记者张洋）中共中央政治局委员、中央政法委书记郭声琨31日在京会见泰国副总理威沙努。
-
-                郭声琨指出，习近平主席在第二届“一带一路”国际合作高峰论坛期间同巴育总理举行了富有]
-            </li>
-            <li><a href="http://cpc.people.com.cn/n1/2019/0601/c64094-31115309.html" target="_blank">http://cpc.people.com.cn/n1/2019/0601/c64094-31115309.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:53:28
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://v.people.cn/n1/2019/0601/c39805-31115295.html" target="_blank">[<font color='red'>北京：男子到派出所送锦旗 </font>民警有意外收获]</a></b>
-            </li>
-            <li></li>
-            <li><a href="http://v.people.cn/n1/2019/0601/c39805-31115295.html" target="_blank">http://v.people.cn/n1/2019/0601/c39805-31115295.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:30:39
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://sports.people.com.cn/n1/2019/0601/c383223-31115276.html" target="_blank">2019环塔拉力赛落幕
-                韩魏巴吉赛车表现出色</a></b></li>
-            <li>[
-                人民网<font color='red'>北京</font>6月1日电（记者李长云）5月31日，2019环塔拉力赛进入最后一个短赛段的SS9表演时间。这条赛道虽然只有30公里，但是设置在了海拔3000多米的雪山之下，堪称昆仑迷情。成绩排名基本上]
-            </li>
-            <li><a href="http://sports.people.com.cn/n1/2019/0601/c383223-31115276.html" target="_blank">http://sports.people.com.cn/n1/2019/0601/c383223-31115276.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:26:42
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115270.html" target="_blank">以青春之声向祖国致敬——2019华语辩论世界杯总决赛暨首届环球青年思想对话大会在京举办</a></b>
-            </li>
-            <li>[
 
 
-                5月31日下午，2019华语辩论世界杯总决赛暨首届环球青年思想对话大会在<font color='red'>北京</font>举办。人民日报社副总编辑方江山致辞，国际关系学院党委书记韦春江、《环球人物》杂志社总编辑谢湘等出席。《环球时报》]
-            </li>
-            <li><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115270.html" target="_blank">http://edu.people.com.cn/n1/2019/0601/c1006-31115270.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:23:30
-            </li>
-            <br>
-        </ul>
+    </div>
+    <div class="fr right">
+        <div class="fx">
+            <div id="ops_share"></div>
+            <script src="http://www.people.com.cn/img/2016wb/share_qr.min.js" charset="utf-8"></script>
+        </div>
+        <h2><em><a href="/GB/406091/index.html">创投人物</a></em><i></i></h2><div class="box03 clearfix">
+        <b>朱啸虎：人工智能毋庸置疑是真风口</b>
+        <p class="gray"><a href="http://capital.people.com.cn/n1/2018/0824/c405954-30249938.html" target="_blank"><img src="/NMediaFile/2018/0827/MAIN201808271034550245939012352.jpg" width="130" height="94" border="0" alt="就像啤酒一样，要想好喝就需要有泡沫，但这次毋庸置疑是真的风口了。"/></a><a href="http://capital.people.com.cn/n1/2018/0824/c405954-30249938.html" target="_blank">就像啤酒一样，要想好喝就需要有泡沫，但这次毋庸置疑是真的风口了。</a></p>
+    </div>
+        <div class="box03 clearfix">
+            <b>王石选择华大：义几分？利几何？</b>
+            <p class="gray"><a href="http://capital.people.com.cn/n1/2018/0813/c405954-30224384.html" target="_blank"><img src="/NMediaFile/2018/0827/MAIN201808271039245589732883500.jpg" width="130" height="94" border="0" alt="王石为何钟情华大基因这家与其老本行相隔甚远的生物科技类公司呢？"/></a><a href="http://capital.people.com.cn/n1/2018/0813/c405954-30224384.html" target="_blank">王石为何钟情华大基因这家与其老本行相隔甚远的生物科技类公司呢？</a></p>
+        </div>
+        <div class="box03 clearfix">
+            <b>李彦宏：我们吹的牛实现了</b>
+            <p class="gray"><a href="http://capital.people.com.cn/n1/2018/0706/c405954-30129965.html" target="_blank"><img src="/NMediaFile/2018/0706/MAIN201807061343510460967017894.jpg" width="130" height="94" border="0" alt="尽管贾跃亭人在美国，但李彦宏说：造车跟做PPT不太一样，我们吹的牛实现了。"/></a><a href="http://capital.people.com.cn/n1/2018/0706/c405954-30129965.html" target="_blank">尽管贾跃亭人在美国，但李彦宏说：造车跟做PPT不太一样，我们吹的牛实现了。</a></p>
+        </div>
+        <div class="box03 clearfix">
+            <b>打造极致爆品 周鸿?这样总结</b>
+            <p class="gray"><a href="http://capital.people.com.cn/n1/2018/0703/c405954-30108981.html" target="_blank"><img src="/NMediaFile/2018/0703/MAIN201807031435156182807047816.jpg" width="130" height="94" border="0" alt="如果你脱离了你今天所拥有的环境，再去盲目学一个成功产品的策略，往往是东施效颦、邯郸学步。"/></a><a href="http://capital.people.com.cn/n1/2018/0703/c405954-30108981.html" target="_blank">如果你脱离了你今天所拥有的环境，再去盲目学一个成功产品的策略，往往是东施效颦、邯郸学步。</a></p>
+        </div>
+        <div class="box03 clearfix">
+            <b>投资整车制造业 许家印为何入主FF</b>
+            <p class="gray"><a href="http://capital.people.com.cn/n1/2018/0702/c405954-30098863.html" target="_blank"><img src="/NMediaFile/2018/0702/MAIN201807020936254253533192078.jpg" width="130" height="94" border="0" alt="许家印和恒大集团为什么选择投资汽车产业，为什么选择投资贾跃亭和他的FF。"/></a><a href="http://capital.people.com.cn/n1/2018/0702/c405954-30098863.html" target="_blank">许家印和恒大集团为什么选择投资汽车产业，为什么选择投资贾跃亭和他的FF。</a></p>
+        </div>
+        <div class="box03 clearfix">
+            <b>马斯克那么努力，为何特斯拉仍艰难</b>
+            <p class="gray"><a href="http://capital.people.com.cn/n1/2018/0628/c405954-30093629.html" target="_blank"><img src="/NMediaFile/2018/0702/MAIN201807020950289494209601223.jpg" width="130" height="94" border="0" alt="“人们期待看到，这个魔术师的帽子里，还能变出多少只兔子。”"/></a><a href="http://capital.people.com.cn/n1/2018/0628/c405954-30093629.html" target="_blank">“人们期待看到，这个魔术师的帽子里，还能变出多少只兔子。”</a></p>
+        </div>
+        <div class="box03 clearfix">
+            <b>董明珠:格力造芯片不是说着玩的</b>
+            <p class="gray"><a href="http://capital.people.com.cn/n1/2018/0628/c405954-30094373.html" target="_blank"><img src="/NMediaFile/2018/0702/MAIN201807020948477170772014000.jpg" width="130" height="94" border="0" alt="董明珠表示，“智能装备和手机，必须要做，芯片必须要做。要干就要干成功，掌握自己的命运。”"/></a><a href="http://capital.people.com.cn/n1/2018/0628/c405954-30094373.html" target="_blank">董明珠表示，“智能装备和手机，必须要做，芯片必须要做。要干就要干成功，掌握自己的命运。”</a></p>
+        </div>
 
-        <ul>
-            <li><b><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115242.html" target="_blank">人民日报社副总编辑方江山：为现实关切思辨
-                为时代议题发声</a></b></li>
-            <li>[
-
-
-                人民日报社副总编辑 方江山
-
-                5月31日下午，2019华语辩论世界杯总决赛暨首届环球青年思想对话大会在<font color='red'>北京</font>举办。本次大会由国际关系学院和人民日报《环球人物》杂志社共同主办，主题是“以青春]
-            </li>
-            <li><a href="http://edu.people.com.cn/n1/2019/0601/c1006-31115242.html" target="_blank">http://edu.people.com.cn/n1/2019/0601/c1006-31115242.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:12:46
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://society.people.com.cn/n1/2019/0601/c1008-31115240.html" target="_blank">预计年降费9.4亿元
-                铁路部门实施普惠降费举措</a></b></li>
-            <li>[
-                人民网<font color='red'>北京</font>6月1日电
-                （记者孝金波）记者从中国铁路总公司获悉，继4月1日铁路货运降价降费、让利60亿元后，自5月31日起，铁路部门将降低铁路专用线（含专用铁路）代运营代维护（以下简称代运代维）、]
-            </li>
-            <li><a href="http://society.people.com.cn/n1/2019/0601/c1008-31115240.html" target="_blank">http://society.people.com.cn/n1/2019/0601/c1008-31115240.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:09:54
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115239.html" target="_blank">电子烟也有二手烟：尼古丁含量甚至高于普通香烟</a></b>
-            </li>
-            <li>[…在<font color='red'>北京</font>一家电子烟实体店内，不少年轻人聚集在各式各样的电子烟面前。
-
-                正在选购电子烟的刘硕告诉记者，在网上看到有人玩电子烟，他“觉得酷，好玩”，试了一口后“就入坑了”。另外一位顾客王晓说，“电子烟]
-            </li>
-            <li><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115239.html" target="_blank">http://health.people.com.cn/n1/2019/0601/c14739-31115239.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:06:57
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://sports.people.com.cn/n1/2019/0601/c382934-31115238.html" target="_blank">“无篮球 不童年”
-                中国男篮与小学生亲密互动庆六一</a></b></li>
-            <li>[
-                人民网<font color='red'>北京</font>6月1日电（赵欣悦） 5月31日，由中国篮球协会主办的“无篮球
-                不童年”六一儿童节中国男篮校园行活动正式开启。中国篮球协会秘书长白喜林、中国男篮主教练李楠携中国男篮国家集训队10位球员]
-            </li>
-            <li><a href="http://sports.people.com.cn/n1/2019/0601/c382934-31115238.html" target="_blank">http://sports.people.com.cn/n1/2019/0601/c382934-31115238.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 10:04:56
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115229.html" target="_blank">高考倒计时
-                专家提醒家长你的平静从容胜过千言万语</a></b></li>
-            <li>[
-                高考将至。考场中，考生们比拼的是实力；考场外，比拼的是心理。<font color='red'>北京</font>儿童医院顺义妇儿医院精神心理中心主任崔永华提醒，此时考生心理压力很大，家长和老师要想办法给孩子们做好心理“减负”。
-
-                崔永华说，]
-            </li>
-            <li><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115229.html" target="_blank">http://health.people.com.cn/n1/2019/0601/c14739-31115229.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:51:00
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://society.people.com.cn/n1/2019/0601/c1008-31115220.html" target="_blank">机票超售成为航空业隐形惯例
-                统一补偿标准降低负面影响</a></b></li>
-            <li>[用户造成的损失和影响。服务协议中并没有涉及机票超售的相关内容。
-
-                　　在另一家网络平台中,记者搜索某月某日<font color='red'>北京</font>飞往某地的机票时,售价为1080元的机票用小字标注“最后一组登机”和“不可提前选座”,并且]
-            </li>
-            <li><a href="http://society.people.com.cn/n1/2019/0601/c1008-31115220.html" target="_blank">http://society.people.com.cn/n1/2019/0601/c1008-31115220.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:41:57
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115217.html" target="_blank">我国将建立国家级真菌病监测网</a></b>
-            </li>
-            <li>[超级真菌”时，需将信息实时上报至国家中心。
-
-                据悉，该监测网将由符合一定条件的三级医疗机构组成，采用分级运行管理机制，包括国家中心、省级中心和监测单位。<font color='red'>北京</font>协和医院被指定为监测网国家中心，负责监测网的]
-            </li>
-            <li><a href="http://health.people.com.cn/n1/2019/0601/c14739-31115217.html" target="_blank">http://health.people.com.cn/n1/2019/0601/c14739-31115217.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:38:06
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://politics.people.com.cn/n1/2019/0601/c1024-31115213.html" target="_blank">把乡村振兴战略作为新时代“三农”工作总抓手</a></b>
-            </li>
-            <li>[
-                　　把乡村振兴战略作为新时代“三农”工作总抓手
-
-                　　习近平
+        <h2><em><a href="http://capital.people.com.cn/GB/407247/index.html" target="_blank">热点原创</a></em><i></i></h2>
+        <div class="box01 clearfix">
+            <b><a href='/n1/2018/1029/c405954-30368474.html' target="_blank">进退维谷：混迹在中关村的煤老板</a>
+            </b>
+            <ul class="gray"><li><a href='/n1/2018/1029/c405954-30368445.html' target="_blank">一路厮杀：锤子艰难的突围之路</a></li>
+                <li><a href='/n1/2018/1103/c405954-30380160.html' target="_blank">町町单车创始人丁伟：“如果再次选择创业，不会再选择‘风口’项目。”</a></li>
+                <li><a href='/n1/2018/1103/c405954-30380014.html' target="_blank">到底是谁“捅”了马蜂窝？</a></li>
+                <li><a href='http://blockchain.people.com.cn/n1/2018/0823/c417685-30245380.html' target="_blank">区块链“大号”集中被封或许只是开始</a></li>
+                <li><a href='/n1/2018/0824/c406082-30249889.html' target="_blank">光环褪去的熊猫直播？</a></li>
+                <li><a href='/n1/2018/0824/c406083-30249844.html' target="_blank">少儿编程能否成为K12教育新战场</a></li>
+                <li><a href='/n1/2018/0727/c405954-30173568.html' target="_blank">“露头就打”如剑悬空 币圈人还能上岸吗</a></li>
+                <li><a href='/n1/2018/0723/c405954-30163677.html' target="_blank">很抱歉，在土耳其没能扫一下二维码</a></li>
+                <li><a href='/n1/2018/0614/c405954-30057121.html' target="_blank">中国私募股权行业加速洗牌</a></li>
+                <li><a href='/n1/2018/0623/c405954-30078426.html' target="_blank">赵亚辉：区块链产业要避免四大误区</a></li>
+            </ul>
+        </div>
 
 
-                　　2017年12月28日至29日，中央农村工作会议在<font color='red'>北京</font>举行。中共中央总书记、国家主席、中央军委主席习近平在会上发表]
-            </li>
-            <li><a href="http://politics.people.com.cn/n1/2019/0601/c1024-31115213.html" target="_blank">http://politics.people.com.cn/n1/2019/0601/c1024-31115213.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:34:37
-            </li>
-            <br>
-        </ul>
-
-        <ul>
-            <li><b><a href="http://legal.people.com.cn/n1/2019/0601/c42510-31115212.html" target="_blank">中央宣传部等部署开展第十六届全国法治动漫微视频作品征集展示活动</a></b>
-            </li>
-            <li>[
-                　　新华社<font color='red'>北京</font>5月30日电
-                近日，中央宣传部、中央网信办、司法部、全国普法办公室联合印发通知，决定以“法治新时代”为主题，在全社会组织开展第十六届全国法治动漫微视频作品征集展示活动。]
-            </li>
-            <li><a href="http://legal.people.com.cn/n1/2019/0601/c42510-31115212.html" target="_blank">http://legal.people.com.cn/n1/2019/0601/c42510-31115212.html</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;2019-06-01 09:32:40
-            </li>
-            <br>
-        </ul>
+        <div class="box01 clearfix">
 
 
-        <div class="show_nav_bar">
+        </div>
 
 
-            1
 
-            <a href="/cnpeople/search.do?pageNum=2&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">2</a>
-
-            <a href="/cnpeople/search.do?pageNum=3&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">3</a>
-
-            <a href="/cnpeople/search.do?pageNum=4&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">4</a>
-
-            <a href="/cnpeople/search.do?pageNum=5&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">5</a>
-
-            <a href="/cnpeople/search.do?pageNum=6&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">6</a>
-
-            <a href="/cnpeople/search.do?pageNum=7&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">7</a>
-
-            <a href="/cnpeople/search.do?pageNum=8&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">8</a>
-
-            <a href="/cnpeople/search.do?pageNum=9&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">9</a>
-
-            <a href="/cnpeople/search.do?pageNum=10&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">10</a>
+        <div class="box04 clearfix">
+            <div class="rollBox2">
+                <div class="LeftBotton2"></div>
+                <div class="ScrCont2">
+                    <ul><li><a href="http://capital.people.com.cn/GB/407469/423395/index.html" target="_blank"><img src="/NMediaFile/2018/1227/MAIN201812271605537828262588571.jpg" width="306" height="170" border="0" alt="2018人民网人工智能合作伙伴大会"/></a><a href="http://capital.people.com.cn/GB/407469/423395/index.html" target="_blank">2018人民网人工智能合作伙伴大会</a></li>
+                        <li><a href="http://capital.people.com.cn/GB/407469/422101/index.html" target="_blank"><img src="/NMediaFile/2018/1105/MAIN201811050957002224511698779.jpg" width="306" height="170" border="0" alt="2018文化产业与城市发展论坛"/></a><a href="http://capital.people.com.cn/GB/407469/422101/index.html" target="_blank">2018文化产业与城市发展论坛</a></li>
+                        <li><a href="http://capital.people.com.cn/GB/407469/420204/index.html" target="_blank"><img src="/NMediaFile/2018/0702/MAIN201807021004251826144282396.jpg" width="306" height="170" border="0" alt="2018全球链界科技发展大会"/></a><a href="http://capital.people.com.cn/GB/407469/420204/index.html" target="_blank">2018全球链界科技发展大会</a></li>
+                        <li><a href="http://industry.people.com.cn/GB/414295/419251/index.html" target="_blank"><img src="/NMediaFile/2018/0521/MAIN201805210922449443098792158.jpg" width="306" height="170" border="0" alt="2018全球独角兽企业高峰论坛"/></a><a href="http://industry.people.com.cn/GB/414295/419251/index.html" target="_blank">2018全球独角兽企业高峰论坛</a></li>
+                        <li><a href="/GB/407469/419143/index.html" target="_blank"><img src="/NMediaFile/2018/0521/MAIN201805210911427466865032380.jpg" width="306" height="170" border="0" alt="2018中国母基金百人论坛"/></a><a href="/GB/407469/419143/index.html" target="_blank">2018中国母基金百人论坛</a></li>
+                        <li><a href="http://capital.people.com.cn/GB/407469/415183/index.html" target="_blank"><img src="/NMediaFile/2017/1108/MAIN201711080923476668923711768.jpg" width="306" height="170" border="0" alt="人民创投主办2017中国私募基金峰会"/></a><a href="http://capital.people.com.cn/GB/407469/415183/index.html" target="_blank">人民创投主办2017中国私募基金峰会</a></li>
+                        <li><a href="http://capital.people.com.cn/GB/407469/415464/index.html" target="_blank"><img src="/NMediaFile/2017/1213/MAIN201712131124264932003754000.JPG" width="306" height="170" border="0" alt="2017中国母基金百人论坛"/></a><a href="http://capital.people.com.cn/GB/407469/415464/index.html" target="_blank">2017中国母基金百人论坛</a></li>
+                    </ul>
+                </div>
+                <div class="RightBotton2"></div>
+            </div>
+        </div>
 
 
-            <a href="/cnpeople/search.do?pageNum=2&keyword=%B1%B1%BE%A9&siteName=news&facetFlag=true&nodeType=belongsId&nodeId=0">下一页</a>
+        <div class="box01 clearfix">
+
+
+        </div>
+
+
+        <div class="box01 clearfix">
+
 
         </div>
 
     </div>
 </div>
+<!--p2 end-->
 
-<!--copyright-->
+<div class="link_con clearfix">
+    <div class="w1000 clearfix">
+        <div class="fl left">
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="gbk">
-<head>
-    <meta http-equiv="content-type" content="text/html;charset=gbk"/>
-    <meta http-equiv="content-language" content="gbk"/>
-    <meta name="robots" content="all"/>
-    <meta name="author" content=""/>
-    <meta name="copyright" content=""/>
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
-    <title>人民网搜索</title></head>
-<body>
-<center>
-    <iframe width="1003" height="160" frameborder="0" scrolling="no"
-            src="http://www.people.com.cn/GB/120508/120510/index.html"></iframe>
-</center>
-</body>
-</html>
-<!--copyright-->
+        </div>
+        <div class="fl center">
+            <h2>联系我们</h2>
+            <ul><li>创投邮箱：capital@people.cn<br>
+                联系电话：010-65363467</li><li><a href='/GB/406764/index.html' target="_blank">频道地图</a></li>
+            </ul>
+        </div>
+        <div class="fr right">
+
+        </div>
+        <div class="clearfix bottom">
+            <h2>友情链接</h2>
+            <p><a href="https://www.huxiu.com/" target='_blank'>虎嗅网</a><a href="http://www.tmtpost.com" target='_blank'>钛媒体</a><a href="http://www.sootoo.com/" target='_blank'>速途网</a><a href="http://www.lieyunwang.com/" target='_blank'>猎云网</a><a href="http://www.iyiou.com/" target='_blank'>亿欧网</a><a href="http://chainnews.com/" target='_blank'>链闻ChainNews</a><a href="http://it.sohu.com/" target='_blank'>搜狐科技</a><a href="http://tech.163.com/" target='_blank'>网易科技</a><a href="http://science.china.com.cn/" target='_blank'>科学中国</a><a href="http://www.chinaventure.com.cn/" target='_blank'>投中网</a><a href="http://economy.gmw.cn/" target='_blank'>光明经济</a><a href="http://tech.huanqiu.com/" target='_blank'>环球科技</a><a href="http://www.geekpark.net/" target='_blank'>极客公园</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix copyright">
+    <style type="text/css">
+        #copyright{width:980px; margin:0px auto; font-size:12px; text-align:center; padding:20px 0; line-height:180%; clear:both;}
+    </style>
+    <div id="copyright">人 民 网 版 权 所 有 ，未 经 书 面 授 权 禁 止 使 用<br />
+        Copyright &copy; 1997-2019 by www.people.com.cn. all rights reserved</div>
+</div>
+<div class="scroll">
+    <img src="/NMediaFile/2016/1108/MAIN201611081103500141895516387.jpg" width="130" height="130" border="0" alt="二维码"/>
+
+</div>
+<style type="text/css">
+    /* MEDIA QUERIES Mobile phone
+    ---------------------------------------------------------------------- */
+
+    @media (min-device-width:320px) and (max-width:689px),
+    (max-device-width:480px)
+    {
+        .w1000{width:100%;}
+        .nav{display:none;}
+        .p2_con .right{display:none;}
+        .top02{ background:url(/img/MAIN/2016/07/116565/images/top.jpg) top center no-repeat; background-size:cover; height:55px; overflow:hidden;}
+        .top02 div.w1000{position:relative;background:#cb000d;}
+        .p2_con{margin:0 auto;}
+        .p2j_text{width:90%;margin:0 auto;padding:10px;float:none;}
+        .p2j_text h1{font-size:24px;}
+        .p2j_text .xg_news{display:none;}
+        .scroll{display:none;width:0px;height:0px;}
+        .box_text p img{width:90%; height:auto;}
+        #copyright{width:100%;}
+    }
+</style>
+<!-- 微信分享 -->
+<script src="http://www.people.com.cn/img/2016wb/jweixin-1.0.0.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var str="14地设纾困基金&nbsp;总规模超1330亿--人民创投--人民网 ";
+    var str1="14地设纾困基金&nbsp;总规模超1330亿";
+    str=str.replace(/&nbsp;/g," ")
+    str=str.replace(/&quot;/g,'"')
+    str=str.replace(/<br>/g,"")
+    str1=str1.replace(/&nbsp;/g," ")
+    str1=str1.replace(/&quot;/g,'"')
+    str1=str1.replace(/<br>/g,"")
+    var wxData = {
+        "imgUrl": "http://www.people.com.cn/img/2016wb/images/logo_share.jpg", // 200x200
+        "link": window.location.href,
+        "desc": "" + str + "",
+        "title": "" + str1 + ""
+    };
+</script>
+<script src="http://www.people.com.cn/img/2016wb/WeiXinData.js" type="text/javascript"></script>
+<script src="/css/2010tianrun/webdig_test.js" language="javascript" type="text/javascript"></script>
+<img src="http://counter.people.cn:8000/c.gif?id=30592632" width=0 height=0 style="display:none;">
 </body>
 </html>

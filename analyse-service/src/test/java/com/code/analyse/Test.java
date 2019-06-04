@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -35,8 +36,8 @@ public class Test {
     @org.junit.Test
     public void testRun() {
 //        System.out.println("ww哈哈aa".matches("[\\w]+"));
-        String sign = "f13645d733d24d80afe9449018c8748c";
-        System.out.println(analyseService.pickup(sign));
+//        String sign = "f13645d733d24d80afe9449018c8748c";
+        System.out.println(analyseService.keyword("教育院长"));
     }
 
 
@@ -113,9 +114,22 @@ public class Test {
 
     }
 
+    @org.junit.Test
+    public void testtt() throws Exception {
+//        System.out.println(JsoupUtils.getText(page, "#jtitle + h1").trim());
+        System.out.println(JSON.toJSONString(SearchExtractor.extractRenminContent(page, null)));
+
+        //http%3A%2F%2Fpolitics.people.com.cn%2Fn1%2F2019%2F0531%2Fc1001-31112503.html
+//System.out.println(URLEncoder.encode("http://politics.people.com.cn/n1/2019/0531/c1001-31112503.html"));
+
+//        System.out.println("自评工作 办学条件改善,教师精神 教育公平".split("[,|\\s]").length);
+//        System.out.println(analyseService.pickup("f13645d733d24d80afe9449018c8748c"));
+//        System.out.println(analyseService.searchcontent("http%3A%2F%2Fsports.people.com.cn%2Fn1%2F2019%2F0604%2Fc383221-31119764.html", "Renmin"));
+    }
+
     @Before
     public void before() throws IOException {
-        page = IOUtils.stringByResource("test/page.json", Charset.defaultCharset());
+        page = IOUtils.stringByResource("test/page.html", Charset.forName("GB2312"));
 
     }
 }
