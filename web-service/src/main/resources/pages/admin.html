@@ -25,10 +25,20 @@
     </style>
 </head>
 <body>
-<div th:replace="head :: header"></div>
+<div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="javascript:void(0);">管理员界面</a>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="jumbotron">
+            <div>插件爬取结果列表</div>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -42,26 +52,39 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>fasfdasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfa</td>
-                </tr>
-                <tr>
-                    <td>fasfdasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfasd</td>
-                    <td>fasdfa</td>
+                <tr th:each="process,processStat:${processPageBean.infoList}">
+                    <td th:text="${processStat.index+1}"></td>
+                    <td th:text="${process.get('pluginName')}"></td>
+                    <td th:text="${process.get('spiderWebsite')}"></td>
+                    <td th:text="${T(com.code.common.enums.Modules).parseStr(process.get('modulesType')).getMsg()}"></td>
+                    <td th:text="${#strings.replace(process.get('spiderDate'), 'T', ' ')}"></td>
+                    <td th:text="${T(com.code.common.enums.ProcessStatus).parseStr(process.get('stage')).getMsg()}"></td>
+                    <td th:text="${process.get('remark')}"></td>
                 </tr>
                 </tbody>
             </table>
+            <span th:text="${processPageBean.currentPage}"></span>
+            <div class="row pull-right">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:if="${processPageBean.currentPage}!=1">
+                            <a th:href="@{/index/admin(page=${processPageBean.currentPage}-1, limit=5)}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:each="index:${#numbers.sequence(1,processPageBean.totalPage)}">
+                            <a th:href="@{/index/admin(page=${index}, limit=5)}" th:text="${index}"></a>
+                        </li>
+                        <li th:if="${processPageBean.currentPage}!=${processPageBean.totalPage}">
+                            <a th:href="@{/index/admin(page=${processPageBean.currentPage}+1, limit=5)}"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </div>

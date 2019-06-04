@@ -16,4 +16,6 @@ public interface ProcessInfoMapper {
 
     List<ProcessInfo> selectListOrderSpiderTime(@Param("start") Integer start, @Param("limit") Integer limit);
 
+    Long getTotalPage();
+
 }

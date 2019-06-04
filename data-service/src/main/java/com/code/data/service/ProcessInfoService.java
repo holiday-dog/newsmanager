@@ -11,4 +11,6 @@ public interface ProcessInfoService {
 
     List<ProcessInfo> selectListOrderSpiderTimeByPage(Integer page, Integer limit);
 
+    Long getTotalPage();
+
 }

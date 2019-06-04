@@ -53,14 +53,15 @@ public class ProcessInfoServiceImpl implements ProcessInfoService {
     @Transactional(readOnly = true)
     public List<ProcessInfo> selectListOrderSpiderTimeByPage(Integer page, Integer limit) {
         Integer start = 0;
-        if (limit == null || limit == 0) {
-            limit = 10;
-        }
-        if (page == null) {
-            start = 0;
-        } else {
+        if (page != 0 && page != null && limit != 0 && limit != null) {
             start = (page - 1) * limit;
         }
         return processInfoMapper.selectListOrderSpiderTime(start, limit);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long getTotalPage() {
+        return processInfoMapper.getTotalPage();
     }
 }

@@ -38,4 +38,7 @@
         from tb_process_info order by spider_date desc limit #{start}, #{limit}
     </select>
 
+    <select id="getTotalPage" resultType="java.lang.Long">
+        select count(id) from tb_process_info;
+    </select>
 </mapper>

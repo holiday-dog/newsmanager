@@ -47,4 +47,18 @@ public enum Modules implements Serializable {
         }
         return OTHERS;
     }
+
+    public static Modules parseStr(String value) {
+        if (value == null) {
+            return OTHERS;
+        }
+        Byte val = Byte.parseByte(value);
+        for (Modules module : values()) {
+            if (module.getValue().equals(val)) {
+                return module;
+            }
+        }
+        return OTHERS;
+    }
+
 }

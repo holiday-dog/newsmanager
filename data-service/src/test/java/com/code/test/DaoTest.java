@@ -3,13 +3,12 @@ package com.code.test;
 import com.alibaba.fastjson.JSON;
 import com.code.common.bean.HotNews;
 import com.code.common.enums.Modules;
-import com.code.common.utils.DateUtils;
 import com.code.common.utils.IOUtils;
 import com.code.common.utils.JsonPathUtils;
 import com.code.common.utils.RandomUtils;
 import com.code.data.DataApplication;
 import com.code.data.beans.NewsInfo;
-import com.code.data.beans.ProcessInfo;
+import com.code.data.controller.ProcessInfoController;
 import com.code.data.dao.NewsContentInfoMapper;
 import com.code.data.dao.NewsHotInfoMapper;
 import com.code.data.dao.NewsInfoMapper;
@@ -55,6 +54,8 @@ public class DaoTest {
     private ProcessInfoMapper processInfoMapper;
     @Autowired
     private ProcessInfoService processInfoService;
+    @Autowired
+    private ProcessInfoController processInfoController;
 
     String page;
 
@@ -65,7 +66,10 @@ public class DaoTest {
 //        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));
 //        System.out.println(dataHandler.handler(page));
 //        System.out.println(JSON.toJSONString(processInfoService.selectListOrderSpiderTime(0, 3)));
-        System.out.println(JSON.toJSONString(processInfoService.selectListOrderSpiderTimeByPage(1, 2)));
+//        System.out.println(JSON.toJSONString(processInfoService.selectListOrderSpiderTimeByPage(2, 2)));
+
+//        System.out.println(processInfoMapper.getTotalPage());
+        System.out.println(processInfoController.queryList(null, null));
 //        ProcessInfo info = new ProcessInfo();
 //        info.setPluginName(JsonPathUtils.getValue(page, "$.pluginName"));
 //        info.setModulesType(Modules.parse(JsonPathUtils.getValue(page, "$.moduleType")).getValue());

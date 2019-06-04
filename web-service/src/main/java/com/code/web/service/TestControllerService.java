@@ -1,9 +1,7 @@
 package com.code.web.service;
 
 import com.alibaba.fastjson.JSON;
-import com.code.common.bean.HotNews;
-import com.code.common.bean.News;
-import com.code.common.bean.ResponseData;
+import com.code.common.bean.*;
 import com.code.common.enums.NewsType;
 import com.code.common.utils.JsonPathUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -58,11 +56,18 @@ public class TestControllerService {
     }
 
     @RequestMapping("/admin")
-    public String admin(@RequestParam(value = "msg", required = false) String msg) {
-        if (StringUtils.isNotEmpty(msg)) {
-            throw new CodecException("系统异常");
-        }
-        return "admin";
+    public ModelAndView admin(@RequestParam(value = "page", required = false) String page, @RequestParam(value = "limit", required = false) String limit) {
+        PageBean<ProcessInfo> pageBean = null;
+
+        ModelAndView mv = new ModelAndView("admin");
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/process/queryList?page=" + (page == null ? 0 : page) + "&limit=" + (limit == null ? 0 : limit), String.class);
+        System.out.println(responseEntity.getBody());
+        ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        pageBean = JSON.parseObject((String) responseData.getResultData(), PageBean.class);
+        System.out.println(JSON.toJSONString(pageBean));
+        mv.addObject("processPageBean", pageBean);
+
+        return mv;
     }
 
     @RequestMapping("/modules")
