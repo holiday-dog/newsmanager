@@ -1,5 +1,7 @@
 package com.code.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Random;
 import java.util.UUID;
 
@@ -20,6 +22,15 @@ public class RandomUtils {
         String sign = UUID.randomUUID().toString();
         if (sign.contains("-")) {
             sign = sign.replace("-", "");
+        }
+        return sign;
+    }
+
+    public static String randomInstanceName(String prex) {
+        String sign = UUID.randomUUID().toString();
+        if (sign.contains("-")) {
+            sign = StringUtils.substringBefore(sign, "-");
+            sign = prex + sign;
         }
         return sign;
     }

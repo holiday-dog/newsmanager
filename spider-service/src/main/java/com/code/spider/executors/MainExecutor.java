@@ -1,8 +1,6 @@
 package com.code.spider.executors;
 
-import com.code.spider.plugin.ClientPlugin;
-import com.code.spider.plugin.XinhuaEduPlugin;
-import com.code.spider.plugin.XinhuaSciencePlugin;
+import com.code.spider.plugin.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -25,7 +23,7 @@ public class MainExecutor implements ApplicationRunner {
     private static ThreadFactory threadFactory = new NameThreadFactory();
     private ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(10, threadFactory);
     private static final int period = 24 * 3600;
-    private static final String timedExpression = "20:27:00";
+    private static final String timedExpression = "05:08:00";
     private Logger logger = LoggerFactory.getLogger(MainExecutor.class);
 
     public void executor() {
@@ -36,11 +34,8 @@ public class MainExecutor implements ApplicationRunner {
         List<ClientPlugin> clientPlugins = new ArrayList<>();
         clientPlugins.add(new XinhuaEduPlugin());
         clientPlugins.add(new XinhuaSciencePlugin());
-//        clientPlugins.add(new XinhuaRecommendPlugin());
-//        clientPlugins.add(new XinhuaTravelPlugin());
-//        clientPlugins.add(new RenminRecommendPlugin());
-//        clientPlugins.add(new RenminTravelPlugin());
-//        clientPlugins.add(new RenminEduPlugin());
+        clientPlugins.add(new XinhuaRecommendPlugin());
+        clientPlugins.add(new XinhuaTravelPlugin());
 
         for (ClientPlugin clientPlugin : clientPlugins) {
             executorService.scheduleAtFixedRate(new Runnable() {

@@ -1,5 +1,6 @@
 package com.code.spider.config;
 
+import com.code.common.utils.RandomUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -26,6 +27,7 @@ public class SingleProducer {
         try {
             producer = new DefaultMQProducer(produceGroup);
             producer.setNamesrvAddr(nameAddr);
+            producer.setInstanceName(RandomUtils.randomInstanceName("producer-"));
 
             producer.start();
             logger.info("spider-producer init success");

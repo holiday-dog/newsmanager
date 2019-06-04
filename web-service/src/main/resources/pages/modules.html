@@ -91,7 +91,7 @@
     </div>
     <div class="row" th:high="30px"></div>
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-9" th:if="${historyList}!=null">
             <h4>更多新闻</h4>
             <ul>
                 <li class="moreImg clearfix" style="list-sytle:none;" th:each="historyNew:${historyList}">
@@ -121,10 +121,10 @@
                 </li>
             </ul>
         </div>
-    </div>
-    <div class="row">
-        <div id="dataMoreBtn" class="moreBtn col-sm-9">
-            <p style="text-align: center">显示更多</p>
+        <div class="row" th:if="${historyList}!=null">
+            <div id="dataMoreBtn" class="moreBtn col-sm-9">
+                <p style="text-align: center">显示更多</p>
+            </div>
         </div>
     </div>
 </div>

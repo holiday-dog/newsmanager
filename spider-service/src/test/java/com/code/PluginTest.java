@@ -3,7 +3,7 @@ package com.code;
 import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
-import com.code.spider.executors.MainExecutor;
+import com.code.common.utils.RandomUtils;
 import com.code.spider.plugin.ClientPlugin;
 import com.code.spider.plugin.RenminTravelPlugin;
 import com.code.spider.plugin.XinhuaRecommendPlugin;
@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.concurrent.TimeUnit;
 
 public class PluginTest {
     @Test
@@ -42,10 +41,11 @@ public class PluginTest {
 
     @Test
     public void test() throws InterruptedException {
-        MainExecutor mainExecutor = new MainExecutor();
-        mainExecutor.executor();
+//        MainExecutor mainExecutor = new MainExecutor();
+//        mainExecutor.executor();
 //        System.out.println(new Date(mainExecutor.initDelayTime()).getTime()/1000);
 
-        TimeUnit.MINUTES.sleep(5);
+//        TimeUnit.MINUTES.sleep(5);
+        System.out.println(RandomUtils.randomInstanceName("producer-"));
     }
 }
