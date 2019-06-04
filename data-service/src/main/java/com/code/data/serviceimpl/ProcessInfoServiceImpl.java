@@ -38,6 +38,7 @@ public class ProcessInfoServiceImpl implements ProcessInfoService {
         info.setSpiderWebsite(JsonPathUtils.getValue(json, "$.spiderWebsite"));
         info.setPluginName(JsonPathUtils.getValue(json, "$.pluginName"));
         info.setModulesType(Modules.parse(JsonPathUtils.getValue(json, "$.moduleType")).getValue());
+        info.setRemark(JsonPathUtils.getValue(json, "$.remark"));
 
         return processInfoMapper.insert(info);
     }
@@ -50,12 +51,15 @@ public class ProcessInfoServiceImpl implements ProcessInfoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProcessInfo> selectListOrderSpiderTime(Integer start, Integer limit) {
-        if (start == null) {
-            start = 0;
-        }
+    public List<ProcessInfo> selectListOrderSpiderTimeByPage(Integer page, Integer limit) {
+        Integer start = 0;
         if (limit == null || limit == 0) {
             limit = 10;
+        }
+        if (page == null) {
+            start = 0;
+        } else {
+            start = (page - 1) * limit;
         }
         return processInfoMapper.selectListOrderSpiderTime(start, limit);
     }

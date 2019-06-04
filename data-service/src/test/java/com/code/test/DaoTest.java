@@ -63,16 +63,18 @@ public class DaoTest {
     @Test
     public void testa() throws ExecutionException, InterruptedException {
 //        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));
-        System.out.println(dataHandler.handler(page));
+//        System.out.println(dataHandler.handler(page));
 //        System.out.println(JSON.toJSONString(processInfoService.selectListOrderSpiderTime(0, 3)));
-//        System.out.println(JSON.toJSONString(processInfoMapper.selectListOrderSpiderTime(0, 2)));
-//        ProcessInfo info  = new ProcessInfo();
+        System.out.println(JSON.toJSONString(processInfoService.selectListOrderSpiderTimeByPage(1, 2)));
+//        ProcessInfo info = new ProcessInfo();
 //        info.setPluginName(JsonPathUtils.getValue(page, "$.pluginName"));
 //        info.setModulesType(Modules.parse(JsonPathUtils.getValue(page, "$.moduleType")).getValue());
 //        info.setSpiderDate(DateUtils.parseDateTime(JsonPathUtils.getValue(page, "$.spiderDate")));
 //        info.setSpiderWebsite(JsonPathUtils.getValue(page, "$.spiderWebsite"));
-//        info.setStage(Byte.parseByte(JsonPathUtils.getValue(page, "$.stage")));
+//        info.setStage((byte) JsonPathUtils.getObj(page, "$.stage", Integer.class).intValue());
+//        info.setRemark(JsonPathUtils.getValue(page, "$.remark"));
 //        System.out.println(JSON.toJSONString(info));
+//        processInfoMapper.insert(info);
 //        processInfoMapper.insert(info);
     }
 

@@ -8,11 +8,12 @@
         <result column="spider_website" property="spiderWebsite" jdbcType="VARCHAR"/>
         <result column="spider_date" property="spiderDate" jdbcType="TIMESTAMP"/>
         <result column="stage" property="stage" jdbcType="TINYINT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
         <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
         <result column="last_update_date" property="lastUpdateDate" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, plugin_name, modules_type, spider_website, spider_date, stage, create_date, last_update_date
+    id, plugin_name, modules_type, spider_website, spider_date, stage, remark, create_date, last_update_date
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
@@ -26,9 +27,9 @@
   </delete>
     <insert id="insert" parameterType="com.code.data.beans.ProcessInfo">
     insert into tb_process_info (id, plugin_name, modules_type, 
-      spider_website, spider_date, stage)
+      spider_website, spider_date, stage, remark)
     values (#{id,jdbcType=BIGINT}, #{pluginName,jdbcType=VARCHAR}, #{modulesType,jdbcType=TINYINT}, 
-      #{spiderWebsite,jdbcType=VARCHAR}, #{spiderDate,jdbcType=TIMESTAMP}, #{stage,jdbcType=TINYINT})
+      #{spiderWebsite,jdbcType=VARCHAR}, #{spiderDate,jdbcType=TIMESTAMP}, #{stage,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
   </insert>
 
     <select id="selectListOrderSpiderTime" resultMap="BaseResultMap">

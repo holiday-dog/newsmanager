@@ -9,6 +9,6 @@ public interface ProcessInfoService {
 
     ProcessInfo selectByPrimaryKey(Long id);
 
-    List<ProcessInfo> selectListOrderSpiderTime(Integer start, Integer limit);
+    List<ProcessInfo> selectListOrderSpiderTimeByPage(Integer page, Integer limit);
 
 }

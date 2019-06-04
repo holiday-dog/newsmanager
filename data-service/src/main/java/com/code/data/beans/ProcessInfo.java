@@ -19,6 +19,8 @@ public class ProcessInfo {
 
     private Byte stage;
 
+    private String remark;
+
     private Date createDate;
 
     private Date lastUpdateDate;
