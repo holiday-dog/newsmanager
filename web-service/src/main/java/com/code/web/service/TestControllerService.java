@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/index")
@@ -57,10 +58,17 @@ public class TestControllerService {
         NewsAdaptor news = JSON.parseObject((String) responseData.getResultData(), NewsAdaptor.class);
         String keywords = news.getKeywords();
         if (StringUtils.isEmpty(keywords)) {
-            keywords = ",";
+            responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/pickup?sign=" + sign, String.class);
+            List<Map.Entry> entryList = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), Map.Entry.class);
+            String[] keys = new String[entryList.size()];
+            for (int i = 0; i < entryList.size(); i++) {
+                Map.Entry entry = entryList.get(i);
+                keys[i] = entry.getKey().toString();
+            }
+            news.setKeys(keys);
+        } else {
+            news.setKeys(keywords.split(","));
         }
-        news.setKeys(keywords.split(","));
-        System.out.println(JSON.toJSONString(news));
 
         mv.addObject("news", news);
         return mv;

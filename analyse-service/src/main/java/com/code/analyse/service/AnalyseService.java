@@ -1,11 +1,14 @@
 package com.code.analyse.service;
 
+import com.alibaba.fastjson.JSON;
 import com.code.analyse.handler.KeyWordExtractor;
 import com.code.analyse.handler.SearchExtractor;
+import com.code.analyse.remote.DataServiceApi;
 import com.code.common.bean.News;
 import com.code.common.bean.ResponseData;
 import com.code.common.enums.ResultStatus;
 import com.code.common.utils.ResponseUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/analyse")
 public class AnalyseService {
+    @Autowired
+    private DataServiceApi dataServiceApi;
+
     @RequestMapping(value = "search")
     public String keyword(@RequestParam("keyword") String keyWord) {
         SearchExtractor searchExtractor = new SearchExtractor();
@@ -31,12 +37,14 @@ public class AnalyseService {
     }
 
     @RequestMapping(value = "pickup")
-    public String pickup(@RequestParam("content") String content) {
+    public String pickup(@RequestParam("sign") String sign) {
         KeyWordExtractor keyWordExtractor = new KeyWordExtractor();
         ResponseData responseData = new ResponseData();
         try {
+            String content = null;
+            content = dataServiceApi.queryContentInfoBySign(sign).getContent();
             List keyWordList = keyWordExtractor.analyse(content);
-            responseData.setResultData(keyWordList);
+            responseData.setResultData(JSON.toJSONString(keyWordList));
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
         } catch (Exception e) {
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);

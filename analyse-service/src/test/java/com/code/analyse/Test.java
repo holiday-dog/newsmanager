@@ -3,24 +3,42 @@ package com.code.analyse;
 import com.alibaba.fastjson.JSON;
 import com.code.analyse.handler.KeyWordExtractor;
 import com.code.analyse.handler.SearchExtractor;
+import com.code.analyse.remote.DataServiceApi;
 import com.code.analyse.service.AnalyseService;
 import com.code.analyse.utils.IndexerUtils;
-import com.code.common.bean.News;
-import com.code.common.utils.*;
+import com.code.common.utils.IOUtils;
+import com.code.common.utils.JsonPathUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.*;
 import org.apache.lucene.util.BytesRef;
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {AnalyApplication.class})
 public class Test {
     private String page = null;
+    @Autowired
+    private AnalyseService analyseService;
+    @Autowired
+    private DataServiceApi dataServiceApi;
+
+    @org.junit.Test
+    public void testRun() {
+//        System.out.println("ww哈哈aa".matches("[\\w]+"));
+        String sign = "f13645d733d24d80afe9449018c8748c";
+        System.out.println(analyseService.pickup(sign));
+    }
+
 
     @org.junit.Test
     public void test111() throws Exception {

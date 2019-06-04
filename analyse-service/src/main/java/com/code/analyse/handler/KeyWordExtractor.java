@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class KeyWordExtractor {
     private static final Integer keyWordCount = 5;
+    private static final String regex = "[\\w\\-\\.\\,\\!\\?\\:\\{\\}]+";
 
     public List analyse(String content) throws Exception {
         IndexWriter indexWriter = IndexerUtils.initIndexWrite();
@@ -37,6 +38,8 @@ public class KeyWordExtractor {
             }
         }).filter((entry) -> {
             return entry.getKey().length() > 1;
+        }).filter((entry) -> {
+            return !entry.getKey().matches(regex);
         }).limit(keyWordCount).collect(Collectors.toList());
 
         IndexerUtils.close(indexWriter);
