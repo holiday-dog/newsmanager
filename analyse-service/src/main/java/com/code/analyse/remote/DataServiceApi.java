@@ -14,11 +14,10 @@ public class DataServiceApi {
     private RestTemplate remoteRestTemplate;
 
     public News queryContentInfoBySign(String sign) {
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNews?sign=" + sign, String.class);
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://DATA-SERVICE/news/queryNews?sign=" + sign, String.class);
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         News news = JSON.parseObject((String) responseData.getResultData(), News.class);
 
         return news;
     }
-
 }

@@ -34,7 +34,7 @@ public class AnalyseService {
             responseData.setResultData(JSON.toJSONString(newsList));
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
         } catch (IOException e) {
-            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
+            ResponseUtils.setStatus(responseData, ResultStatus.SYSTEM_ERROR);
         }
         return responseData.toString();
     }
@@ -50,7 +50,7 @@ public class AnalyseService {
             responseData.setResultData(JSON.toJSONString(keyWordList));
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
         } catch (Exception e) {
-            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
+            ResponseUtils.setStatus(responseData, ResultStatus.SYSTEM_ERROR);
         }
         return responseData.toString();
     }
@@ -64,7 +64,7 @@ public class AnalyseService {
             responseData.setResultData(JSON.toJSONString(keyWordList));
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
         } catch (Exception e) {
-            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
+            ResponseUtils.setStatus(responseData, ResultStatus.SYSTEM_ERROR);
         }
         return responseData.toString();
     }
@@ -81,7 +81,7 @@ public class AnalyseService {
             responseData.setResultData(JSON.toJSONString(news));
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
         } catch (Exception e) {
-            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
+            ResponseUtils.setStatus(responseData, ResultStatus.SYSTEM_ERROR);
         }
         return responseData.toString();
     }
@@ -95,7 +95,7 @@ public class AnalyseService {
             responseData.setResultData(JSON.toJSONString(newsList));
             ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
         } catch (IOException e) {
-            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
+            ResponseUtils.setStatus(responseData, ResultStatus.SYSTEM_ERROR);
         }
         return responseData.toString();
     }

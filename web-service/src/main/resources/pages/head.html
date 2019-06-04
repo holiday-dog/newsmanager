@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="//cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+</script>
 <head>
 </head>
 <body>
@@ -11,13 +16,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">首页</a>
+            <a class="navbar-brand" th:href="@{/index/modules(modules='推荐')}">推荐</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="#">推荐</a>
-                </li>
                 <li>
                     <a th:href="@{/index/modules(modules='教育')}">教育</a>
                 </li>
@@ -39,10 +41,10 @@
             <!--class="input-group-addon btn btn-primary">搜索</span>-->
             <!--</div>-->
             <div class="col-sm-3 pull-right">
-                <form class="navbar-from" th:action="@{/index/search}">
+                <form class="navbar-from search" th:action="@{/index/search}" name="search">
                     <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="热点查询" name="keyword"><span
-                            class="input-group-addon btn btn-primary">搜索</span>
+                        <input type="text" class="form-control input-lg" placeholder="热点查询" name="keyword">
+                        <span class="input-group-addon btn btn-primary" id="search">搜索</span>
                     </div>
                 </form>
             </div>

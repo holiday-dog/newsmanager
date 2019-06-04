@@ -3,7 +3,7 @@ package com.code.web.service;
 import com.alibaba.fastjson.JSON;
 import com.code.common.bean.*;
 import com.code.common.enums.NewsType;
-import com.code.common.utils.JsonPathUtils;
+import com.code.common.enums.ResultStatus;
 import com.code.web.bean.NewsAdaptor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,10 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/index")
 public class TestControllerService {
+    private static final String analyseService = "localhost:8084";
+    private static final String dataService = "localhost:8081";
+
+
     @Autowired
     private RestTemplate remoteRestTemplate;
 
@@ -37,11 +41,11 @@ public class TestControllerService {
     }
 
     @RequestMapping("/test")
-    public String test(@RequestParam(value = "msg", required = false) String msg) {
-        if (StringUtils.isNotEmpty(msg)) {
-            throw new CodecException("系统异常");
-        }
-        return "test";
+    public ModelAndView test(@RequestParam(value = "referUrl", required = false) String referUrl) {
+//        if (StringUtils.isNotEmpty(referUrl)) {
+//            throw new CodecException("系统异常");
+//        }
+        return new ModelAndView("error").addObject("errorMsg", "<a href='" + referUrl + "'><font color='red'>读取页面失败，请进入原页面查看完整内容</font></a>");
     }
 
 
@@ -49,10 +53,12 @@ public class TestControllerService {
     public ModelAndView relations(@RequestParam(value = "referUrl", required = false) String referUrl, @RequestParam(value = "spiderWeb", required = false) String spiderWeb) {
         ModelAndView mv = new ModelAndView("relations");
         System.out.println(referUrl + ":" + spiderWeb);
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/searchcontent?referUrl=" + URLEncoder.encode(referUrl) + "&spiderWeb=" + spiderWeb, String.class);
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://" + analyseService + "/analyse/searchcontent?referUrl=" + URLEncoder.encode(referUrl) + "&spiderWeb=" + spiderWeb, String.class);
 
-        System.out.println(responseEntity.getBody());
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        if (responseData.getResultCode() != ResultStatus.SUCCESS.getCode()) {
+            return new ModelAndView("error").addObject("errorMsg", "读取页面失败，请进入原页面查看完整内容" + referUrl);
+        }
         NewsAdaptor news = JSON.parseObject((String) responseData.getResultData(), NewsAdaptor.class);
         if (StringUtils.isNotEmpty(news.getKeywords())) {
             news.setKeys(Arrays.asList(news.getKeywords().split("[,|\\s]")).stream().limit(5).toArray());
@@ -65,7 +71,7 @@ public class TestControllerService {
                 if (keyword.length() < 4) {
                     keyword = keyword + news.getKeys()[i + 1];
                 }
-                responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/relation?keyword=" + keyword, String.class);
+                responseEntity = remoteRestTemplate.getForEntity("http://" + analyseService + "/analyse/relation?keyword=" + keyword, String.class);
                 relations = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), News.class);
                 i++;
             }
@@ -80,13 +86,13 @@ public class TestControllerService {
     @RequestMapping("/content")
     public ModelAndView content(@RequestParam(value = "sign", required = false) String sign) {
         ModelAndView mv = new ModelAndView("content");
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNews?sign=" + sign, String.class);
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/news/queryNews?sign=" + sign, String.class);
         System.out.println(responseEntity.getBody());
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         NewsAdaptor news = JSON.parseObject((String) responseData.getResultData(), NewsAdaptor.class);
         String keywords = news.getKeywords();
         if (StringUtils.isEmpty(keywords)) {
-            responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/pickup?sign=" + sign, String.class);
+            responseEntity = remoteRestTemplate.getForEntity("http://" + analyseService + "/analyse/pickup?sign=" + sign, String.class);
             List<Map.Entry> entryList = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), Map.Entry.class);
             System.out.println(JSON.toJSONString(entryList));
             String[] keys = new String[entryList.size()];
@@ -106,7 +112,7 @@ public class TestControllerService {
                 if (keyword.length() < 4) {
                     keyword = keyword + news.getKeys()[i + 1];
                 }
-                responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/relation?keyword=" + keyword, String.class);
+                responseEntity = remoteRestTemplate.getForEntity("http://" + analyseService + "/analyse/relation?keyword=" + keyword, String.class);
                 relations = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), News.class);
                 i++;
             }
@@ -123,7 +129,7 @@ public class TestControllerService {
         PageBean<ProcessInfo> pageBean = null;
 
         ModelAndView mv = new ModelAndView("admin");
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/process/queryList?page=" + (page == null ? 0 : page) + "&limit=" + (limit == null ? 0 : limit), String.class);
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/process/queryList?page=" + (page == null ? 0 : page) + "&limit=" + (limit == null ? 0 : limit), String.class);
         System.out.println(responseEntity.getBody());
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         pageBean = JSON.parseObject((String) responseData.getResultData(), PageBean.class);
@@ -139,14 +145,14 @@ public class TestControllerService {
         List<HotNews> hotNewsList = null;
 
         ModelAndView mv = new ModelAndView("modules");
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.LATEST.getMsg() + "&limit=5", String.class);
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.LATEST.getMsg() + "&limit=5", String.class);
         System.out.println(responseEntity.getBody());
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         newsList = JSON.parseArray((String) responseData.getResultData(), News.class);
         System.out.println(JSON.toJSONString(newsList));
         mv.addObject("newList", newsList);
 
-        responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY.getMsg() + "&limit=2", String.class);
+        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY.getMsg() + "&limit=2", String.class);
         System.out.println(responseEntity.getBody());
         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         List<News> hisList = JSON.parseArray((String) responseData.getResultData(), News.class);
@@ -154,7 +160,7 @@ public class TestControllerService {
         mv.addObject("historyList", hisList);
 
 
-        responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/hotnews/queryList?modules=" + modules + "&limit=3", String.class);
+        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/hotnews/queryList?modules=" + modules + "&limit=3", String.class);
         System.out.println(responseEntity.getBody());
         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         hotNewsList = JSON.parseArray((String) responseData.getResultData(), HotNews.class);
@@ -167,11 +173,13 @@ public class TestControllerService {
     @RequestMapping("/search")
     public ModelAndView search(@RequestParam("keyword") String keyword) {
         List<News> newsList = new ArrayList<>();
-        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://localhost:8084/analyse/search?keyword=" + keyword, String.class);
+        ModelAndView mv = new ModelAndView("search");
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://" + analyseService + "/analyse/search?keyword=" + keyword, String.class);
+        System.out.println(responseEntity.getBody());
+        newsList = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), News.class);
+//        newsList = JsonPathUtils.getObjList(responseEntity.getBody(), "$.resultData[*]", News.class);
 
-        newsList = JsonPathUtils.getObjList(responseEntity.getBody(), "$.resultData[*]", News.class);
-        System.out.println(JSON.toJSONString(newsList));
-
-        return new ModelAndView("search", "searchList", newsList);
+        mv.addObject("searchList", newsList);
+        return mv;
     }
 }

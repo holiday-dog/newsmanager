@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Error page</title>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#myCarousel').carousel({
+                pause: true,
+                interval: false
+            });
+        })
+    </script>
+    <style type="text/css">
+        ul li {
+            list-style-type: none;
+        }
+
+        a {
+            color: black;
+        }
+    </style>
 </head>
 <body>
-<h1 th:text="${#response.status}"></h1>
-<p th:text="${errorMsg}"></p>
-<a href="index.html" th:href="@{index}">返回首页</a>
+<div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+</div>
+<div class="container">
+    <br><br>
+    <div class="row">
+        <div class="jumbotron">
+            <div class="well well-lg" th:utext="${errorMsg}">出错啦</div>
+            <br>
+            <a href="index.html" th:href="@{index}" class="btn btn-default">返回首页</a>
+        </div>
+    </div>
+</div>
+<div th:replace="foot :: footer"></div>
 </body>
 </html>

@@ -8,9 +8,8 @@
     <script src="//cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#myCarousel').carousel({
-                pause: true,
-                interval: false
+            $('#search').click(function () {
+                $("form[name='search']").submit();
             });
         })
     </script>
@@ -64,9 +63,9 @@
         </div>
     </div>
     <!--<div class="row">-->
-        <!--<div id="dataMoreBtn" class="moreBtn col-sm-9">-->
-            <!--<p style="text-align: center">显示更多</p>-->
-        <!--</div>-->
+    <!--<div id="dataMoreBtn" class="moreBtn col-sm-9">-->
+    <!--<p style="text-align: center">显示更多</p>-->
+    <!--</div>-->
     <!--</div>-->
 </div>
 <div th:replace="foot :: footer"></div>
