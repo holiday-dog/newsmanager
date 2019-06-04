@@ -81,13 +81,13 @@ public class XinhuaEduPlugin extends ClientPlugin {
 
             String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+\\_\\d+\\((.*)", 1);
             List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
-            List<String> images = JsonPathUtils.getValueList(page, "$.data.list[*].PicLinks");
+            List<String> images = JsonPathUtils.getValueList(page, "$.data.list[*].allPics[0]");
             if (!CollectionUtils.isEmpty(linkUrls)) {
                 List<RawData> eduPageList = new ArrayList<>();
                 for (int j = 0; j < 2; j++) {
                     request = new WebRequest(linkUrls.get(j));
                     response = client.execute(request);
-                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY, prexUrl + images.get(i)));
+                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY, images.get(i)));
                 }
                 spiderData.put("historyList", eduPageList);
             }

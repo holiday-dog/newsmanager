@@ -119,7 +119,7 @@ public class TestControllerService {
         if (StringUtils.isEmpty(keywords)) {
             responseEntity = remoteRestTemplate.getForEntity("http://" + analyseService + "/analyse/pickup?sign=" + sign, String.class);
             List<Map.Entry> entryList = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), Map.Entry.class);
-            System.out.println(JSON.toJSONString(entryList));
+//            System.out.println(JSON.toJSONString(entryList));
             String[] keys = new String[entryList.size()];
             for (int i = 0; i < entryList.size(); i++) {
                 Map.Entry entry = entryList.get(i);
@@ -174,22 +174,25 @@ public class TestControllerService {
         System.out.println(responseEntity.getBody());
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         newsList = JSON.parseArray((String) responseData.getResultData(), News.class);
-        System.out.println(JSON.toJSONString(newsList));
         mv.addObject("newList", newsList);
 
-        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY.getMsg() + "&limit=2", String.class);
+        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY.getMsg() + "&limit=3", String.class);
         System.out.println(responseEntity.getBody());
         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         List<News> hisList = JSON.parseArray((String) responseData.getResultData(), News.class);
-        System.out.println(JSON.toJSONString(hisList));
         mv.addObject("historyList", hisList);
 
+        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.TOP.getMsg() + "&limit=3", String.class);
+        System.out.println(responseEntity.getBody());
+        responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        List<News> topList = JSON.parseArray((String) responseData.getResultData(), News.class);
+        mv.addObject("topList", topList);
 
-        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/hotnews/queryList?modules=" + modules + "&limit=3", String.class);
+
+        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/hotnews/queryList?modules=" + modules + "&limit=5", String.class);
         System.out.println(responseEntity.getBody());
         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         hotNewsList = JSON.parseArray((String) responseData.getResultData(), HotNews.class);
-        System.out.println(JSON.toJSONString(hotNewsList));
         mv.addObject("hotList", hotNewsList);
 
         return mv;

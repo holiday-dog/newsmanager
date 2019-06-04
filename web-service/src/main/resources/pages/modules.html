@@ -13,6 +13,11 @@
                 interval: false
             });
         })
+        $(function () {
+            $('#search').click(function () {
+                $("form[name='search']").submit();
+            });
+        })
     </script>
     <style type="text/css">
         ul li {
@@ -48,8 +53,10 @@
                 <div class="carousel-inner">
                     <div class="item" th:each="hotnews,hotnewsStat:${hotList}"
                          th:classappend="${hotnewsStat.index}==0?'active':''">
-                        <img src="https://www.runoob.com/wp-content/uploads/2014/07/slide1.png"
-                             th:src="${hotnews.image}" alt="First slide" th:width="750" th:height="360">
+                        <a th:href="${hotnews.referUrl}">
+                            <img src="https://www.runoob.com/wp-content/uploads/2014/07/slide1.png"
+                                 th:src="${hotnews.image}" alt="First slide" th:width="750" th:height="360">
+                        </a>
                     </div>
                 </div>
                 <!-- 轮播（Carousel）导航 -->

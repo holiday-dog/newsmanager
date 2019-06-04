@@ -17,7 +17,7 @@ public class PluginTest {
         ClientPlugin plugin = null;
         plugin = new XinhuaEduPlugin();
 //        plugin = new XinhuaTravelPlugin();
-        plugin = new XinhuaSciencePlugin();
+//        plugin = new XinhuaSciencePlugin();
 //        plugin = new RenminEduPlugin();
 //        plugin = new RenminTravelPlugin();
 //        plugin = new RenminRecommendPlugin();

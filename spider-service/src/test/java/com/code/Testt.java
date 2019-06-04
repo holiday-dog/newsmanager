@@ -49,10 +49,12 @@ public class Testt {
 
     @Test
     public void testpage() throws IOException {
-        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page.html");
+        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page.json");
         String page = IOUtils.getStringByInputStream(inputStream);
 
-        System.out.println(JSON.toJSONString(JsoupUtils.getAttr(page, "div#hideData0 ul.dataList li a img", "data-original")));
+        System.out.println(JsonPathUtils.getValueList(page, "$.data.list[*].allPics[0]"));
+
+//        System.out.println(JSON.toJSONString(JsoupUtils.getAttr(page, "div#hideData0 ul.dataList li a img", "data-original")));
     }
 
     @Test
