@@ -17,9 +17,18 @@ public class ExtractorUtils {
         if (StringUtils.isEmpty(title)) {
             title = JsoupUtils.getText(page, "span#title").trim();
         }
-        String keyword = JsoupUtils.getAttr(page, "meta[name='keywords']", "content").get(0).trim();
-        String description = JsoupUtils.getAttr(page, "meta[name='description']", "content").get(0).trim();
-        description = StringUtils.substringAfter(description, "---");
+        List<String> keywords = JsoupUtils.getAttr(page, "meta[name='keywords']", "content");
+        String keyword = null;
+        if (!CollectionUtils.isEmpty(keywords)) {
+            keyword = keywords.get(0).trim();
+        }
+        String description = null;
+        List<String> descriptions = JsoupUtils.getAttr(page, "meta[name='description']", "content");
+        if (!CollectionUtils.isEmpty(descriptions)) {
+            description = descriptions.get(0).trim();
+            description = StringUtils.substringAfter(description, "---");
+        }
+
         LocalDateTime dateTime = null;
         String pubTime = JsoupUtils.getText(page, "div.h-info span.h-time");
         if (StringUtils.isEmpty(pubTime)) {
@@ -27,13 +36,13 @@ public class ExtractorUtils {
         }
         if (pubTime.contains("年") && pubTime.contains("月")) {
             dateTime = DateUtils.parseDateTime(pubTime.trim(), "yyyy年MM月dd日 HH:mm:ss");
-        } else {
+        } else if (StringUtils.isNotEmpty(pubTime)) {
             dateTime = DateUtils.parseDateTime(pubTime.trim());
         }
         String source = JsoupUtils.getText(page, "em#source");
         String author = JsoupUtils.getText(page, "span:contains(责任编辑)");
         if (StringUtils.isNotEmpty(author)) {
-            author = PatternUtils.groupOne(author, "责任编辑:?：?([^\\<\\]]+)", 1).trim();
+            author = PatternUtils.groupOne(author, "责任编辑:?：?([^\\<\\]\\】]+)", 1).trim();
         }
 
         News news = new News(title, description, keyword, author, dateTime, source);

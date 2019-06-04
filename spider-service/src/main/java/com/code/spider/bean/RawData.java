@@ -1,11 +1,13 @@
 package com.code.spider.bean;
 
 import com.code.common.enums.NewsType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class RawData {
     private String url;
 

@@ -90,6 +90,7 @@ public abstract class ClientPlugin {
                     }
                 }
             }
+            logger.info("rawdata:{}", JSON.toJSONString(spiderData));
             if (i == 2 || (ProcessStatus) resultMap.get(Constants.STAGE) != ProcessStatus.SPIDER_SUCCESS) {
                 sendToMQ(resultMap);
                 return (ProcessStatus) resultMap.get(Constants.STAGE);

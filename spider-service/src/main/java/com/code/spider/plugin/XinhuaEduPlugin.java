@@ -27,6 +27,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
     private static final String eduListUrl = "http://qc.wa.news.cn/nodeart/list?nid=11109063&pgnum=%s&cnt=%s&tp=1&orderby=1?callback=jQuery112409162368214565164_%s&_=%s";
     private static WebClient client = WebClient.buildDefaultClient().buildRouteAndCount(30, 50).build();
     private Logger logger = LoggerFactory.getLogger(XinhuaEduPlugin.class);
+    private static final String prexUrl = "http://education.news.cn/titlepic/";
 
     @Override
     public String getClientPluginName() {
@@ -80,12 +81,13 @@ public class XinhuaEduPlugin extends ClientPlugin {
 
             String page = PatternUtils.groupOne(response.getRespText(), "jQuery\\d+\\_\\d+\\((.*)", 1);
             List<String> linkUrls = JsonPathUtils.getValueList(page, "$.data.list[*].LinkUrl");
+            List<String> images = JsonPathUtils.getValueList(page, "$.data.list[*].PicLinks");
             if (!CollectionUtils.isEmpty(linkUrls)) {
                 List<RawData> eduPageList = new ArrayList<>();
                 for (int j = 0; j < 2; j++) {
                     request = new WebRequest(linkUrls.get(j));
                     response = client.execute(request);
-                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY));
+                    eduPageList.add(new RawData(linkUrls.get(j), response.getRespText(), NewsType.HISTORY, prexUrl + images.get(i)));
                 }
                 spiderData.put("historyList", eduPageList);
             }
@@ -112,6 +114,7 @@ public class XinhuaEduPlugin extends ClientPlugin {
                     news.setReferUrl(result.getUrl());
                     news.setNewsType(result.getNewsType());
                     news.setSign(RandomUtils.nextString());
+                    news.setImages(result.getOthers());
 
                     newsList.add(news);
                 }
@@ -125,7 +128,6 @@ public class XinhuaEduPlugin extends ClientPlugin {
                 resultMap.put(key, hotNewsList);
             }
         }
-//        int a = 1 / 0;
 
         return resultMap;
     }

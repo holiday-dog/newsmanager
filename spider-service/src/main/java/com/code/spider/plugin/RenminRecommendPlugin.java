@@ -37,7 +37,7 @@ public class RenminRecommendPlugin extends ClientPlugin {
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
-        resultMap.put("moduleType", Modules.RECOMMEND.getValue());
+        resultMap.put("moduleType", Modules.RECOMMEND.getMsg());
         resultMap.put("spiderWebsite", "Renmin");
         resultMap.put("pluginName", getClientPluginName());
 
@@ -72,7 +72,7 @@ public class RenminRecommendPlugin extends ClientPlugin {
 //            排名新闻
             if (!CollectionUtils.isEmpty(topUrlList)) {
                 List<RawData> topList = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 5; i++) {
                     System.out.println(topUrlList.get(i));
                     request = new WebRequest(topUrlList.get(i));
                     response = client.execute(request);

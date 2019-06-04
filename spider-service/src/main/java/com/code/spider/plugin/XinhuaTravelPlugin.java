@@ -38,7 +38,7 @@ public class XinhuaTravelPlugin extends ClientPlugin {
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
-        resultMap.put("moduleType", Modules.TRAVEL.getValue());
+        resultMap.put("moduleType", Modules.TRAVEL.getMsg());
         resultMap.put("spiderWebsite", "XinHua");
         resultMap.put("pluginName", getClientPluginName());
 
@@ -57,6 +57,7 @@ public class XinhuaTravelPlugin extends ClientPlugin {
             //今日新闻
             List<String> newestTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
             List<String> historyTravelUrlList = JsoupUtils.getAttr(response.getRespText(), "div#hideData0 ul.dataList li h3 a", "href");
+            List<String> historyImgList = JsoupUtils.getAttr(response.getRespText(), "div#hideData0 ul.dataList li a img", "data-original");
             List<String> hotEduList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
             List<String> hotTravelList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
 
@@ -65,7 +66,6 @@ public class XinhuaTravelPlugin extends ClientPlugin {
                 List<RawData> newestTravelList = new ArrayList<>();
                 for (int i = 0; i < 3; i++) {
                     String newestEduUrl = newestTravelUrlList.get(i);
-//                    System.out.println("-----" + newestEduUrl);
                     request = new WebRequest(newestEduUrl);
                     response = client.execute(request);
                     newestTravelList.add(new RawData(newestEduUrl, response.getRespText(), NewsType.LATEST));
@@ -81,7 +81,7 @@ public class XinhuaTravelPlugin extends ClientPlugin {
                     System.out.println(historyTravelUrlList.get(i));
                     request = new WebRequest(historyTravelUrlList.get(i));
                     response = client.execute(request);
-                    historyTravelList.add(new RawData(historyTravelUrlList.get(i), response.getRespText(), NewsType.HISTORY));
+                    historyTravelList.add(new RawData(historyTravelUrlList.get(i), response.getRespText(), NewsType.HISTORY, historyImgList.get(i)));
                 }
                 spiderData.put("historyList", historyTravelList);
             }
@@ -107,7 +107,6 @@ public class XinhuaTravelPlugin extends ClientPlugin {
             List<RawData> topTravelList = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
                 String hotTravelUrl = hotTravelUrlList.get(i);
-//                System.out.println(hotTravelUrl);
                 request = new WebRequest(hotTravelUrl);
                 response = client.execute(request);
                 topTravelList.add(new RawData(hotTravelUrl, response.getRespText(), NewsType.TOP));
@@ -132,9 +131,9 @@ public class XinhuaTravelPlugin extends ClientPlugin {
                 for (RawData result : results) {
                     String page = result.getPage();
                     if (page.contains("下一页") && page.contains("div_currpage")) {
-                        newsList.add(handleMultiPage(page, result.getUrl()));
+                        newsList.add(handleMultiPage(page, result, result.getUrl()));
                     } else {
-                        newsList.add(handleSinglePage(page, result.getUrl()));
+                        newsList.add(handleSinglePage(page, result, result.getUrl()));
                     }
                 }
                 resultMap.put(key, newsList);
@@ -151,14 +150,17 @@ public class XinhuaTravelPlugin extends ClientPlugin {
         return resultMap;
     }
 
-    private News handleSinglePage(String page, String url) {
+    private News handleSinglePage(String page, RawData result, String url) {
         News news = ExtractorUtils.extractXinhua(page);
         news.setContent(ExtractorUtils.extractorXinhuaContent(page, url));
         news.setReferUrl(url);
+        news.setSign(RandomUtils.nextString());
+        news.setNewsType(result.getNewsType());
+        news.setImages(result.getOthers());
         return news;
     }
 
-    public News handleMultiPage(String page, String url) throws IOException {
+    public News handleMultiPage(String page, RawData result, String url) throws IOException {
         News news = ExtractorUtils.extractXinhua(page);
         String content = ExtractorUtils.extractorXinhuaContent(page, url);
 
@@ -182,6 +184,9 @@ public class XinhuaTravelPlugin extends ClientPlugin {
         }
         news.setContent(contentBuffer.toString());
         news.setReferUrl(url);
+        news.setSign(RandomUtils.nextString());
+        news.setNewsType(result.getNewsType());
+        news.setImages(result.getOthers());
 
         return news;
     }

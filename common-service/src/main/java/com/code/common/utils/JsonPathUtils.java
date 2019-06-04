@@ -12,10 +12,14 @@ import java.util.Map;
 
 public class JsonPathUtils {
     public static String getValue(String content, String jsonpath) {
-        DocumentContext context = (JsonContext) JsonPath.parse(content);
+        try {
+            DocumentContext context = (JsonContext) JsonPath.parse(content);
 
-        String val = context.read(jsonpath);
-        return val;
+            String val = context.read(jsonpath);
+            return val;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static <T> T getObj(String content, String jsonpath, Class<T> cls) {

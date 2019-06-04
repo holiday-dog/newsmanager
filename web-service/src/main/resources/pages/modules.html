@@ -64,19 +64,20 @@
             </div>
         </div>
         <div class="topNews col-sm-5">
-            <div>
-                <h4>今日聚焦</h4>
-                <ol>
-                    <li th:each="news:${newList}"><a th:href="@{/index/content(sign=${news.sign})}" th:text="${news.title}"></a></li>
-                </ol>
+            <div th:unless="${#lists.isEmpty(newList)}">
+                <div>
+                    <h4>今日聚焦</h4>
+                    <ol>
+                        <li th:each="news:${newList}"><a th:href="@{/index/content(sign=${news.sign})}"
+                                                         th:text="${news.title}"></a></li>
+                    </ol>
+                </div>
             </div>
             <div th:unless="${#lists.isEmpty(topList)}">
                 <h4>浏览排行</h4>
                 <ol>
-                    <li>aaaaaa</li>
-                    <li>aaaaaa</li>
-                    <li>aaaaaa</li>
-                    <li>aaaaaa</li>
+                    <li th:each="news:${topList}"><a th:href="@{/index/content(sign=${news.sign})}"
+                                                     th:text="${news.title}"></a></li>
                 </ol>
             </div>
         </div>

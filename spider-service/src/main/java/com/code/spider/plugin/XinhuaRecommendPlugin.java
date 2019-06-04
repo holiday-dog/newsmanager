@@ -9,6 +9,7 @@ import com.code.common.enums.Modules;
 import com.code.common.enums.NewsType;
 import com.code.common.utils.DateUtils;
 import com.code.common.utils.JsoupUtils;
+import com.code.common.utils.RandomUtils;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class XinhuaRecommendPlugin extends ClientPlugin {
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
-        resultMap.put("moduleType", Modules.RECOMMEND.getValue());
+        resultMap.put("moduleType", Modules.RECOMMEND.getMsg());
         resultMap.put("spiderWebsite", "Xinhua");
         resultMap.put("pluginName", getClientPluginName());
 
@@ -71,7 +72,7 @@ public class XinhuaRecommendPlugin extends ClientPlugin {
                 }
                 spiderData.put("recommendList", newestTravelList);
             }
-            //排名新闻
+//            //排名新闻
             if (!CollectionUtils.isEmpty(topUrlList)) {
                 List<RawData> topList = new ArrayList<>();
                 for (int i = 0; i < 3; i++) {
@@ -82,8 +83,8 @@ public class XinhuaRecommendPlugin extends ClientPlugin {
                 }
                 spiderData.put("topList", topList);
             }
-
-//            新闻热点
+//
+////            新闻热点
             if (!CollectionUtils.isEmpty(hotList)) {
                 List<HotNews> hotNewsList = new ArrayList<>();
                 for (int i = 0; i < hotList.size(); i++) {
@@ -111,15 +112,16 @@ public class XinhuaRecommendPlugin extends ClientPlugin {
             if (!key.contains("hot")) {
                 List<News> newsList = new ArrayList<>();
                 List<RawData> results = (List<RawData>) spiderData.get(key);
-                if (CollectionUtils.isEmpty(results)) {
-                    continue;
-                }
                 for (RawData result : results) {
                     String page = result.getPage();
                     News news = ExtractorUtils.extractXinhua(page);
+                    if (StringUtils.isEmpty(news.getTitle()) && news.getPubTime() == null && StringUtils.isEmpty(news.getAuthor())) {
+                        continue;
+                    }
                     news.setContent(ExtractorUtils.extractorXinhuaContent(page, result.getUrl()));
                     news.setReferUrl(result.getUrl());
                     news.setNewsType(result.getNewsType());
+                    news.setSign(RandomUtils.nextString());
                     newsList.add(news);
                 }
                 resultMap.put(key, newsList);

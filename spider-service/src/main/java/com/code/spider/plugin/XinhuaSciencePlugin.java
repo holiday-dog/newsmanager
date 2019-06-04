@@ -9,6 +9,7 @@ import com.code.common.enums.Modules;
 import com.code.common.enums.NewsType;
 import com.code.common.utils.DateUtils;
 import com.code.common.utils.JsoupUtils;
+import com.code.common.utils.RandomUtils;
 import com.code.spider.bean.RawData;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
     @Override
     Map<String, Object> preProcess(Map<String, Object> resultMap) {
         resultMap.put("spiderDate", DateUtils.formatDateTime(LocalDateTime.now()));
-        resultMap.put("moduleType", Modules.SCIENCE.getValue());
+        resultMap.put("moduleType", Modules.SCIENCE.getMsg());
         resultMap.put("spiderWebsite", "XinHua");
         resultMap.put("pluginName", getClientPluginName());
 
@@ -54,6 +55,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
 
             List<String> newestScienceUrlList = JsoupUtils.getAttr(response.getRespText(), "ul.newestList li a", "href");
             List<String> historyScienceUrlList = JsoupUtils.getAttr(response.getRespText(), "ul#showData0 + div#hideData3 ul li  h3 a", "href");
+            List<String> historyImgList = JsoupUtils.getAttr(response.getRespText(), "ul#showData0 + div#hideData3 ul li a img", "data-original");
             List<String> topScienceUrlList = JsoupUtils.getAttr(response.getRespText(), "div.impNews div.textList ul li a", "href");
             List<String> hotScienceList = JsoupUtils.getElementsHtml(response.getRespText(), "div[class$=foucos-container] div.swiper-wrapper div.swiper-slide:has(a)");
 
@@ -76,7 +78,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
                 for (int i = 0; i < 3; i++) {
                     request = new WebRequest(historyScienceUrlList.get(i));
                     response = client.execute(request);
-                    historyScienceList.add(new RawData(historyScienceUrlList.get(i), response.getRespText(), NewsType.HISTORY));
+                    historyScienceList.add(new RawData(historyScienceUrlList.get(i), response.getRespText(), NewsType.HISTORY, historyImgList.get(i)));
                 }
                 spiderData.put("historyList", historyScienceList);
             }
@@ -116,9 +118,9 @@ public class XinhuaSciencePlugin extends ClientPlugin {
                 for (RawData result : results) {
                     String page = result.getPage();
                     if (page.contains("下一页") && page.contains("div_currpage")) {
-                        newsList.add(handleMultiPage(page, result.getUrl()));
+                        newsList.add(handleMultiPage(page, result.getUrl(), result));
                     } else {
-                        newsList.add(handleSinglePage(page, result.getUrl()));
+                        newsList.add(handleSinglePage(page, result.getUrl(), result));
                     }
                 }
                 resultMap.put(key, newsList);
@@ -135,14 +137,17 @@ public class XinhuaSciencePlugin extends ClientPlugin {
         return resultMap;
     }
 
-    private News handleSinglePage(String page, String url) {
+    private News handleSinglePage(String page, String url, RawData result) {
         News news = ExtractorUtils.extractXinhua(page);
         news.setContent(ExtractorUtils.extractorXinhuaContent(page, url));
         news.setReferUrl(url);
+        news.setImages(result.getOthers());
+        news.setNewsType(result.getNewsType());
+        news.setSign(RandomUtils.nextString());
         return news;
     }
 
-    public News handleMultiPage(String page, String url) throws IOException {
+    public News handleMultiPage(String page, String url, RawData result) throws IOException {
         News news = ExtractorUtils.extractXinhua(page);
         String content = ExtractorUtils.extractorXinhuaContent(page, url);
 
@@ -166,6 +171,9 @@ public class XinhuaSciencePlugin extends ClientPlugin {
         }
         news.setContent(contentBuffer.toString());
         news.setReferUrl(url);
+        news.setImages(result.getOthers());
+        news.setNewsType(result.getNewsType());
+        news.setSign(RandomUtils.nextString());
 
         return news;
     }

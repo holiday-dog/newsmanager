@@ -1,5 +1,6 @@
 package com.code;
 
+import com.alibaba.fastjson.JSON;
 import com.code.common.utils.*;
 import com.code.spider.plugin.ExtractorUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -46,43 +47,12 @@ public class Testt {
 
     }
 
+    @Test
     public void testpage() throws IOException {
-        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page3.html");
+        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page.html");
         String page = IOUtils.getStringByInputStream(inputStream);
 
-//        for(String url: JsoupUtils.getAttr(page, "ul#gd_content li a", "href")){
-//            System.out.println(url);
-//        }
-
-//        String ss = PatternUtils.groupOne(page, "jQuery\\d+_\\d+\\(([^\\(\\)]+)\\)", 1);
-//        List<String> lists= JsonPathUtils.getValueList(ss, "$.data.list[*].LinkUrl");
-//        System.out.println(JSON.toJSONString(lists));
-
-//        String title = JsoupUtils.getText(page, "span#title").trim();
-        String title = JsoupUtils.getText(page, "div.h-title").trim();
-        String keyword = JsoupUtils.getAttr(page, "meta[name='keywords']", "content").get(0);
-        String description = JsoupUtils.getAttr(page, "meta[name='description']", "content").get(0);
-        description = StringUtils.substringAfter(description, "---");
-//        String content = JsoupUtils.getElementsHtmlPage(page, "span#content p");
-        String content = JsoupUtils.getElementsHtmlPage(page, "div#p-detail p");
-//        String pubTime = JsoupUtils.getText(page, "span#pubtime");
-        String pubTime = JsoupUtils.getText(page, "span.h-time");
-        String source = JsoupUtils.getText(page, "em#source");
-        String author = JsoupUtils.getText(page, "span:contains(责任编辑)");
-        System.out.println(author);
-        author = PatternUtils.groupOne(author, "责任编辑:?：?([^\\<\\]]+)", 1);
-//        List<String> images = JsoupUtils.getAttr(content, "img", "src");
-//        if (!CollectionUtils.isEmpty(images)) {
-//            content = JsoupUtils.replaceAttrAppendValue(content, "img", "src", "http://");
-//        }
-        System.out.println(keyword);
-        System.out.println(title);
-        System.out.println(description);
-        System.out.println(content);
-        System.out.println(pubTime);
-        System.out.println(author);
-        System.out.println(source);
-
+        System.out.println(JSON.toJSONString(JsoupUtils.getAttr(page, "div#hideData0 ul.dataList li a img", "data-original")));
     }
 
     @Test
@@ -118,9 +88,10 @@ public class Testt {
     @Test
     public void test5() throws IOException {
 //        InputStream inputStream = Testt.class.getClassLoader().getResourceAsStream("test/page1.html");
-        String page = IOUtils.stringByResource("test/page2.html", Charset.forName("GB2312"));
-        System.out.println(ExtractorUtils.extractRenmin(page));
-        System.out.println(ExtractorUtils.extractRenminContent(page, ""));
+        String page = IOUtils.stringByResource("test/page.json", null);
+        page = JsonPathUtils.getValue(page, "$.topList[0].page");
+//        System.out.println(ExtractorUtils.extractXinhua(page));
+        System.out.println(ExtractorUtils.extractorXinhuaContent(page, ""));
 //        System.out.println(page);
 //        System.out.println(ExtractorUtils.extractXinhua(page));
 //        System.out.println(ExtractorUtils.extractorXinhuaContent(page, "http://www.xinhuanet.com/politics/leaders/2019-05/31/c_1124569696.htm"));

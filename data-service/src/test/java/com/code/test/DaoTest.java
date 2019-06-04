@@ -66,6 +66,10 @@ public class DaoTest {
 
     //数据库大文本需要用text,mediumtext,fulltext,他们的存储大小分别为64k,16m,4g
     @Test
+    public void terrstt() throws ExecutionException, InterruptedException {
+        dataHandler.handler(page);
+    }
+
     public void testa() throws ExecutionException, InterruptedException {
 //        System.out.println(JSON.toJSONString(hotInfoService.queryHotNewsList(Modules.EDUCATION, 2)));
 //        System.out.println(dataHandler.handler(page));

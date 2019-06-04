@@ -101,7 +101,7 @@ public class SpiderDataHandler {
         Future<Integer> future1 = executorService.submit(hotCallable);
         Future<Integer> future2 = executorService.submit(newsCallable);
         Future<Integer> future3 = executorService.submit(statusCallable);
-        if (future1.get() != 1 || future2.get() != 1 || future3.get() != 1) {
+        if (future1.get() != 1) {
             logger.error("sotre data error");
             return false;
         }
