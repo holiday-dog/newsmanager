@@ -37,7 +37,9 @@ public class Test {
     public void testRun() {
 //        System.out.println("ww哈哈aa".matches("[\\w]+"));
 //        String sign = "f13645d733d24d80afe9449018c8748c";
-        System.out.println(analyseService.keyword("教育院长"));
+//        System.out.println(analyseService.pickup("29833a075f2747f3b31fdad0c54fdf5f"));
+
+        System.out.println(analyseService.searchcontent("http://caipiao.people.com.cn/n1/2019/0529/c373276-31108978.html", "Renmin"));
     }
 
 

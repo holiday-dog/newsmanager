@@ -112,7 +112,6 @@ public class SearchExtractor {
         WebRequest request = new WebRequest(referUrl);
         WebResponse response = client.execute(request);
         String page = response.getRespText(Charset.forName("GB2312"));
-        System.out.println(page);
 
         if (StringUtils.isNotEmpty(page)) {
             news = extractRenmin(page);

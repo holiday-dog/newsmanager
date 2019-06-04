@@ -7,7 +7,6 @@ import com.code.common.enums.ResultStatus;
 import com.code.web.bean.NewsAdaptor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.codec.CodecException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -33,11 +32,35 @@ public class TestControllerService {
     private RestTemplate remoteRestTemplate;
 
     @RequestMapping("/index")
-    public String index(@RequestParam(value = "msg", required = false) String msg) {
-        if (StringUtils.isNotEmpty(msg)) {
-            throw new CodecException("系统异常");
-        }
-        return "index";
+    public ModelAndView index(@RequestParam(value = "msg", required = false) String msg) {
+        String modules = "推荐";
+        List<News> newsList = null;
+        List<HotNews> hotNewsList = null;
+
+        ModelAndView mv = new ModelAndView("modules");
+        ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.LATEST.getMsg() + "&limit=5", String.class);
+        System.out.println(responseEntity.getBody());
+        ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        newsList = JSON.parseArray((String) responseData.getResultData(), News.class);
+        System.out.println(JSON.toJSONString(newsList));
+        mv.addObject("newList", newsList);
+
+        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/news/queryNewsList?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY.getMsg() + "&limit=2", String.class);
+        System.out.println(responseEntity.getBody());
+        responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        List<News> hisList = JSON.parseArray((String) responseData.getResultData(), News.class);
+        System.out.println(JSON.toJSONString(hisList));
+        mv.addObject("historyList", hisList);
+
+
+        responseEntity = remoteRestTemplate.getForEntity("http://" + dataService + "/hotnews/queryList?modules=" + modules + "&limit=3", String.class);
+        System.out.println(responseEntity.getBody());
+        responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
+        hotNewsList = JSON.parseArray((String) responseData.getResultData(), HotNews.class);
+        System.out.println(JSON.toJSONString(hotNewsList));
+        mv.addObject("hotList", hotNewsList);
+
+        return mv;
     }
 
     @RequestMapping("/test")
@@ -56,13 +79,14 @@ public class TestControllerService {
         ResponseEntity<String> responseEntity = remoteRestTemplate.getForEntity("http://" + analyseService + "/analyse/searchcontent?referUrl=" + URLEncoder.encode(referUrl) + "&spiderWeb=" + spiderWeb, String.class);
 
         ResponseData responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
-        if (responseData.getResultCode() != ResultStatus.SUCCESS.getCode()) {
-            return new ModelAndView("error").addObject("errorMsg", "读取页面失败，请进入原页面查看完整内容" + referUrl);
+        if (!responseData.getResultCode().equals(ResultStatus.SUCCESS.getCode())) {
+            return new ModelAndView("error").addObject("errorMsg", "<a href='" + referUrl + "'><font color='red'>读取页面失败，请进入原页面查看完整内容</font></a>");
         }
         NewsAdaptor news = JSON.parseObject((String) responseData.getResultData(), NewsAdaptor.class);
         if (StringUtils.isNotEmpty(news.getKeywords())) {
             news.setKeys(Arrays.asList(news.getKeywords().split("[,|\\s]")).stream().limit(5).toArray());
         }
+//        System.out.println(JSON.toJSONString(news.getKeys()));
         List<News> relations = null;
         if (news.getKeys() != null) {
             int i = 0;
@@ -72,6 +96,7 @@ public class TestControllerService {
                     keyword = keyword + news.getKeys()[i + 1];
                 }
                 responseEntity = remoteRestTemplate.getForEntity("http://" + analyseService + "/analyse/relation?keyword=" + keyword, String.class);
+                System.out.println(responseEntity.getBody());
                 relations = JSON.parseArray((String) JSON.parseObject(responseEntity.getBody(), ResponseData.class).getResultData(), News.class);
                 i++;
             }
