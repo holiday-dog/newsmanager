@@ -64,7 +64,7 @@ public class XinhuaTravelPlugin extends ClientPlugin {
             if (!CollectionUtils.isEmpty(newestTravelUrlList)) {
                 //最新
                 List<RawData> newestTravelList = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 4; i++) {
                     String newestEduUrl = newestTravelUrlList.get(i);
                     request = new WebRequest(newestEduUrl);
                     response = client.execute(request);
@@ -77,7 +77,7 @@ public class XinhuaTravelPlugin extends ClientPlugin {
             if (!CollectionUtils.isEmpty(historyTravelUrlList)) {
                 List<RawData> historyTravelList = new ArrayList<>();
                 long ts = DateUtils.nowTimeStamp();
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 10; i++) {
                     System.out.println(historyTravelUrlList.get(i));
                     request = new WebRequest(historyTravelUrlList.get(i));
                     response = client.execute(request);
@@ -105,8 +105,9 @@ public class XinhuaTravelPlugin extends ClientPlugin {
         List<String> hotTravelUrlList = JsonPathUtils.getValueList(PatternUtils.groupOne(response.getRespText(), "callbacks\\[\\d+\\]\\(([^\\(\\)]+)\\)", 1), "$..[*].url");
         if (!CollectionUtils.isEmpty(hotTravelUrlList)) {
             List<RawData> topTravelList = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                String hotTravelUrl = hotTravelUrlList.get(i);
+//            for (int i = 0; i < 3; i++) {
+            for (String hotTravelUrl : hotTravelUrlList) {
+//                String hotTravelUrl = hotTravelUrlList.get(i);
                 request = new WebRequest(hotTravelUrl);
                 response = client.execute(request);
                 topTravelList.add(new RawData(hotTravelUrl, response.getRespText(), NewsType.TOP));

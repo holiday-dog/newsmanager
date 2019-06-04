@@ -163,9 +163,9 @@ public class SearchExtractor {
                 }
             }
         } else {//text_img
-            String pre = JsoupUtils.getElementsHtmlPage(page, "div[class~=text_img]");
-            String pre2 = JsoupUtils.getElementsHtmlPage(page, "div[class~=show_text]");
-            content = pre + pre2;
+            content = JsoupUtils.getElementsHtmlPage(page, "div#p_content");
+//            String pre2 = JsoupUtils.getElementsHtmlPage(page, "div[class~=show_text]");
+//            content = pre + pre2;
 
             if (StringUtils.isEmpty(content)) {
                 content = JsoupUtils.getElementsHtmlPage(page, "div[class~=box_text]");

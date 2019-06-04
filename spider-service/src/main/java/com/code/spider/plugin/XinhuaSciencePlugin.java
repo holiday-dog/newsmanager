@@ -62,7 +62,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
             //今日新闻
             if (!CollectionUtils.isEmpty(newestScienceUrlList)) {
                 List<RawData> newestSciencelList = new ArrayList<>();
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 4; i++) {
                     String newestScienceUrl = newestScienceUrlList.get(i);
                     request = new WebRequest(newestScienceUrl);
                     response = client.execute(request);
@@ -75,7 +75,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
             if (!CollectionUtils.isEmpty(historyScienceUrlList)) {
                 List<RawData> historyScienceList = new ArrayList<>();
                 long ts = DateUtils.nowTimeStamp();
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 10; i++) {
                     request = new WebRequest(historyScienceUrlList.get(i));
                     response = client.execute(request);
                     historyScienceList.add(new RawData(historyScienceUrlList.get(i), response.getRespText(), NewsType.HISTORY, historyImgList.get(i)));
@@ -86,7 +86,7 @@ public class XinhuaSciencePlugin extends ClientPlugin {
             //新闻排名
             if (!CollectionUtils.isEmpty(topScienceUrlList)) {
                 List<RawData> topSciencelList = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 5; i++) {
                     String hotSciencelUrl = topScienceUrlList.get(i);
                     request = new WebRequest(hotSciencelUrl);
                     response = client.execute(request);

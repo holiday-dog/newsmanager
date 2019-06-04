@@ -4,7 +4,9 @@ import com.code.common.crawl.WebClient;
 import com.code.common.crawl.WebRequest;
 import com.code.common.crawl.WebResponse;
 import com.code.spider.executors.MainExecutor;
-import com.code.spider.plugin.*;
+import com.code.spider.plugin.ClientPlugin;
+import com.code.spider.plugin.RenminTravelPlugin;
+import com.code.spider.plugin.XinhuaRecommendPlugin;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,13 +17,13 @@ public class PluginTest {
     @Test
     public void testt() {
         ClientPlugin plugin = null;
-        plugin = new XinhuaEduPlugin();
+//        plugin = new XinhuaEduPlugin();
 //        plugin = new XinhuaTravelPlugin();
 //        plugin = new XinhuaSciencePlugin();
 //        plugin = new RenminEduPlugin();
 //        plugin = new RenminTravelPlugin();
 //        plugin = new RenminRecommendPlugin();
-//        plugin = new XinhuaRecommendPlugin();
+        plugin = new XinhuaRecommendPlugin();
 //        System.out.println(plugin.genHostPrex("http://education.news.cn/2019-05/28/c_1210145273.htm"));
         System.out.println(plugin.spiderProcess(null));
 //        System.out.println(plugin.handleData(null));

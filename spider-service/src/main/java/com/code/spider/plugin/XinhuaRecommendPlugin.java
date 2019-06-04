@@ -64,7 +64,7 @@ public class XinhuaRecommendPlugin extends ClientPlugin {
             //特别推荐
             if (!CollectionUtils.isEmpty(especialUrlList)) {
                 List<RawData> newestTravelList = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 5; i++) {
                     String especialUrl = especialUrlList.get(i);
                     request = new WebRequest(especialUrl);
                     response = client.execute(request);
@@ -75,7 +75,7 @@ public class XinhuaRecommendPlugin extends ClientPlugin {
 //            //排名新闻
             if (!CollectionUtils.isEmpty(topUrlList)) {
                 List<RawData> topList = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 5; i++) {
                     System.out.println(topUrlList.get(i));
                     request = new WebRequest(topUrlList.get(i));
                     response = client.execute(request);
