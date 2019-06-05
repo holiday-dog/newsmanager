@@ -22,5 +22,7 @@ public interface NewsInfoMapper {
 
     List<NewsInfo> selectListWithNewType(@Param("modulesType") Byte moduleType, @Param("newsType") Byte newsType, @Param("limit") Integer limit);
 
+    List<NewsInfo> selectListWithNewTypeByPage(@Param("modulesType") Byte moduleType, @Param("newsType") Byte newsType, @Param("start") Integer start, @Param("limit") Integer limit);
+
     int updateByPrimaryKeySelective(NewsInfo record);
 }

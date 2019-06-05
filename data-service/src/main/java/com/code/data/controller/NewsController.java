@@ -66,4 +66,32 @@ public class NewsController {
         }
         return responseData.toString();
     }
+
+    @RequestMapping("/queryNewsListByPage")
+    public String queryNewsListPage(@RequestParam("modulesMsg") String modulesMsg, @RequestParam("newsMsg") String newsMsg, @RequestParam(value = "limit", required = false) Integer limit, @RequestParam(value = "page", required = false) Integer page) {
+        ResponseData responseData = new ResponseData();
+
+        logger.info("msg:{}, {}", modulesMsg, newsMsg);
+        if (page == null || page == 0) {
+            page = 1;
+        }
+        if (limit == null || limit == 0) {
+            limit = 3;
+        }
+        try {
+            if (StringUtils.isEmpty(modulesMsg) || StringUtils.isEmpty(newsMsg)) {
+                logger.error("param is not enough, modulesMsg:{}, newsMsg:{}", modulesMsg, newsMsg);
+                ResponseUtils.setStatus(responseData, ResultStatus.NOT_ENOUGH_PARAMS);
+                return responseData.toString();
+            }
+            System.out.println(modulesMsg + ":" + newsMsg);
+            List<News> newsList = newsInfoService.queryList(Modules.parse(modulesMsg), NewsType.parse(newsMsg), page, limit);
+            ResponseUtils.setStatus(responseData, ResultStatus.SUCCESS);
+            responseData.setResultData(JSON.toJSONString(newsList));
+        } catch (Exception e) {
+            logger.error("request error:{}", e);
+            ResponseUtils.setStatus(responseData, ResultStatus.SYSTEM_ERROR);
+        }
+        return responseData.toString();
+    }
 }

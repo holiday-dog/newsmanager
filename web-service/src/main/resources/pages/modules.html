@@ -17,6 +17,45 @@
             $('#search').click(function () {
                 $("form[name='search']").submit();
             });
+            $("div.moreBtn").click(function () {
+                var page = $("input#currPage").val();
+                var modules = $("input[name='modulesType']")[0].value;
+                if (page != null && modules != null) {
+                    // alert(page + ":" + modules);
+                    $.post("/index/searchhistory", {"modules": modules, "page": (parseInt(page) + 1)}, function (data) {
+                        data = eval('(' + data + ')')
+                        for (var i = 0; i < data.length; i++) {
+                            var liNode = $("<li class=\"moreImg clearfix\" style=\"list-sytle:none;\"></li>");
+                            var h5Node = $(" <h5></h5>");
+                            var aNode = $("<a href=\"/index/content?sign=" + data[i].sign + "\" style=\"color: black\" > " + data[i].title + "</a>");
+                            liNode.append(h5Node);
+                            h5Node.append(aNode);
+
+                            var divNode = $("<div class=\"col-sm-3\"></div>");
+                            var aNode2 = $("<a href='/index/content?sign=" + data[i].sign + "'></a>");
+                            divNode.append(aNode2);
+                            liNode.append(divNode);
+                            var imgNode = null;
+                            if (data[i].images != '') {
+                                imgNode = $("<img class=\"lazyload\" src=\"" + data[i].images + "\", style=\"display: block;width:100px;height: 100px\">");
+                            } else {
+                                imgNode = $("<img class=\"lazyload\" src=\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559402029267&di=ab1623b48ac8ebd7902979c51a77d934&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201801%2F08%2F20180108170346_TPWik.thumb.224_0.jpeg\", style=\"display: block;width:100px;height: 100px\">");
+                            }
+                            aNode2.append(imgNode);
+
+                            var endDiv = $("<div class=\"col-sm-9\"></div>");
+                            var jieshaoNode = $("<div style=\"position: relative;left: 0px;bottom: 0px\">发布时间：<span>" + data[i].pubTime.replace('T', ' ') + "</span>&nbsp;&nbsp;&nbsp;来源：<span>" + data[i].articleSource + "</span></div>");
+                            var pNode = $(" <p>" + data[i].description + "</p>");
+                            endDiv.append(pNode);
+                            endDiv.append(jieshaoNode);
+                            liNode.append(endDiv);
+                            $("#historyUl").append(liNode);
+                            $("input#currPage").val(parseInt(page) + 1);
+
+                        }
+                    });
+                }
+            })
         })
     </script>
     <style type="text/css">
@@ -93,7 +132,7 @@
     <div class="row">
         <div class="col-sm-9" th:if="${historyList}!=null">
             <h4>更多新闻</h4>
-            <ul>
+            <ul id="historyUl">
                 <li class="moreImg clearfix" style="list-sytle:none;" th:each="historyNew:${historyList}">
                     <h5>
                         <a th:href="@{/index/content(sign=${historyNew.sign})}" style="color: black"
@@ -122,8 +161,10 @@
             </ul>
         </div>
         <div class="row" th:if="${historyList}!=null">
+            <input type="hidden" th:value="${modules}" name="modulesType">
             <div id="dataMoreBtn" class="moreBtn col-sm-9">
                 <p style="text-align: center">显示更多</p>
+                <input type="hidden" value="1" id="currPage">
             </div>
         </div>
     </div>

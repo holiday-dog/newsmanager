@@ -12,9 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +75,28 @@ public class TestControllerService {
 //            throw new CodecException("系统异常");
 //        }
         return new ModelAndView("error").addObject("errorMsg", "<a href='" + referUrl + "'><font color='red'>读取页面失败，请进入原页面查看完整内容</font></a>");
+    }
+
+    @RequestMapping("/searchhistory")
+    @ResponseBody
+    public void searchhistory(@RequestParam("modules") String modules, @RequestParam(value = "page", required = false) String page, HttpServletResponse response) {
+        Integer limit = 3;
+        System.out.println(modules);
+        ResponseEntity responseEntity = remoteRestTemplate.getForEntity("http://localhost:8081/news/queryNewsListByPage?modulesMsg=" + modules + "&newsMsg=" + NewsType.HISTORY.getMsg() + "&page=" + page + "&limit=" + limit, String.class);
+        System.out.println(responseEntity.getBody());
+        ResponseData responseData = JSON.parseObject(responseEntity.getBody().toString(), ResponseData.class);
+        List<News> hisList = JSON.parseArray((String) responseData.getResultData(), News.class);
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+//        response.setContentType("text/json,charset=utf-8");
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.print(JSON.toJSONString(hisList));
     }
 
 
@@ -196,6 +222,7 @@ public class TestControllerService {
         responseData = JSON.parseObject(responseEntity.getBody(), ResponseData.class);
         hotNewsList = JSON.parseArray((String) responseData.getResultData(), HotNews.class);
         mv.addObject("hotList", hotNewsList);
+        mv.addObject("modules", modules);
 
         return mv;
     }

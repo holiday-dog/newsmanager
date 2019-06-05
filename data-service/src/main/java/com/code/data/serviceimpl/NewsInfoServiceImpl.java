@@ -110,4 +110,24 @@ public class NewsInfoServiceImpl implements NewsInfoService {
         return newsList;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<News> queryList(Modules moduleType, NewsType newsType, Integer page, Integer limit) {
+        Integer start = 0;
+        if (page != 0 && limit != 0) {
+            start = (page - 1) * limit;
+        }
+        List<NewsInfo> newsInfoList = newsInfoMapper.selectListWithNewTypeByPage(moduleType.getValue(), newsType.getVal(), start, limit);
+
+        List<News> newsList = null;
+        if (!CollectionUtils.isEmpty(newsInfoList)) {
+            newsList = new ArrayList<>();
+            for (NewsInfo newsInfo : newsInfoList) {
+                News news = new News();
+                BeanUtils.copyProperties(newsInfo, news);
+                newsList.add(news);
+            }
+        }
+        return newsList;
+    }
 }

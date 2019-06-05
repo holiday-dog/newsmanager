@@ -14,4 +14,6 @@ public interface NewsInfoService {
     News queryNews(String newsSign);
 
     List<News> queryList(Modules moduleType, NewsType newsType, Integer limit);
+
+    List<News> queryList(Modules moduleType, NewsType newsType, Integer page, Integer limit);
 }
